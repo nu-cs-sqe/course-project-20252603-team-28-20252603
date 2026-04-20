@@ -2,8 +2,9 @@
 # PROJECT NAME
 
 ## Contributors
-- PERSON
-- PERSON
+- Alvin Xu
+- Jace Deng
+- Kyubinn Kim
 
 ## Dependencies
 - JDK 11
