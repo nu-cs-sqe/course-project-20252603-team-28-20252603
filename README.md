@@ -23,11 +23,11 @@ The game implements the full standard chess ruleset along with one team-defined 
 
 ## Team
 
-| Member | GitHub |
-| --- | --- |
-| Alvin Xu | [@superalv123](https://github.com/superalv123) |
-| Jace Deng | — |
-| Kyubinn Kim | [@dannykimNU](https://github.com/dannykimNU) |
+| Member      | GitHub                                             |
+|-------------|----------------------------------------------------|
+| Alvin Xu    | [@superalv123](https://github.com/superalv123)     |
+| Jace Deng   | [@Jiahao-Deng03](https://github.com/Jiahao-Deng03) |
+| Kyubinn Kim | [@dannykimNU](https://github.com/dannykimNU)       |
 
 ## Tech Stack
 
