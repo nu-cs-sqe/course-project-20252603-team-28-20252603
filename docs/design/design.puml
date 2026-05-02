@@ -1,0 +1,407 @@
+@startuml
+package app {
+    class Main {
+        +{static} main(args: String[]): void
+    }
+}
+
+package presentation {
+    interface GameView {
+        +showGame(snapshot: GameSnapshot): void
+        +showGameOver(result: MoveResult): void
+        +showError(message: String): void
+    }
+
+    interface PromotionChooser {
+        +choosePromotion(color: Color): PieceType
+    }
+
+    class SwingGameView {
+        -session: GameSession
+        +SwingGameView(session: GameSession)
+
+        +showGame(snapshot: GameSnapshot): void
+        +showGameOver(result: MoveResult): void
+        +showError(message: String): void
+        +choosePromotion(color: Color): PieceType
+    }
+}
+
+package application {
+    class GameSession {
+        -game: Game
+        -clock: ChessClock
+        -view: GameView
+        -promotionChooser: PromotionChooser
+        +GameSession(game: Game, clock: ChessClock)
+
+        +attachView(view: GameView): void
+        +attachPromotionChooser(promotionChooser: PromotionChooser): void
+        +submitMove(request: MoveRequest): MoveResult
+        +legalMovesFrom(square: Square): Set
+        +snapshot(): GameSnapshot
+        +clock(): ChessClock
+
+        +onTimeout(loser: Color): void
+    }
+
+    class MoveRequest {
+        -from: Square
+        -to: Square
+        -promotionChoice: Optional
+        +MoveRequest(from: Square, to: Square, promotionChoice: Optional)
+
+        +from(): Square
+        +to(): Square
+        +promotionChoice(): Optional
+    }
+
+    class GameSnapshot {
+        -board: Board
+        -toMove: Color
+        -status: GameStatus
+        -winner: Optional
+        -whiteTimeRemaining: Duration
+        -blackTimeRemaining: Duration
+        +GameSnapshot(board: Board, toMove: Color, status: GameStatus, winner: Optional, whiteTimeRemaining: Duration, blackTimeRemaining: Duration)
+
+        +board(): Board
+        +toMove(): Color
+        +status(): GameStatus
+        +winner(): Optional
+        +whiteTimeRemaining(): Duration
+        +blackTimeRemaining(): Duration
+    }
+}
+
+package domain {
+    class Game {
+        -state: GameState
+        -status: GameStatus
+        -winner: Optional
+        -history: MoveHistory
+        -validator: MoveValidator
+        -drawDetector: DrawDetector
+        -listeners: List
+        +Game(initialState: GameState)
+
+        +play(move: Move): MoveResult
+        +timeout(loser: Color): MoveResult
+        +legalMoves(): Set
+        +legalMovesFrom(square: Square): Set
+        +state(): GameState
+        +status(): GameStatus
+        +winner(): Optional
+        +history(): MoveHistory
+
+        +addListener(listener: GameListener): void
+        +removeListener(listener: GameListener): void
+        -publish(result: MoveResult): void
+    }
+
+    class GameState {
+        -board: Board
+        -toMove: Color
+        -castlingRights: CastlingRights
+        -enPassantTarget: Optional
+        -halfmoveClock: int
+        -fullmoveNumber: int
+        +GameState(board: Board, toMove: Color)
+
+        +board(): Board
+        +toMove(): Color
+        +castlingRights(): CastlingRights
+        +enPassantTarget(): Optional
+        +halfmoveClock(): int
+        +fullmoveNumber(): int
+    }
+
+    class Board {
+        -pieces: Map
+        +Board()
+
+        +pieceAt(square: Square): Optional
+        +place(square: Square, piece: Piece): void
+        +remove(square: Square): Optional
+        +move(from: Square, to: Square): void
+        +findKing(color: Color): Square
+        +occupiedSquaresOf(color: Color): Set
+        +copy(): Board
+        +{static} standardSetup(): Board
+    }
+
+    class Square {
+        -file: int
+        -rank: int
+        +Square(file: int, rank: int)
+
+        +file(): int
+        +rank(): int
+        +offset(fileDelta: int, rankDelta: int): Optional
+        +{static} of(file: int, rank: int): Square
+    }
+
+    abstract class Piece {
+        -color: Color
+        +Piece(color: Color)
+
+        +color(): Color
+        +{abstract} type(): PieceType
+        +{abstract} candidateMoves(from: Square, state: GameState): Set
+        +{static} of(type: PieceType, color: Color): Piece
+    }
+
+    class Pawn
+    class Knight
+    class Bishop
+    class Rook
+    class Queen
+    class King
+
+    interface Move {
+        +from(): Square
+        +to(): Square
+        +execute(board: Board): void
+        +undo(board: Board): void
+    }
+
+    class NormalMove {
+        -from: Square
+        -to: Square
+        -captured: Optional
+        +NormalMove(from: Square, to: Square, captured: Optional)
+    }
+
+    class CastlingMove {
+        -from: Square
+        -to: Square
+        -rookFrom: Square
+        -rookTo: Square
+        +CastlingMove(from: Square, to: Square, rookFrom: Square, rookTo: Square)
+
+    }
+
+    class EnPassantMove {
+        -from: Square
+        -to: Square
+        -capturedPawnSquare: Square
+        -capturedPawn: Piece
+        +EnPassantMove(from: Square, to: Square, capturedPawnSquare: Square, capturedPawn: Piece)
+    }
+
+    class PromotionMove {
+        -from: Square
+        -to: Square
+        -promoteTo: PieceType
+        -captured: Optional
+        +PromotionMove(from: Square, to: Square, promoteTo: PieceType, captured: Optional)
+    }
+
+    class MoveFactory {
+        +createMove(request: MoveRequest, game: Game): Move
+    }
+
+    class MoveValidator {
+        +legalMovesFor(color: Color, game: Game): Set
+        +legalMovesFrom(square: Square, game: Game): Set
+        +isLegal(move: Move, game: Game): boolean
+        +isInCheck(color: Color, state: GameState): boolean
+        -leavesOwnKingInCheck(move: Move, state: GameState): boolean
+    }
+
+    class DrawDetector {
+        +isStalemate(game: Game): boolean
+        +isFiftyMoveRule(game: Game): boolean
+        +isThreefoldRepetition(game: Game): boolean
+        +isInsufficientMaterial(board: Board): boolean
+    }
+
+    class MoveHistory {
+        -moves: List
+        -positionCounts: Map
+        +MoveHistory()
+
+        +append(move: Move, resultingState: GameState): void
+        +last(): Optional
+        +moves(): List
+        +occurrencesOf(key: PositionKey): int
+    }
+
+    class PositionKey {
+        -boardPlacement: String
+        -toMove: Color
+        -castlingRights: CastlingRights
+        -enPassantTarget: Optional
+        +PositionKey(boardPlacement: String, toMove: Color, castlingRights: CastlingRights, enPassantTarget: Optional)
+        +{static} from(state: GameState): PositionKey
+    }
+
+    class CastlingRights {
+        -whiteKingSide: boolean
+        -whiteQueenSide: boolean
+        -blackKingSide: boolean
+        -blackQueenSide: boolean
+
+        +canCastleKingSide(color: Color): boolean
+        +canCastleQueenSide(color: Color): boolean
+        +afterKingMove(color: Color): CastlingRights
+        +afterRookMove(from: Square): CastlingRights
+    }
+
+    class ChessClock {
+        -clock: Clock
+        -control: TimeControl
+        -remaining: Map
+        -running: Optional
+        -lastTick: Instant
+        -listeners: List
+        +ChessClock(control: TimeControl, clock: Clock)
+
+        +start(active: Color): void
+        +completeTurn(moved: Color, next: Color): void
+        +pause(): void
+        +tick(): void
+        +remaining(color: Color): Duration
+        +isExpired(color: Color): boolean
+        +addListener(listener: ClockListener): void
+        +removeListener(listener: ClockListener): void
+    }
+
+    class TimeControl {
+        -startingTime: Duration
+        -increment: Duration
+        +TimeControl(startingTime: Duration, increment: Duration)
+
+        +startingTime(): Duration
+        +increment(): Duration
+    }
+
+    class MoveResult {
+        -move: Optional
+        -status: GameStatus
+        -winner: Optional
+        +MoveResult(move: Optional, status: GameStatus, winner: Optional)
+    }
+
+    interface GameListener {
+        +onGameChanged(result: MoveResult, game: Game): void
+    }
+
+    interface ClockListener {
+        +onTick(clock: ChessClock): void
+        +onTimeout(loser: Color): void
+    }
+
+    enum Color {
+        WHITE
+        BLACK
+        +opposite(): Color
+    }
+
+    enum PieceType {
+        PAWN
+        KNIGHT
+        BISHOP
+        ROOK
+        QUEEN
+        KING
+        +isPromotionChoice(): boolean
+    }
+
+    enum GameStatus {
+        IN_PROGRESS
+        CHECK
+        CHECKMATE
+        STALEMATE
+        DRAW_FIFTY_MOVE
+        DRAW_THREEFOLD
+        DRAW_INSUFFICIENT_MATERIAL
+        TIMEOUT
+        +isTerminal(): boolean
+        +isDraw(): boolean
+    }
+}
+
+Main ..> GameSession
+Main ..> Game
+Main ..> ChessClock
+Main ..> SwingGameView
+
+SwingGameView ..|> GameView
+SwingGameView ..|> PromotionChooser
+SwingGameView --> GameSession
+
+GameSession --> Game
+GameSession --> ChessClock
+GameSession --> GameView
+GameSession --> PromotionChooser
+GameSession --> MoveRequest
+GameSession --> GameSnapshot
+GameSession ..|> ClockListener
+
+MoveRequest --> Square
+MoveRequest --> PieceType
+
+GameSnapshot --> Board
+GameSnapshot --> Color
+GameSnapshot --> GameStatus
+
+Game --> GameState
+Game --> MoveHistory
+Game --> MoveValidator
+Game --> DrawDetector
+Game --> "*" GameListener
+Game ..> MoveResult
+
+GameState --> Board
+GameState --> Color
+GameState --> CastlingRights
+GameState --> Square
+
+Board --> "*" Piece
+Board ..> Square
+
+Piece <|-- Pawn
+Piece <|-- Knight
+Piece <|-- Bishop
+Piece <|-- Rook
+Piece <|-- Queen
+Piece <|-- King
+
+Piece --> Color
+Piece --> PieceType
+Piece ..> Move
+Piece ..> GameState
+
+Move <|.. NormalMove
+Move <|.. CastlingMove
+Move <|.. EnPassantMove
+Move <|.. PromotionMove
+
+Move ..> Board
+Move --> Square
+
+MoveFactory ..> MoveRequest
+MoveFactory ..> Game
+MoveFactory ..> Move
+
+MoveValidator ..> Game
+MoveValidator ..> GameState
+MoveValidator ..> Move
+
+DrawDetector ..> Game
+DrawDetector ..> Board
+
+MoveHistory --> "*" Move
+MoveHistory --> PositionKey
+PositionKey ..> GameState
+
+ChessClock --> TimeControl
+ChessClock --> Color
+ChessClock --> "*" ClockListener
+
+MoveResult --> GameStatus
+MoveResult --> Color
+MoveResult --> Move
+
+@enduml
