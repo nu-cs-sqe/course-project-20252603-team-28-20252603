@@ -20,12 +20,13 @@
 
 # Week 5 (04/27/2026-05/01/2026)
 **Planning and Progress Tracking**:
-1. [not started] Kyubinn Kim: Draft initial PlantUML class diagram covering chess engine (Board, Piece hierarchy, Move, Game) and chess-clock feature (Clock, TimeControl)
-2. [not started] Kyubinn Kim: Set up GitHub project board with feature-level issues (per piece, special moves, check/checkmate, draw conditions, chess clock) for team-wide task tracking
-3. [not started] Kyubinn Kim: Draft initial BVA document for the chess-clock feature in `docs/bva/chess-clock.md`
-4. [not started] Team: Review PlantUML diagram in the weekly meeting with Dr. Yiji and finalize class-level architecture
-5. [not started] Team: Split class-implementation responsibilities among Alvin Xu, Jace Deng, and Kyubinn Kim based on the finalized design
-6. [not started] Team: Prepare for Exam 1 (in class, Wednesday 04/29)
+1. [done] Kyubinn Kim: Worked on the first version of the class diagram for the chess project. The diagram includes the main game classes, board representation, move classes, piece classes, chess clock, and basic UI structure.
+2. [done] Kyubinn Kim: Added the PlantUML design file for team review. (https://github.com/nu-cs-sqe/course-project-20252603-team-28-20252603/pull/28)
+3. [done] Team: Kept the chess clock as our extra feature. The clock will let each side have a set amount of time, switch after each move, and end the game if a player runs out of time.
+4. [done] Team: Stayed focused on design before starting the full implementation, since we wanted everyone to agree on the structure before splitting up the code.
+5. [in progress] Kyubinn Kim: Started organizing the project tasks around the main parts of the game, including pieces, move validation, special moves, draw rules, the clock, and testing.
+6. [not started] Kyubinn Kim: Chess clock BVA document. This will be done after the class diagram is reviewed so the BVA matches the final design.
+7. [done] Team: Prepared for Exam 1 on Wednesday 04/29.
 
 
 # Week X (XX/XX/2026-XX/XX/2026) TEMPLATE (You can change the format to whatever the team likes better)
