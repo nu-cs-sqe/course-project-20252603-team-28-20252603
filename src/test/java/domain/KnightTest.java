@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 public class KnightTest {
 	@Test
-	public void Constructor_WithWhiteColor_ExpectWhiteKnight(){
+	public void constructorWithWhiteColorExpectWhiteKnight() {
 		Knight knight = new Knight(Color.WHITE);
 		Color expectedColor = Color.WHITE;
 		PieceType expectedType = PieceType.KNIGHT;
