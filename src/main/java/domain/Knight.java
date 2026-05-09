@@ -1,18 +1,11 @@
 package domain;
 
-import java.util.Objects;
-
-public class Knight {
-	private final Color color;
-
+public class Knight extends Piece {
 	public Knight(Color color) {
-		this.color = Objects.requireNonNull(color);
+		super(color);
 	}
 
-	public Color color() {
-		return color;
-	}
-
+	@Override
 	public PieceType type() {
 		return PieceType.KNIGHT;
 	}

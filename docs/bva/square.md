@@ -29,19 +29,19 @@ produce an optional offset square when a relative move stays on the board.
 - Output #2: exception
 
 ### Step 4 - Test Cases
-- **TC1: create lower-left board square** ( ❌ )
+- **TC1: create lower-left board square** ( ✅ )
 	- **State of the system**: file = 0, rank = 0
 	- **Expected output**: Square is created; `file()` returns 0; `rank()` returns 0
 
-- **TC2: create upper-right board square** ( ❌ )
+- **TC2: create upper-right board square** ( ✅ )
 	- **State of the system**: file = 7, rank = 7
 	- **Expected output**: Square is created; `file()` returns 7; `rank()` returns 7
 
-- **TC3: reject file below board** ( ❌ )
+- **TC3: reject file below board** ( ✅ )
 	- **State of the system**: file = -1, rank = 0
 	- **Expected output**: exception
 
-- **TC4: reject rank above board** ( ❌ )
+- **TC4: reject rank above board** ( ✅ )
 	- **State of the system**: file = 7, rank = 8
 	- **Expected output**: exception
 
@@ -69,21 +69,21 @@ produce an optional offset square when a relative move stays on the board.
 - Output #2: empty Optional
 
 ### Step 4 - Test Cases
-- **TC5: offset from center stays on board** ( ❌ )
+- **TC5: offset from center stays on board** ( ✅ )
 	- **State of the system**: starting square = (3, 3), fileDelta = 2, rankDelta = 1
 	- **Expected output**: Optional contains square (5, 4)
 
-- **TC6: offset from edge leaves board** ( ❌ )
+- **TC6: offset from edge leaves board** ( ✅ )
 	- **State of the system**: starting square = (0, 0), fileDelta = -1, rankDelta = 0
 	- **Expected output**: Optional.empty()
 
 ## equals(Object other)
 
 ### Step 4 - Test Cases
-- **TC7: equal squares have same coordinates** ( ❌ )
+- **TC7: equal squares have same coordinates** ( ✅ )
 	- **State of the system**: first square = (4, 4), second square = (4, 4)
 	- **Expected output**: `equals()` returns true and hash codes match
 
-- **TC8: different squares have different coordinates** ( ❌ )
+- **TC8: different squares have different coordinates** ( ✅ )
 	- **State of the system**: first square = (4, 4), second square = (4, 5)
 	- **Expected output**: `equals()` returns false
