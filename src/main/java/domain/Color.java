@@ -2,5 +2,12 @@ package domain;
 
 public enum Color {
 	WHITE,
-	BLACK
+	BLACK;
+
+	public Color opposite() {
+		if (this == WHITE) {
+			return BLACK;
+		}
+		return WHITE;
+	}
 }
