@@ -1,11 +1,13 @@
 package domain;
 
 import java.util.Optional;
+import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class BoardTest {
 	private static final Square WHITE_KNIGHT_START = Square.of(1, 0);
+	private static final Square WHITE_KNIGHT_TARGET = Square.of(2, 2);
 
 	@Test
 	public void newBoardExpectNoOccupiedSquares() {
@@ -33,6 +35,25 @@ public class BoardTest {
 	}
 
 	@Test
+	public void placePieceWithNullSquareExpectException() {
+		Board board = new Board();
+		Piece knight = whiteKnight();
+
+		Assertions.assertThrows(
+				NullPointerException.class,
+				() -> board.place(null, knight));
+	}
+
+	@Test
+	public void placeNullPieceExpectException() {
+		Board board = new Board();
+
+		Assertions.assertThrows(
+				NullPointerException.class,
+				() -> board.place(WHITE_KNIGHT_START, null));
+	}
+
+	@Test
 	public void removeOccupiedSquareExpectPieceAndSquareBecomesEmpty() {
 		Board board = new Board();
 		Piece knight = whiteKnight();
@@ -42,6 +63,93 @@ public class BoardTest {
 
 		Assertions.assertEquals(Optional.of(knight), removedPiece);
 		Assertions.assertTrue(board.pieceAt(WHITE_KNIGHT_START).isEmpty());
+	}
+
+	@Test
+	public void removeEmptySquareExpectEmptyOptional() {
+		Board board = new Board();
+
+		Optional<Piece> removedPiece = board.remove(WHITE_KNIGHT_START);
+
+		Assertions.assertTrue(removedPiece.isEmpty());
+	}
+
+	@Test
+	public void movePieceToEmptySquareExpectPieceAtDestination() {
+		Board board = new Board();
+		Piece knight = whiteKnight();
+		board.place(WHITE_KNIGHT_START, knight);
+
+		board.move(WHITE_KNIGHT_START, WHITE_KNIGHT_TARGET);
+
+		Assertions.assertTrue(board.pieceAt(WHITE_KNIGHT_START).isEmpty());
+		Assertions.assertEquals(Optional.of(knight), board.pieceAt(WHITE_KNIGHT_TARGET));
+	}
+
+	@Test
+	public void movePieceToOccupiedSquareExpectCaptureAtDestination() {
+		Board board = new Board();
+		Piece knight = whiteKnight();
+		board.place(WHITE_KNIGHT_START, knight);
+		board.place(WHITE_KNIGHT_TARGET, Piece.of(PieceType.PAWN, Color.BLACK));
+
+		board.move(WHITE_KNIGHT_START, WHITE_KNIGHT_TARGET);
+
+		Assertions.assertTrue(board.pieceAt(WHITE_KNIGHT_START).isEmpty());
+		Assertions.assertEquals(Optional.of(knight), board.pieceAt(WHITE_KNIGHT_TARGET));
+	}
+
+	@Test
+	public void moveFromEmptySquareExpectException() {
+		Board board = new Board();
+
+		Assertions.assertThrows(
+				IllegalStateException.class,
+				() -> board.move(WHITE_KNIGHT_START, WHITE_KNIGHT_TARGET));
+	}
+
+	@Test
+	public void occupiedSquaresOfColorExpectOnlyRequestedColor() {
+		Board board = new Board();
+		board.place(WHITE_KNIGHT_START, whiteKnight());
+		board.place(WHITE_KNIGHT_TARGET, Piece.of(PieceType.PAWN, Color.BLACK));
+
+		Set<Square> whiteSquares = board.occupiedSquaresOf(Color.WHITE);
+		Set<Square> blackSquares = board.occupiedSquaresOf(Color.BLACK);
+
+		Assertions.assertEquals(Set.of(WHITE_KNIGHT_START), whiteSquares);
+		Assertions.assertEquals(Set.of(WHITE_KNIGHT_TARGET), blackSquares);
+	}
+
+	@Test
+	public void copyBoardThenChangeOriginalExpectCopyUnchanged() {
+		Board originalBoard = new Board();
+		Piece knight = whiteKnight();
+		originalBoard.place(WHITE_KNIGHT_START, knight);
+
+		Board copiedBoard = originalBoard.copy();
+		originalBoard.remove(WHITE_KNIGHT_START);
+
+		Assertions.assertEquals(
+				Optional.of(knight),
+				copiedBoard.pieceAt(WHITE_KNIGHT_START));
+	}
+
+	@Test
+	public void findKingInStandardSetupExpectKingSquares() {
+		Board board = Board.standardSetup();
+
+		Assertions.assertEquals(Square.of(4, 0), board.findKing(Color.WHITE));
+		Assertions.assertEquals(Square.of(4, 7), board.findKing(Color.BLACK));
+	}
+
+	@Test
+	public void findKingOnEmptyBoardExpectException() {
+		Board board = new Board();
+
+		Assertions.assertThrows(
+				IllegalStateException.class,
+				() -> board.findKing(Color.WHITE));
 	}
 
 	@Test
