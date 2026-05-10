@@ -1,5 +1,11 @@
+import com.github.spotbugs.snom.Confidence
+import com.github.spotbugs.snom.Effort
+import org.gradle.api.plugins.quality.Checkstyle
+
 plugins {
-    id("java")
+    java
+    checkstyle
+    id("com.github.spotbugs") version "6.4.4"
 }
 
 group = "nu.csse.sqe"
@@ -17,6 +23,27 @@ dependencies {
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+checkstyle {
+    toolVersion = "10.26.1"
+    configDirectory.set(layout.projectDirectory.dir("config/checkstyle"))
+    isIgnoreFailures = false
+    maxWarnings = 0
+}
+
+spotbugs {
+    ignoreFailures = false
+    showStackTraces = true
+    effort = Effort.MAX
+    reportLevel = Confidence.LOW
+}
+
+tasks.withType<Checkstyle>().configureEach {
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
     }
 }
 
