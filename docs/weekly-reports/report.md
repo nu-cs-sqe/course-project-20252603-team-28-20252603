@@ -32,6 +32,19 @@
 10. [planned] Team: Next week, review the open design/BVA PRs, then continue with Knight tests and implementation before moving to the other pieces.
 
 
+# Week 6 (05/04/2026-05/10/2026)
+**Planning and Progress Tracking**:
+1. [done] Kyubinn Kim: Set up Checkstyle and SpotBugs through Gradle so the project now runs style checks, static analysis, and tests together with `bash ./gradlew check`. (https://github.com/nu-cs-sqe/course-project-20252603-team-28-20252603/pull/34)
+2. [done] Kyubinn Kim: Updated the Checkstyle setup to match our team preference for tab indentation while still checking naming, imports, whitespace, braces, line length, and other basic style rules.
+3. [done] Kyubinn Kim: Started the Game Setup Phase by adding BVA documentation for `Square`, `Piece`, and `Board`. (https://github.com/nu-cs-sqe/course-project-20252603-team-28-20252603/pull/35)
+4. [done] Kyubinn Kim: Added tests for the game setup classes, including square boundaries, piece creation, board placement/removal/movement, board copying, king lookup, occupied squares by color, and the standard chess starting position. (https://github.com/nu-cs-sqe/course-project-20252603-team-28-20252603/pull/35)
+5. [done] Kyubinn Kim: Implemented the core game setup domain classes: `Square`, `Piece`, `Board`, `Pawn`, `Bishop`, `Rook`, `Queen`, and `King`, and updated `Knight`, `Color`, and `PieceType` to fit the shared domain structure. (https://github.com/nu-cs-sqe/course-project-20252603-team-28-20252603/pull/35)
+6. [done] Kyubinn Kim: Responded to PR review feedback by adding the missing `BoardTest` cases that were already listed in the BVA document, then reran `bash ./gradlew check`.
+7. [done] Kyubinn Kim: Kept the implementation flow in the intended order: BVA first, then tests, then implementation.
+8. [planned] Kyubinn Kim: Next, continue with Knight movement and capture using the new `Square`, `Piece`, and `Board` classes.
+9. [planned] Kyubinn Kim: After Knight movement, start coverage/mutation tooling work with JaCoCo and PIT so we can keep moving toward the B/A rubric requirements.
+
+
 
 # Week X (XX/XX/2026-XX/XX/2026) TEMPLATE (You can change the format to whatever the team likes better)
 **Planning and Progress Tracking**:
