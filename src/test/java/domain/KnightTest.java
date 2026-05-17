@@ -26,4 +26,19 @@ public class KnightTest {
 
 		Assertions.assertEquals(8, moves.size());
 	}
+
+	@Test
+	public void candidateMovesFromCornerA1ReturnsTwoSquares() {
+		Knight knight = new Knight(Color.WHITE);
+		Board board = new Board();
+		Square a1 = Square.of(0, 0);
+		board.place(a1, knight);
+
+		Set<Square> moves = knight.candidateMoves(a1, board);
+
+		Assertions.assertEquals(2, moves.size());
+		Assertions.assertTrue(moves.contains(Square.of(1, 2)));
+		Assertions.assertTrue(moves.contains(Square.of(2, 1)));
+	}
+
 }
