@@ -41,4 +41,35 @@ public class KnightTest {
 		Assertions.assertTrue(moves.contains(Square.of(2, 1)));
 	}
 
+	@Test
+	public void candidateMovesFromEdgeA4ReturnsFourSquares() {
+		Knight knight = new Knight(Color.WHITE);
+		Board board = new Board();
+		Square a4 = Square.of(0, 3);
+		board.place(a4, knight);
+
+		Set<Square> moves = knight.candidateMoves(a4, board);
+
+		Assertions.assertEquals(4, moves.size());
+		Assertions.assertTrue(moves.contains(Square.of(1, 1)));
+		Assertions.assertTrue(moves.contains(Square.of(1, 5)));
+		Assertions.assertTrue(moves.contains(Square.of(2, 2)));
+		Assertions.assertTrue(moves.contains(Square.of(2, 4)));
+	}
+
+	@Test
+	public void candidateMovesExcludesSquaresWithFriendlyPieces() {
+		Knight knight = new Knight(Color.WHITE);
+		Pawn friendlyPawn = new Pawn(Color.WHITE);
+		Board board = new Board();
+		Square d4 = Square.of(3, 3);
+		Square e6 = Square.of(4, 5);
+		board.place(d4, knight);
+		board.place(e6, friendlyPawn);
+
+		Set<Square> moves = knight.candidateMoves(d4, board);
+
+		Assertions.assertEquals(7, moves.size());
+		Assertions.assertFalse(moves.contains(e6));
+	}
 }
