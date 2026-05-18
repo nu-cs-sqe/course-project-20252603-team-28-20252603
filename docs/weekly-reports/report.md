@@ -45,6 +45,10 @@
 9. [planned] Kyubinn Kim: After Knight movement, start coverage/mutation tooling work with JaCoCo and PIT so we can keep moving toward the B/A rubric requirements.
 
 
+# Week 7 (05/11/2026-05/17/2026)
+**Planning and Progress Tracking**:
+1. [done] Team: Talked through Yiji's feedback. Two things to fix going forward: TDD commits should be one passing test + the minimum impl that passes it, not "all tests, then all impl." And we need to spread the work more evenly so each of us has merged PRs.
+2. [in progress] Kyubinn Kim: Knight movement (#7). Draft PR open on `kyubinn/knight-movement`. Got the first test passing (knight from center of empty board returns 8 candidate moves) and expanded the BVA to cover TC1-TC6. Remaining cases to go, one red-green cycle per commit.
 
 # Week X (XX/XX/2026-XX/XX/2026) TEMPLATE (You can change the format to whatever the team likes better)
 **Planning and Progress Tracking**:
