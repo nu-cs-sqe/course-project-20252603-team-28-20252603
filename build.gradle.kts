@@ -49,7 +49,31 @@ tasks.withType<Checkstyle>().configureEach {
         html.required.set(true)
     }
 }
-
+val excluded = listOf(
+    "**/gui/**",
+    "**/*View*",
+    "**/*GUI*",
+    "**/*Enum*",
+    "**/Color.class"
+)
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                counter = "COMPLEXITY"
+                value = "COVEREDRATIO"
+                minimum = "1.0".toBigDecimal()
+            }
+        }
+    }
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude(excluded)
+            }
+        })
+    )
+}
 tasks.jacocoTestReport {
     reports {
         xml.required = false
