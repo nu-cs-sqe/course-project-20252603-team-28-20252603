@@ -3,9 +3,12 @@ import com.github.spotbugs.snom.Effort
 import org.gradle.api.plugins.quality.Checkstyle
 
 plugins {
+    application
     java
     checkstyle
     id("com.github.spotbugs") version "6.4.4"
+    jacoco
+    //id("info.solidsoft.pitest") version "1.19.0"
 }
 
 group = "nu.csse.sqe"
@@ -47,10 +50,23 @@ tasks.withType<Checkstyle>().configureEach {
     }
 }
 
+tasks.jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir("reports/jacoco")
+    }
+}
+
 tasks.compileJava {
     options.release = 11
 }
 
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+    //finalizedBy(tasks.pitest)
+}
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // tests are required to run before generating the report
 }
