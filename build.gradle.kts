@@ -8,7 +8,7 @@ plugins {
     checkstyle
     id("com.github.spotbugs") version "6.4.4"
     jacoco
-    //id("info.solidsoft.pitest") version "1.19.0"
+    id("info.solidsoft.pitest") version "1.15.0"
 }
 
 group = "nu.csse.sqe"
@@ -85,12 +85,39 @@ tasks.jacocoTestReport {
 tasks.compileJava {
     options.release = 11
 }
+tasks.build {
+    dependsOn("pitest")
+}
 
 tasks.test {
     useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
-    //finalizedBy(tasks.pitest)
+    finalizedBy(tasks.pitest)
 }
 tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
+}
+pitest {
+    targetClasses = setOf("domain.*") //by default "${project.group}.*"
+    targetTests = setOf("domain.*")
+    excludedClasses = setOf(
+        "gui.*",
+        "*View*",
+        "*GUI*",
+        "*Enum*",
+        "Color"
+    )
+    junit5PluginVersion = "1.2.1"
+    pitestVersion = "1.15.0" //not needed when a default PIT version should be used
+
+    threads = 4
+    outputFormats = setOf("HTML")
+    timestampedReports = false
+    testSourceSets.set(listOf(sourceSets.test.get()))
+    mainSourceSets.set(listOf(sourceSets.main.get()))
+    jvmArgs.set(listOf("-Xmx1024m"))
+    useClasspathFile.set(true) //useful with bigger projects on Windows
+    fileExtensionsToFilter.addAll("xml")
+    exportLineCoverage = true
+    // mutationThreshold.set(100) // Uncomment if we need tests to fail when mutations aren't killed
 }
