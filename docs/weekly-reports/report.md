@@ -50,6 +50,16 @@
 1. [done] Team: Talked through Yiji's feedback. Two things to fix going forward: TDD commits should be one passing test + the minimum impl that passes it, not "all tests, then all impl." And we need to spread the work more evenly so each of us has merged PRs.
 2. [in progress] Kyubinn Kim: Knight movement (#7). Draft PR open on `kyubinn/knight-movement`. Got the first test passing (knight from center of empty board returns 8 candidate moves) and expanded the BVA to cover TC1-TC6. Remaining cases to go, one red-green cycle per commit.
 
+# Week 8 (05/18/2026-05/24/2026)
+**Planning and Progress Tracking**:
+1. [done] Team: Adopted a hybrid BDD+BVA workflow. Each new feature will use its own feature branch, BVA documented in `docs/bva`, executable BDD scenarios where appropriate, and a pull request before merging.
+2. [done] Jace Deng: Created the `knight-bdd-movement` feature branch for Knight movement using the BDD+BVA workflow.
+3. [done] Jace Deng: Expanded `docs/bva/knight.md` to cover Knight candidate moves from center, edge, and corner squares; friendly-piece blocking; opponent capture; jumping over pieces; and null inputs.
+4. [done] Jace Deng: Added Cucumber/Gherkin support and wrote `KnightMovement.feature` with Scenario Outline examples that contain the BVA cases.
+5. [done] Jace Deng: Implemented Knight candidate movement and capture behavior while keeping existing JUnit tests for low-level object behavior.
+6. [planned] Team: Review the Knight movement PR and use it as the template for future piece movement features.
+7. [planned] Team: After Knight movement is merged, continue with sliding-piece movement and then one-turn game flow.
+
 # Week X (XX/XX/2026-XX/XX/2026) TEMPLATE (You can change the format to whatever the team likes better)
 **Planning and Progress Tracking**:
 1. [done] Person: Task (Links to PR)
