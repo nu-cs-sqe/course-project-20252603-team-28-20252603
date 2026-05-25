@@ -1,12 +1,14 @@
 package domain;
 
 import java.time.Duration;
+import java.util.Objects;
 
 public final class TimeControl {
 	private final Duration startingTime;
 	private final Duration increment;
 
 	public TimeControl(Duration startingTime, Duration increment) {
+		Objects.requireNonNull(startingTime);
 		if (startingTime.isZero() || startingTime.isNegative()) {
 			throw new IllegalArgumentException("startingTime must be positive");
 		}

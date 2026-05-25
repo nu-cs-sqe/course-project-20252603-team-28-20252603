@@ -44,4 +44,10 @@ public class TimeControlTest {
 		Assertions.assertThrows(IllegalArgumentException.class,
 			() -> new TimeControl(Duration.ofMinutes(5), Duration.ofSeconds(-1)));
 	}
+
+	@Test
+	public void nullStartingTimeThrows() {
+		Assertions.assertThrows(NullPointerException.class,
+			() -> new TimeControl(null, Duration.ZERO));
+	}
 }
