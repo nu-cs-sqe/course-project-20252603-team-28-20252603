@@ -20,4 +20,10 @@ public class TimeControlTest {
 		Assertions.assertEquals(Duration.ofMinutes(5), tc.startingTime());
 		Assertions.assertEquals(Duration.ofSeconds(3), tc.increment());
 	}
+
+	@Test
+	public void oneSecondStartingTimeIsCreated() {
+		TimeControl tc = new TimeControl(Duration.ofSeconds(1), Duration.ZERO);
+		Assertions.assertEquals(Duration.ofSeconds(1), tc.startingTime());
+	}
 }
