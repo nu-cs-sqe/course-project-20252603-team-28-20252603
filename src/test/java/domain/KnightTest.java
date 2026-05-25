@@ -45,5 +45,16 @@ public class KnightTest {
 		Assertions.assertEquals(expected, candidates);
 	}
 
+	@Test
+	public void knightAtEdgeAFileReturnsFourMoveCandidates() {
+		Knight knight = new Knight(Color.WHITE);
+		Set<Square> candidates = knight.moveCandidates(Square.of(0, 4));
+
+		Set<Square> expected = Set.of(
+			Square.of(1, 6), Square.of(1, 2),
+			Square.of(2, 5), Square.of(2, 3));
+		Assertions.assertEquals(expected, candidates);
+	}
+
 
 }
