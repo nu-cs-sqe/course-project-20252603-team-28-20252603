@@ -26,4 +26,10 @@ public class TimeControlTest {
 		TimeControl tc = new TimeControl(Duration.ofSeconds(1), Duration.ZERO);
 		Assertions.assertEquals(Duration.ofSeconds(1), tc.startingTime());
 	}
+
+	@Test
+	public void zeroStartingTimeThrows() {
+		Assertions.assertThrows(IllegalArgumentException.class,
+			() -> new TimeControl(Duration.ZERO, Duration.ZERO));
+	}
 }

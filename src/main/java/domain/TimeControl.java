@@ -7,6 +7,9 @@ public final class TimeControl {
 	private final Duration increment;
 
 	public TimeControl(Duration startingTime, Duration increment) {
+		if (startingTime.isZero() || startingTime.isNegative()) {
+			throw new IllegalArgumentException("startingTime must be positive");
+		}
 		this.startingTime = startingTime;
 		this.increment = increment;
 	}
