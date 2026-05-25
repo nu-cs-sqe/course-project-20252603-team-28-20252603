@@ -13,4 +13,11 @@ public class TimeControlTest {
 		Assertions.assertEquals(Duration.ofMinutes(5), tc.startingTime());
 		Assertions.assertEquals(Duration.ZERO, tc.increment());
 	}
+
+	@Test
+	public void normalClockWithIncrementIsCreated() {
+		TimeControl tc = new TimeControl(Duration.ofMinutes(5), Duration.ofSeconds(3));
+		Assertions.assertEquals(Duration.ofMinutes(5), tc.startingTime());
+		Assertions.assertEquals(Duration.ofSeconds(3), tc.increment());
+	}
 }
