@@ -10,6 +10,9 @@ public final class TimeControl {
 		if (startingTime.isZero() || startingTime.isNegative()) {
 			throw new IllegalArgumentException("startingTime must be positive");
 		}
+		if (increment.isNegative()) {
+			throw new IllegalArgumentException("increment must not be negative");
+		}
 		this.startingTime = startingTime;
 		this.increment = increment;
 	}

@@ -38,4 +38,10 @@ public class TimeControlTest {
 		Assertions.assertThrows(IllegalArgumentException.class,
 			() -> new TimeControl(Duration.ofSeconds(-1), Duration.ZERO));
 	}
+
+	@Test
+	public void negativeIncrementThrows() {
+		Assertions.assertThrows(IllegalArgumentException.class,
+			() -> new TimeControl(Duration.ofMinutes(5), Duration.ofSeconds(-1)));
+	}
 }
