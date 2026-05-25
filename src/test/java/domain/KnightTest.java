@@ -67,4 +67,11 @@ public class KnightTest {
 		Assertions.assertEquals(expected, candidates);
 	}
 
+	@Test
+	public void knightMoveCandidatesWithNullSquareThrows() {
+		Knight knight = new Knight(Color.WHITE);
+
+		Assertions.assertThrows(NullPointerException.class,
+			() -> knight.moveCandidates(null));
+	}
 }
