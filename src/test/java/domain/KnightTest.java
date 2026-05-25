@@ -26,4 +26,24 @@ public class KnightTest {
 			Square.of(2, 5), Square.of(2, 3));
 		Assertions.assertEquals(expected, candidates);
 	}
+
+	@Test
+	public void knightAtCornerA1ReturnsTwoMoveCandidates() {
+		Knight knight = new Knight(Color.WHITE);
+		Set<Square> candidates = knight.moveCandidates(Square.of(0, 0));
+
+		Set<Square> expected = Set.of(Square.of(1, 2), Square.of(2, 1));
+		Assertions.assertEquals(expected, candidates);
+	}
+
+	@Test
+	public void knightAtCornerH8ReturnsTwoMoveCandidates() {
+		Knight knight = new Knight(Color.WHITE);
+		Set<Square> candidates = knight.moveCandidates(Square.of(7, 7));
+
+		Set<Square> expected = Set.of(Square.of(6, 5), Square.of(5, 6));
+		Assertions.assertEquals(expected, candidates);
+	}
+
+
 }
