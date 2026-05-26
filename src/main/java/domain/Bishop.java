@@ -44,6 +44,10 @@ public class Bishop extends Piece {
 		Optional<Square> candidate = nextDiagonalSquare(from, fileDelta, rankDelta);
 		while (candidate.isPresent()) {
 			Square square = candidate.get();
+			Optional<Piece> occupant = board.pieceAt(square);
+			if (occupant.isPresent()) {
+				return;
+			}
 			moves.add(square);
 			candidate = nextDiagonalSquare(square, fileDelta, rankDelta);
 		}
