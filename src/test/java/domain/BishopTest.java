@@ -97,4 +97,22 @@ public class BishopTest {
 		Assertions.assertFalse(moves.contains(Square.of(7, 7)));
 		Assertions.assertTrue(moves.contains(Square.of(4, 4)));
 	}
+
+	@Test
+	public void candidateMovesWithNullSourceExpectException() {
+		Bishop bishop = new Bishop(Color.WHITE);
+
+		Assertions.assertThrows(
+				NullPointerException.class,
+				() -> bishop.candidateMoves(null, new Board()));
+	}
+
+	@Test
+	public void candidateMovesWithNullBoardExpectException() {
+		Bishop bishop = new Bishop(Color.WHITE);
+
+		Assertions.assertThrows(
+				NullPointerException.class,
+				() -> bishop.candidateMoves(Square.of(3, 3), null));
+	}
 }
