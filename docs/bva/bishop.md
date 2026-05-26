@@ -60,3 +60,8 @@ destination. A bishop cannot jump over pieces.
 	- **State of the system**: white bishop at (0, 0), otherwise empty board
 	- **Expected output**: candidate moves are (1, 1), (2, 2), (3, 3), (4, 4),
 	  (5, 5), (6, 6), and (7, 7)
+
+- **TC4: edge square has only on-board diagonal rays** ( ✅ )
+	- **State of the system**: white bishop at (0, 3), otherwise empty board
+	- **Expected output**: candidate moves are (1, 4), (2, 5), (3, 6), (4, 7),
+	  (1, 2), (2, 1), and (3, 0)
