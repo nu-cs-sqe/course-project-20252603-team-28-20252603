@@ -34,4 +34,8 @@ public final class ChessClock {
 		Objects.requireNonNull(active);
 		this.running = active;
 	}
+
+	public void tick() {
+
+	}
 }

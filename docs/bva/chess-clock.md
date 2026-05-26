@@ -193,7 +193,7 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `tick()`
     - State of the system: new ChessClock, no player has started
     - Expected output: both players still have the starting time
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 16: tick with zero elapsed time
     - Method(s) under test: `start(Color active)`, `tick()`
