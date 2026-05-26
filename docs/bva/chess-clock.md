@@ -161,7 +161,7 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `start(Color active)`
     - State of the system: new ChessClock, active player = null
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 ---
 

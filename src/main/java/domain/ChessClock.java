@@ -31,6 +31,7 @@ public final class ChessClock {
 	}
 
 	public void start(Color active) {
+		Objects.requireNonNull(active);
 		this.running = active;
 	}
 }
