@@ -26,4 +26,11 @@ public class ChessClockTest {
 		Assertions.assertThrows(NullPointerException.class,
 			() -> new ChessClock(null, clock));
 	}
+
+	@Test
+	public void nullClockThrows() {
+		TimeControl control = new TimeControl(Duration.ofMinutes(5), Duration.ZERO);
+		Assertions.assertThrows(NullPointerException.class,
+			() -> new ChessClock(control, null));
+	}
 }

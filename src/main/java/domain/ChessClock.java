@@ -13,6 +13,7 @@ public final class ChessClock {
 
 	public ChessClock(TimeControl control, Clock clock) {
 		Objects.requireNonNull(control);
+		Objects.requireNonNull(clock);
 		this.control = control;
 		this.clock = clock;
 		this.remaining = new EnumMap<>(Color.class);
