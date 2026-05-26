@@ -35,4 +35,21 @@ public class BishopTest {
 				Square.of(5, 1),
 				Square.of(6, 0)), moves);
 	}
+
+	@Test
+	public void candidateMovesFromCornerExpectOneDiagonalRay() {
+		Bishop bishop = new Bishop(Color.WHITE);
+		Board board = new Board();
+
+		Set<Square> moves = bishop.candidateMoves(Square.of(0, 0), board);
+
+		Assertions.assertEquals(Set.of(
+				Square.of(1, 1),
+				Square.of(2, 2),
+				Square.of(3, 3),
+				Square.of(4, 4),
+				Square.of(5, 5),
+				Square.of(6, 6),
+				Square.of(7, 7)), moves);
+	}
 }
