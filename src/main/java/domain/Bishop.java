@@ -41,13 +41,18 @@ public class Bishop extends Piece {
 			Set<Square> moves,
 			int fileDelta,
 			int rankDelta) {
-		Optional<Square> candidate = from.offset(
-				fileDelta * FIRST_STEP,
-				rankDelta * FIRST_STEP);
+		Optional<Square> candidate = nextDiagonalSquare(from, fileDelta, rankDelta);
 		while (candidate.isPresent()) {
 			Square square = candidate.get();
 			moves.add(square);
-			candidate = square.offset(fileDelta, rankDelta);
+			candidate = nextDiagonalSquare(square, fileDelta, rankDelta);
 		}
+	}
+
+	private Optional<Square> nextDiagonalSquare(
+			Square square,
+			int fileDelta,
+			int rankDelta) {
+		return square.offset(fileDelta * FIRST_STEP, rankDelta * FIRST_STEP);
 	}
 }
