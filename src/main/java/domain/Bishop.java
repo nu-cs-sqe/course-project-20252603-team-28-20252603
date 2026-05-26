@@ -46,6 +46,9 @@ public class Bishop extends Piece {
 			Square square = candidate.get();
 			Optional<Piece> occupant = board.pieceAt(square);
 			if (occupant.isPresent()) {
+				if (occupant.get().color() != color()) {
+					moves.add(square);
+				}
 				return;
 			}
 			moves.add(square);
