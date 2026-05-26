@@ -55,3 +55,8 @@ destination. A bishop cannot jump over pieces.
 - **TC2: center square has all diagonal candidate moves** ( ✅ )
 	- **State of the system**: white bishop at (3, 3), otherwise empty board
 	- **Expected output**: candidate moves are all on-board diagonal squares from (3, 3)
+
+- **TC3: corner square has one diagonal ray** ( ✅ )
+	- **State of the system**: white bishop at (0, 0), otherwise empty board
+	- **Expected output**: candidate moves are (1, 1), (2, 2), (3, 3), (4, 4),
+	  (5, 5), (6, 6), and (7, 7)
