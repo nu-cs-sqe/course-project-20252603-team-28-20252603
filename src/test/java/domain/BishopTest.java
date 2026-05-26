@@ -83,4 +83,18 @@ public class BishopTest {
 		Assertions.assertFalse(moves.contains(Square.of(7, 7)));
 		Assertions.assertTrue(moves.contains(Square.of(4, 4)));
 	}
+
+	@Test
+	public void candidateMovesWithOpponentBlockerExpectCaptureAndBeyondExcluded() {
+		Bishop bishop = new Bishop(Color.WHITE);
+		Board board = new Board();
+		board.place(Square.of(5, 5), Piece.of(PieceType.PAWN, Color.BLACK));
+
+		Set<Square> moves = bishop.candidateMoves(Square.of(3, 3), board);
+
+		Assertions.assertTrue(moves.contains(Square.of(5, 5)));
+		Assertions.assertFalse(moves.contains(Square.of(6, 6)));
+		Assertions.assertFalse(moves.contains(Square.of(7, 7)));
+		Assertions.assertTrue(moves.contains(Square.of(4, 4)));
+	}
 }
