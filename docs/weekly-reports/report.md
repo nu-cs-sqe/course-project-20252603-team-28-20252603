@@ -50,6 +50,14 @@
 1. [done] Team: Talked through Yiji's feedback. Two things to fix going forward: TDD commits should be one passing test + the minimum impl that passes it, not "all tests, then all impl." And we need to spread the work more evenly so each of us has merged PRs.
 2. [in progress] Kyubinn Kim: Knight movement (#7). Draft PR open on `kyubinn/knight-movement`. Got the first test passing (knight from center of empty board returns 8 candidate moves) and expanded the BVA to cover TC1-TC6. Remaining cases to go, one red-green cycle per commit.
 
+# Week 8 (05/18/2026-05/24/2026)
+**Planning and Progress Tracking**:
+1. [done] Jace Deng: Started Bishop movement on `Jace/bishop-bdd-movement` from updated `main`.
+2. [done] Jace Deng: Added Bishop BVA one test case per commit to make each boundary/equivalence case visible in history.
+3. [done] Jace Deng: Added Cucumber setup, the Bishop scenario outline, step definitions, and one BDD example row per commit.
+4. [done] Jace Deng: Added Bishop JUnit tests and minimal implementation commits for diagonal movement, edge handling, friendly blockers, opponent captures, and null inputs.
+5. [planned] Team: Review the Bishop movement PR and continue the same BDD+BVA commit discipline for the next piece.
+
 # Week X (XX/XX/2026-XX/XX/2026) TEMPLATE (You can change the format to whatever the team likes better)
 **Planning and Progress Tracking**:
 1. [done] Person: Task (Links to PR)
