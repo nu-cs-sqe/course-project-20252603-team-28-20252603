@@ -17,4 +17,18 @@ public class GameTest {
 	public void nullBoardThrows() {
 		Assertions.assertThrows(NullPointerException.class, () -> new Game(null));
 	}
+
+	@Test
+	public void whiteMovesKnightAndTurnFlipsToBlack() {
+		Board board = Board.standardSetup();
+		Game game = new Game(board);
+
+		game.makeMove(Square.of(1, 0), Square.of(2, 2));
+
+		Piece movedPiece = board.pieceAt(Square.of(2, 2)).orElseThrow();
+		Assertions.assertEquals(PieceType.KNIGHT, movedPiece.type());
+		Assertions.assertEquals(Color.WHITE, movedPiece.color());
+		Assertions.assertTrue(board.pieceAt(Square.of(1, 0)).isEmpty());
+		Assertions.assertEquals(Color.BLACK, game.currentTurn());
+	}
 }

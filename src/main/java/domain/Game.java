@@ -19,4 +19,9 @@ public final class Game {
 	public Board board() {
 		return board;
 	}
+
+	public void makeMove(Square from, Square to) {
+		board.move(from, to);
+		currentTurn = currentTurn.opposite();
+	}
 }
