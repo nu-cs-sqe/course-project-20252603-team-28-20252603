@@ -49,7 +49,7 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `TimeControl(Duration startingTime, Duration increment)`
     - State of the system: starting time = 0 seconds, increment = 0 seconds
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 5: negative starting time
     - Method(s) under test: `TimeControl(Duration startingTime, Duration increment)`
