@@ -65,3 +65,7 @@ destination. A bishop cannot jump over pieces.
 	- **State of the system**: white bishop at (0, 3), otherwise empty board
 	- **Expected output**: candidate moves are (1, 4), (2, 5), (3, 6), (4, 7),
 	  (1, 2), (2, 1), and (3, 0)
+
+- **TC5: friendly piece blocks diagonal movement** ( ✅ )
+	- **State of the system**: white bishop at (3, 3), white pawn at (5, 5)
+	- **Expected output**: (5, 5) and squares beyond it on that diagonal are not included
