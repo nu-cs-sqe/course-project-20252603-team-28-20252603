@@ -52,4 +52,21 @@ public class BishopTest {
 				Square.of(6, 6),
 				Square.of(7, 7)), moves);
 	}
+
+	@Test
+	public void candidateMovesFromEdgeExpectOnlyOnBoardDiagonals() {
+		Bishop bishop = new Bishop(Color.WHITE);
+		Board board = new Board();
+
+		Set<Square> moves = bishop.candidateMoves(Square.of(0, 3), board);
+
+		Assertions.assertEquals(Set.of(
+				Square.of(1, 4),
+				Square.of(2, 5),
+				Square.of(3, 6),
+				Square.of(4, 7),
+				Square.of(1, 2),
+				Square.of(2, 1),
+				Square.of(3, 0)), moves);
+	}
 }
