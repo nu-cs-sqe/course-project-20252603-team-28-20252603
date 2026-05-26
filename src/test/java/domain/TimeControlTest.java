@@ -50,4 +50,10 @@ public class TimeControlTest {
 		Assertions.assertThrows(NullPointerException.class,
 			() -> new TimeControl(null, Duration.ZERO));
 	}
+
+	@Test
+	public void nullIncrementThrows() {
+		Assertions.assertThrows(NullPointerException.class,
+			() -> new TimeControl(Duration.ofMinutes(5), null));
+	}
 }

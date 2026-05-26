@@ -9,6 +9,7 @@ public final class TimeControl {
 
 	public TimeControl(Duration startingTime, Duration increment) {
 		Objects.requireNonNull(startingTime);
+		Objects.requireNonNull(increment);
 		if (startingTime.isZero() || startingTime.isNegative()) {
 			throw new IllegalArgumentException("startingTime must be positive");
 		}
