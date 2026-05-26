@@ -31,13 +31,14 @@ public class Bishop extends Piece {
 
 		Set<Square> moves = new HashSet<>();
 		for (int[] direction : MOVE_DIRECTIONS) {
-			addRayMoves(from, moves, direction[0], direction[1]);
+			addRayMoves(from, board, moves, direction[0], direction[1]);
 		}
 		return Collections.unmodifiableSet(moves);
 	}
 
 	private void addRayMoves(
 			Square from,
+			Board board,
 			Set<Square> moves,
 			int fileDelta,
 			int rankDelta) {
