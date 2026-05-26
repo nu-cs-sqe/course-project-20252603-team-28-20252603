@@ -31,19 +31,19 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `TimeControl(Duration startingTime, Duration increment)`
     - State of the system: starting time = 5 minutes, increment = 0 seconds
     - Expected output: TimeControl is created
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 2: normal clock with increment
     - Method(s) under test: `TimeControl(Duration startingTime, Duration increment)`
     - State of the system: starting time = 5 minutes, increment = 3 seconds
     - Expected output: TimeControl is created
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 3: one second starting time
     - Method(s) under test: `TimeControl(Duration startingTime, Duration increment)`
     - State of the system: starting time = 1 second, increment = 0 seconds
     - Expected output: TimeControl is created
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 4: zero starting time
     - Method(s) under test: `TimeControl(Duration startingTime, Duration increment)`
@@ -55,25 +55,25 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `TimeControl(Duration startingTime, Duration increment)`
     - State of the system: starting time = -1 second, increment = 0 seconds
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 6: negative increment
     - Method(s) under test: `TimeControl(Duration startingTime, Duration increment)`
     - State of the system: starting time = 5 minutes, increment = -1 second
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 7: null starting time
     - Method(s) under test: `TimeControl(Duration startingTime, Duration increment)`
     - State of the system: starting time = null, increment = 0 seconds
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 8: null increment
     - Method(s) under test: `TimeControl(Duration startingTime, Duration increment)`
     - State of the system: starting time = 5 minutes, increment = null
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 ---
 
@@ -105,19 +105,19 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `ChessClock(TimeControl control, Clock clock)`, `remaining(Color color)`
     - State of the system: TimeControl has 5 minute starting time and 0 second increment; Clock is a valid fixed clock
     - Expected output: ChessClock is created; white and black both have 5 minutes remaining
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 10: null time control
     - Method(s) under test: `ChessClock(TimeControl control, Clock clock)`
     - State of the system: TimeControl is null; Clock is valid
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 11: null clock
     - Method(s) under test: `ChessClock(TimeControl control, Clock clock)`
     - State of the system: TimeControl is valid; Clock is null
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 ---
 
@@ -149,13 +149,13 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `start(Color active)`
     - State of the system: new ChessClock, active player = WHITE
     - Expected output: white clock is running; both players still have the starting time
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 13: start black clock
     - Method(s) under test: `start(Color active)`
     - State of the system: new ChessClock, active player = BLACK
     - Expected output: black clock is running; both players still have the starting time
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 14: start with null active player
     - Method(s) under test: `start(Color active)`

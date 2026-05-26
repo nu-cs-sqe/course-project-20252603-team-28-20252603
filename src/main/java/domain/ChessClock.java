@@ -10,6 +10,7 @@ public final class ChessClock {
 	private final TimeControl control;
 	private final Clock clock;
 	private final Map<Color, Duration> remaining;
+	private Color running;
 
 	public ChessClock(TimeControl control, Clock clock) {
 		Objects.requireNonNull(control);
@@ -23,5 +24,13 @@ public final class ChessClock {
 
 	public Duration remaining(Color color) {
 		return remaining.get(color);
+	}
+
+	public Color running() {
+		return running;
+	}
+
+	public void start(Color active) {
+		this.running = active;
 	}
 }

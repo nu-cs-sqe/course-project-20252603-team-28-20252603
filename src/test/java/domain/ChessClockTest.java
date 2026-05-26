@@ -33,4 +33,30 @@ public class ChessClockTest {
 		Assertions.assertThrows(NullPointerException.class,
 			() -> new ChessClock(control, null));
 	}
+
+	@Test
+	public void startWhiteSetsWhiteAsRunning() {
+		TimeControl control = new TimeControl(Duration.ofMinutes(5), Duration.ZERO);
+		Clock clock = Clock.fixed(Instant.EPOCH, ZoneOffset.UTC);
+		ChessClock chessClock = new ChessClock(control, clock);
+
+		chessClock.start(Color.WHITE);
+
+		Assertions.assertEquals(Color.WHITE, chessClock.running());
+		Assertions.assertEquals(Duration.ofMinutes(5), chessClock.remaining(Color.WHITE));
+		Assertions.assertEquals(Duration.ofMinutes(5), chessClock.remaining(Color.BLACK));
+	}
+
+	@Test
+	public void startBlackSetsBlackAsRunning() {
+		TimeControl control = new TimeControl(Duration.ofMinutes(5), Duration.ZERO);
+		Clock clock = Clock.fixed(Instant.EPOCH, ZoneOffset.UTC);
+		ChessClock chessClock = new ChessClock(control, clock);
+
+		chessClock.start(Color.BLACK);
+
+		Assertions.assertEquals(Color.BLACK, chessClock.running());
+		Assertions.assertEquals(Duration.ofMinutes(5), chessClock.remaining(Color.WHITE));
+		Assertions.assertEquals(Duration.ofMinutes(5), chessClock.remaining(Color.BLACK));
+	}
 }
