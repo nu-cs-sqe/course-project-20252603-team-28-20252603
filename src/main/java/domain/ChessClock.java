@@ -4,6 +4,7 @@ import java.time.Clock;
 import java.time.Duration;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Objects;
 
 public final class ChessClock {
 	private final TimeControl control;
@@ -11,6 +12,7 @@ public final class ChessClock {
 	private final Map<Color, Duration> remaining;
 
 	public ChessClock(TimeControl control, Clock clock) {
+		Objects.requireNonNull(control);
 		this.control = control;
 		this.clock = clock;
 		this.remaining = new EnumMap<>(Color.class);

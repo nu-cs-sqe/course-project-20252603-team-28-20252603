@@ -19,4 +19,11 @@ public class ChessClockTest {
 		Assertions.assertEquals(Duration.ofMinutes(5), chessClock.remaining(Color.WHITE));
 		Assertions.assertEquals(Duration.ofMinutes(5), chessClock.remaining(Color.BLACK));
 	}
+
+	@Test
+	public void nullTimeControlThrows() {
+		Clock clock = Clock.fixed(Instant.EPOCH, ZoneOffset.UTC);
+		Assertions.assertThrows(NullPointerException.class,
+			() -> new ChessClock(null, clock));
+	}
 }
