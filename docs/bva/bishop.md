@@ -73,3 +73,7 @@ destination. A bishop cannot jump over pieces.
 - **TC6: opponent piece can be captured and blocks beyond squares** ( ✅ )
 	- **State of the system**: white bishop at (3, 3), black pawn at (5, 5)
 	- **Expected output**: (5, 5) is included; (6, 6) and (7, 7) are not included
+
+- **TC7: null source square is rejected** ( ✅ )
+	- **State of the system**: source square = null, board = empty board
+	- **Expected output**: exception
