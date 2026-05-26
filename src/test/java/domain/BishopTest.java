@@ -69,4 +69,18 @@ public class BishopTest {
 				Square.of(2, 1),
 				Square.of(3, 0)), moves);
 	}
+
+	@Test
+	public void candidateMovesWithFriendlyBlockerExpectBlockedRayExcluded() {
+		Bishop bishop = new Bishop(Color.WHITE);
+		Board board = new Board();
+		board.place(Square.of(5, 5), Piece.of(PieceType.PAWN, Color.WHITE));
+
+		Set<Square> moves = bishop.candidateMoves(Square.of(3, 3), board);
+
+		Assertions.assertFalse(moves.contains(Square.of(5, 5)));
+		Assertions.assertFalse(moves.contains(Square.of(6, 6)));
+		Assertions.assertFalse(moves.contains(Square.of(7, 7)));
+		Assertions.assertTrue(moves.contains(Square.of(4, 4)));
+	}
 }
