@@ -21,6 +21,11 @@ public final class Game {
 	}
 
 	public void makeMove(Square from, Square to) {
+		Piece piece = board.pieceAt(from)
+			.orElseThrow(() -> new IllegalStateException("No piece at source square"));
+		if (piece.color() != currentTurn) {
+			throw new IllegalStateException("Not your turn");
+		}
 		board.move(from, to);
 		currentTurn = currentTurn.opposite();
 	}

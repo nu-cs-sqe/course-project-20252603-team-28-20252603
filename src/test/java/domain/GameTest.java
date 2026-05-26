@@ -40,4 +40,13 @@ public class GameTest {
 		Assertions.assertThrows(IllegalStateException.class,
 			() -> game.makeMove(Square.of(4, 3), Square.of(4, 4)));
 	}
+
+	@Test
+	public void movingOpponentsPieceThrows() {
+		Board board = Board.standardSetup();
+		Game game = new Game(board);
+
+		Assertions.assertThrows(IllegalStateException.class,
+			() -> game.makeMove(Square.of(1, 7), Square.of(2, 5)));
+	}
 }
