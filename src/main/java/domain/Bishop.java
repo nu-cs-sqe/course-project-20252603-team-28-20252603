@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public class Bishop extends Piece {
+	private static final int FIRST_STEP = 1;
 	private static final int[][] MOVE_DIRECTIONS = {
 		{1, 1},
 		{1, -1},
@@ -40,7 +41,9 @@ public class Bishop extends Piece {
 			Set<Square> moves,
 			int fileDelta,
 			int rankDelta) {
-		Optional<Square> candidate = from.offset(fileDelta, rankDelta);
+		Optional<Square> candidate = from.offset(
+				fileDelta * FIRST_STEP,
+				rankDelta * FIRST_STEP);
 		while (candidate.isPresent()) {
 			Square square = candidate.get();
 			moves.add(square);
