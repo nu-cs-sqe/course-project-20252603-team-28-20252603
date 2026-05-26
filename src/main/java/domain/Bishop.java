@@ -1,6 +1,19 @@
 package domain;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+
 public class Bishop extends Piece {
+	private static final int[][] MOVE_DIRECTIONS = {
+		{1, 1},
+		{1, -1},
+		{-1, 1},
+		{-1, -1}
+	};
+
 	public Bishop(Color color) {
 		super(color);
 	}
@@ -8,5 +21,30 @@ public class Bishop extends Piece {
 	@Override
 	public PieceType type() {
 		return PieceType.BISHOP;
+	}
+
+	@Override
+	public Set<Square> candidateMoves(Square from, Board board) {
+		Objects.requireNonNull(from);
+		Objects.requireNonNull(board);
+
+		Set<Square> moves = new HashSet<>();
+		for (int[] direction : MOVE_DIRECTIONS) {
+			addRayMoves(from, moves, direction[0], direction[1]);
+		}
+		return Collections.unmodifiableSet(moves);
+	}
+
+	private void addRayMoves(
+			Square from,
+			Set<Square> moves,
+			int fileDelta,
+			int rankDelta) {
+		Optional<Square> candidate = from.offset(fileDelta, rankDelta);
+		while (candidate.isPresent()) {
+			Square square = candidate.get();
+			moves.add(square);
+			candidate = square.offset(fileDelta, rankDelta);
+		}
 	}
 }
