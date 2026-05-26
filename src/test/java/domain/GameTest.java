@@ -12,4 +12,9 @@ public class GameTest {
 
 		Assertions.assertEquals(Color.WHITE, game.currentTurn());
 	}
+
+	@Test
+	public void nullBoardThrows() {
+		Assertions.assertThrows(NullPointerException.class, () -> new Game(null));
+	}
 }
