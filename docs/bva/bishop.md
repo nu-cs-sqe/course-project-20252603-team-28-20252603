@@ -69,3 +69,7 @@ destination. A bishop cannot jump over pieces.
 - **TC5: friendly piece blocks diagonal movement** ( ✅ )
 	- **State of the system**: white bishop at (3, 3), white pawn at (5, 5)
 	- **Expected output**: (5, 5) and squares beyond it on that diagonal are not included
+
+- **TC6: opponent piece can be captured and blocks beyond squares** ( ✅ )
+	- **State of the system**: white bishop at (3, 3), black pawn at (5, 5)
+	- **Expected output**: (5, 5) is included; (6, 6) and (7, 7) are not included
