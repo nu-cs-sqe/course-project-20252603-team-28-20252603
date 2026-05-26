@@ -77,3 +77,7 @@ destination. A bishop cannot jump over pieces.
 - **TC7: null source square is rejected** ( ✅ )
 	- **State of the system**: source square = null, board = empty board
 	- **Expected output**: exception
+
+- **TC8: null board is rejected** ( ✅ )
+	- **State of the system**: source square = (3, 3), board = null
+	- **Expected output**: exception
