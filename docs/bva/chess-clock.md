@@ -199,7 +199,7 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `start(Color active)`, `tick()`
     - State of the system: white clock is running; 0 seconds have passed
     - Expected output: white still has the starting time; black still has the starting time
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 17: tick with one second elapsed
     - Method(s) under test: `start(Color active)`, `tick()`, `remaining(Color color)`
