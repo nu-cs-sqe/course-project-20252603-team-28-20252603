@@ -31,4 +31,13 @@ public class GameTest {
 		Assertions.assertTrue(board.pieceAt(Square.of(1, 0)).isEmpty());
 		Assertions.assertEquals(Color.BLACK, game.currentTurn());
 	}
+
+	@Test
+	public void movingFromEmptySquareThrows() {
+		Board board = Board.standardSetup();
+		Game game = new Game(board);
+
+		Assertions.assertThrows(IllegalStateException.class,
+			() -> game.makeMove(Square.of(4, 3), Square.of(4, 4)));
+	}
 }
