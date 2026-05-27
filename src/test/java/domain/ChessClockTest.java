@@ -94,4 +94,18 @@ public class ChessClockTest {
 		Assertions.assertEquals(Duration.ofMinutes(5), chessClock.remaining(Color.WHITE));
 		Assertions.assertEquals(Duration.ofMinutes(5), chessClock.remaining(Color.BLACK));
 	}
+
+	@Test
+	public void tickWithOneSecondElapsedDeductsFromRunning() {
+		TimeControl control = new TimeControl(Duration.ofMinutes(5), Duration.ZERO);
+		MutableClock clock = new MutableClock(Instant.EPOCH, ZoneOffset.UTC);
+		ChessClock chessClock = new ChessClock(control, clock);
+
+		chessClock.start(Color.WHITE);
+		clock.advance(Duration.ofSeconds(1));
+		chessClock.tick();
+
+		Assertions.assertEquals(Duration.ofMinutes(5).minusSeconds(1), chessClock.remaining(Color.WHITE));
+		Assertions.assertEquals(Duration.ofMinutes(5), chessClock.remaining(Color.BLACK));
+	}
 }

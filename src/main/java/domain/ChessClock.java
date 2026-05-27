@@ -2,6 +2,7 @@ package domain;
 
 import java.time.Clock;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
@@ -11,6 +12,7 @@ public final class ChessClock {
 	private final Clock clock;
 	private final Map<Color, Duration> remaining;
 	private Color running;
+	private Instant lastTickAt;
 
 	public ChessClock(TimeControl control, Clock clock) {
 		Objects.requireNonNull(control);
@@ -33,9 +35,16 @@ public final class ChessClock {
 	public void start(Color active) {
 		Objects.requireNonNull(active);
 		this.running = active;
+		this.lastTickAt = clock.instant();
 	}
 
 	public void tick() {
-
+		if (running == null) {
+			return;
+		}
+		Instant now = clock.instant();
+		Duration elapsed = Duration.between(lastTickAt, now);
+		remaining.put(running, remaining.get(running).minus(elapsed));
+		lastTickAt = now;
 	}
 }
