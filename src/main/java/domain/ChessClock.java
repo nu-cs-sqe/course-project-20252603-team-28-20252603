@@ -69,4 +69,8 @@ public final class ChessClock {
 
 	}
 
+	public boolean isExpired(Color color) {
+		return false;
+	}
+
 }

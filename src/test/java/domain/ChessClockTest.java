@@ -263,4 +263,13 @@ public class ChessClockTest {
 			() -> chessClock.remaining(null));
 	}
 
+	@Test
+	public void isExpiredReturnsFalseWhenTimeRemains() {
+		TimeControl control = new TimeControl(Duration.ofSeconds(1), Duration.ZERO);
+		Clock clock = Clock.fixed(Instant.EPOCH, ZoneOffset.UTC);
+		ChessClock chessClock = new ChessClock(control, clock);
+
+		Assertions.assertFalse(chessClock.isExpired(Color.WHITE));
+	}
+
 }
