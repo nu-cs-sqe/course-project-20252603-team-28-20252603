@@ -19,3 +19,8 @@ Feature: Bishop movement
     Given a white bishop starts at 3,3
     When the bishop candidate moves are requested with a null source
     Then the bishop movement request should fail with a null pointer exception
+
+  Scenario: Bishop rejects null board
+    Given a white bishop starts at 3,3
+    When the bishop candidate moves are requested with a null board
+    Then the bishop movement request should fail with a null pointer exception
