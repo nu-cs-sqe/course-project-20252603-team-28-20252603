@@ -13,6 +13,7 @@ public class BishopMovementSteps {
 	private Bishop bishop = new Bishop(Color.WHITE);
 	private Square from = Square.of(0, 0);
 	private Set<Square> actualMoves = Collections.emptySet();
+	private RuntimeException movementException;
 
 	@Given("a {word} bishop starts at {word}")
 	public void bishopStartsAt(String colorName, String squareText) {
@@ -41,9 +42,28 @@ public class BishopMovementSteps {
 		actualMoves = bishop.candidateMoves(from, board);
 	}
 
+	@When("the bishop candidate moves are requested with a null source")
+	public void bishopCandidateMovesAreRequestedWithNullSource() {
+		movementException = Assertions.assertThrows(
+				NullPointerException.class,
+				() -> bishop.candidateMoves(null, board));
+	}
+
+	@When("the bishop candidate moves are requested with a null board")
+	public void bishopCandidateMovesAreRequestedWithNullBoard() {
+		movementException = Assertions.assertThrows(
+				NullPointerException.class,
+				() -> bishop.candidateMoves(from, null));
+	}
+
 	@Then("the bishop candidate moves should be {word}")
 	public void bishopCandidateMovesShouldBe(String movesText) {
 		Assertions.assertEquals(squaresFrom(movesText), actualMoves);
+	}
+
+	@Then("the bishop movement request should fail with a null pointer exception")
+	public void bishopMovementRequestShouldFailWithNullPointerException() {
+		Assertions.assertInstanceOf(NullPointerException.class, movementException);
 	}
 
 	private Set<Square> squaresFrom(String movesText) {
