@@ -308,7 +308,7 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `start(Color active)`, `pause()`, `tick()`
     - State of the system: white clock is running, then the clock is paused, then time passes
     - Expected output: white's time does not keep going down after pause
-    - Implemented: no
+    - Implemented: yes
 
 ---
 

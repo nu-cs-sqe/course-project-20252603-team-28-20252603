@@ -64,6 +64,7 @@ public final class ChessClock {
 	}
 
 	public void pause() {
+		this.running = null;
 
 	}
 
