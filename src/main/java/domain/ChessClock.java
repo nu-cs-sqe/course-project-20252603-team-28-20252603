@@ -70,6 +70,7 @@ public final class ChessClock {
 	}
 
 	public boolean isExpired(Color color) {
+		Objects.requireNonNull(color);
 		return remaining.get(color).isZero();
 	}
 

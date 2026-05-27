@@ -387,4 +387,4 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `isExpired(Color color)`
     - State of the system: color = null
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes

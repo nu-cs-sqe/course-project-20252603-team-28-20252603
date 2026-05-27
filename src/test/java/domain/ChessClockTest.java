@@ -285,4 +285,14 @@ public class ChessClockTest {
 		Assertions.assertTrue(chessClock.isExpired(Color.WHITE));
 	}
 
+	@Test
+	public void isExpiredWithNullColorThrows() {
+		TimeControl control = new TimeControl(Duration.ofMinutes(5), Duration.ZERO);
+		Clock clock = Clock.fixed(Instant.EPOCH, ZoneOffset.UTC);
+		ChessClock chessClock = new ChessClock(control, clock);
+
+		Assertions.assertThrows(NullPointerException.class,
+			() -> chessClock.isExpired(null));
+	}
+
 }
