@@ -54,6 +54,7 @@ public final class ChessClock {
 
 	public void completeTurn(Color moved, Color next) {
 		Objects.requireNonNull(moved);
+		Objects.requireNonNull(next);
 		if (moved == next) {
 			throw new IllegalArgumentException("moved and next must differ");
 		}
