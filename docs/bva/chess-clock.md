@@ -302,7 +302,7 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `pause()`
     - State of the system: new ChessClock, no player has started
     - Expected output: no player is running; both players still have the starting time
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 26: pause while white is running
     - Method(s) under test: `start(Color active)`, `pause()`, `tick()`

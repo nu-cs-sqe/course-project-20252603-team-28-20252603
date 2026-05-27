@@ -205,4 +205,17 @@ public class ChessClockTest {
 			() -> chessClock.completeTurn(Color.WHITE, null));
 	}
 
+	@Test
+	public void pauseBeforeStartingDoesNothing() {
+		TimeControl control = new TimeControl(Duration.ofMinutes(5), Duration.ZERO);
+		MutableClock clock = new MutableClock(Instant.EPOCH, ZoneOffset.UTC);
+		ChessClock chessClock = new ChessClock(control, clock);
+
+		chessClock.pause();
+
+		Assertions.assertNull(chessClock.running());
+		Assertions.assertEquals(Duration.ofMinutes(5), chessClock.remaining(Color.WHITE));
+		Assertions.assertEquals(Duration.ofMinutes(5), chessClock.remaining(Color.BLACK));
+	}
+
 }
