@@ -181,5 +181,16 @@ public class ChessClockTest {
 			() -> chessClock.completeTurn(Color.WHITE, Color.WHITE));
 	}
 
+	@Test
+	public void completeTurnWithNullMovedThrows() {
+		TimeControl control = new TimeControl(Duration.ofMinutes(5), Duration.ZERO);
+		MutableClock clock = new MutableClock(Instant.EPOCH, ZoneOffset.UTC);
+		ChessClock chessClock = new ChessClock(control, clock);
+
+		chessClock.start(Color.WHITE);
+
+		Assertions.assertThrows(NullPointerException.class,
+			() -> chessClock.completeTurn(null, Color.BLACK));
+	}
 
 }

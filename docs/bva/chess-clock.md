@@ -270,7 +270,7 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `completeTurn(Color moved, Color next)`
     - State of the system: moved = null, next = BLACK
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 24: complete turn with null next player
     - Method(s) under test: `completeTurn(Color moved, Color next)`
