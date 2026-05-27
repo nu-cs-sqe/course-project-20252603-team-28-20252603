@@ -52,4 +52,8 @@ public final class ChessClock {
 		lastTickAt = now;
 	}
 
+	public void completeTurn(Color moved, Color next) {
+		this.running = next;
+	}
+
 }

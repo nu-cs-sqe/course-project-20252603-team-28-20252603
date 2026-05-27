@@ -252,7 +252,7 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `completeTurn(Color moved, Color next)`
     - State of the system: white has moved; increment is 0 seconds; white has 4 minutes 59 seconds remaining
     - Expected output: white still has 4 minutes 59 seconds; black clock is running
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 21: complete turn with increment
     - Method(s) under test: `completeTurn(Color moved, Color next)`
