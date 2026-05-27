@@ -340,7 +340,7 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `remaining(Color color)`
     - State of the system: new ChessClock with 5 minute starting time
     - Expected output: black has 5 minutes remaining
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 29: remaining time with null color
     - Method(s) under test: `remaining(Color color)`

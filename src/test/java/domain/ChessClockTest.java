@@ -244,4 +244,13 @@ public class ChessClockTest {
 		Assertions.assertEquals(Duration.ofMinutes(5), chessClock.remaining(Color.WHITE));
 	}
 
+	@Test
+	public void remainingForBlackIsStartingTime() {
+		TimeControl control = new TimeControl(Duration.ofMinutes(5), Duration.ZERO);
+		Clock clock = Clock.fixed(Instant.EPOCH, ZoneOffset.UTC);
+		ChessClock chessClock = new ChessClock(control, clock);
+
+		Assertions.assertEquals(Duration.ofMinutes(5), chessClock.remaining(Color.BLACK));
+	}
+
 }
