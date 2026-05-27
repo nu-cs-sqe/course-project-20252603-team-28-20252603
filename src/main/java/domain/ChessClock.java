@@ -44,7 +44,12 @@ public final class ChessClock {
 		}
 		Instant now = clock.instant();
 		Duration elapsed = Duration.between(lastTickAt, now);
-		remaining.put(running, remaining.get(running).minus(elapsed));
+		Duration next = remaining.get(running).minus(elapsed);
+		if (next.isNegative()) {
+			next = Duration.ZERO;
+		}
+		remaining.put(running, next);
 		lastTickAt = now;
 	}
+
 }

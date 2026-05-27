@@ -122,4 +122,18 @@ public class ChessClockTest {
 		Assertions.assertEquals(Duration.ZERO, chessClock.remaining(Color.WHITE));
 		Assertions.assertEquals(Duration.ofMinutes(5), chessClock.remaining(Color.BLACK));
 	}
+
+	@Test
+	public void tickPastZeroClampsAtZero() {
+		TimeControl control = new TimeControl(Duration.ofMinutes(5), Duration.ZERO);
+		MutableClock clock = new MutableClock(Instant.EPOCH, ZoneOffset.UTC);
+		ChessClock chessClock = new ChessClock(control, clock);
+
+		chessClock.start(Color.WHITE);
+		clock.advance(Duration.ofMinutes(6));
+		chessClock.tick();
+
+		Assertions.assertEquals(Duration.ZERO, chessClock.remaining(Color.WHITE));
+		Assertions.assertEquals(Duration.ofMinutes(5), chessClock.remaining(Color.BLACK));
+	}
 }

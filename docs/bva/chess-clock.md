@@ -217,7 +217,7 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `start(Color active)`, `tick()`, `remaining(Color color)`, `isExpired(Color color)`
     - State of the system: white clock is running; white has 1 second remaining; 2 seconds have passed
     - Expected output: white has 0 seconds remaining, not negative time; white is expired
-    - Implemented: no
+    - Implemented: yes
 
 ---
 
