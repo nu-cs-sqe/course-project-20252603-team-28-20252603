@@ -272,4 +272,17 @@ public class ChessClockTest {
 		Assertions.assertFalse(chessClock.isExpired(Color.WHITE));
 	}
 
+	@Test
+	public void isExpiredReturnsTrueWhenTimeIsZero() {
+		TimeControl control = new TimeControl(Duration.ofSeconds(1), Duration.ZERO);
+		MutableClock clock = new MutableClock(Instant.EPOCH, ZoneOffset.UTC);
+		ChessClock chessClock = new ChessClock(control, clock);
+
+		chessClock.start(Color.WHITE);
+		clock.advance(Duration.ofSeconds(1));
+		chessClock.tick();
+
+		Assertions.assertTrue(chessClock.isExpired(Color.WHITE));
+	}
+
 }
