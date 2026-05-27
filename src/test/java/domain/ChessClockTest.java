@@ -152,4 +152,22 @@ public class ChessClockTest {
 		Assertions.assertEquals(Duration.ofMinutes(5), chessClock.remaining(Color.BLACK));
 		Assertions.assertEquals(Color.BLACK, chessClock.running());
 	}
+
+	@Test
+	public void completeTurnAddsIncrementToMovedPlayer() {
+		TimeControl control = new TimeControl(Duration.ofMinutes(5), Duration.ofSeconds(3));
+		MutableClock clock = new MutableClock(Instant.EPOCH, ZoneOffset.UTC);
+		ChessClock chessClock = new ChessClock(control, clock);
+
+		chessClock.start(Color.WHITE);
+		clock.advance(Duration.ofSeconds(1));
+		chessClock.tick();
+		chessClock.completeTurn(Color.WHITE, Color.BLACK);
+
+		Assertions.assertEquals(Duration.ofMinutes(5).minusSeconds(1).plusSeconds(3), chessClock.remaining(Color.WHITE));
+		Assertions.assertEquals(Duration.ofMinutes(5), chessClock.remaining(Color.BLACK));
+		Assertions.assertEquals(Color.BLACK, chessClock.running());
+	}
+
+
 }
