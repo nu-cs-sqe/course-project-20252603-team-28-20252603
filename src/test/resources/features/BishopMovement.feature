@@ -14,3 +14,8 @@ Feature: Bishop movement
       | white | 0,3  | none     | 1,2;1,4;2,1;2,5;3,0;3,6;4,7                         |
       | white | 3,3  | W@5,5    | 0,0;0,6;1,1;1,5;2,2;2,4;4,2;4,4;5,1;6,0             |
       | white | 3,3  | B@5,5    | 0,0;0,6;1,1;1,5;2,2;2,4;4,2;4,4;5,1;5,5;6,0         |
+
+  Scenario: Bishop rejects null source square
+    Given a white bishop starts at 3,3
+    When the bishop candidate moves are requested with a null source
+    Then the bishop movement request should fail with a null pointer exception
