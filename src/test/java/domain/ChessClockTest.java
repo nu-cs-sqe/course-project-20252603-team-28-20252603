@@ -253,4 +253,14 @@ public class ChessClockTest {
 		Assertions.assertEquals(Duration.ofMinutes(5), chessClock.remaining(Color.BLACK));
 	}
 
+	@Test
+	public void remainingWithNullColorThrows() {
+		TimeControl control = new TimeControl(Duration.ofMinutes(5), Duration.ZERO);
+		Clock clock = Clock.fixed(Instant.EPOCH, ZoneOffset.UTC);
+		ChessClock chessClock = new ChessClock(control, clock);
+
+		Assertions.assertThrows(NullPointerException.class,
+			() -> chessClock.remaining(null));
+	}
+
 }

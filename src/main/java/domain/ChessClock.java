@@ -25,6 +25,7 @@ public final class ChessClock {
 	}
 
 	public Duration remaining(Color color) {
+		Objects.requireNonNull(color);
 		return remaining.get(color);
 	}
 
