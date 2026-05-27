@@ -53,6 +53,9 @@ public final class ChessClock {
 	}
 
 	public void completeTurn(Color moved, Color next) {
+		if (moved == next) {
+			throw new IllegalArgumentException("moved and next must differ");
+		}
 		Duration current = remaining.get(moved);
 		remaining.put(moved, current.plus(control.increment()));
 		this.running = next;

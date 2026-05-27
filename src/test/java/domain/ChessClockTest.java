@@ -169,5 +169,17 @@ public class ChessClockTest {
 		Assertions.assertEquals(Color.BLACK, chessClock.running());
 	}
 
+	@Test
+	public void completeTurnWithSamePlayerThrows() {
+		TimeControl control = new TimeControl(Duration.ofMinutes(5), Duration.ZERO);
+		MutableClock clock = new MutableClock(Instant.EPOCH, ZoneOffset.UTC);
+		ChessClock chessClock = new ChessClock(control, clock);
+
+		chessClock.start(Color.WHITE);
+
+		Assertions.assertThrows(IllegalArgumentException.class,
+			() -> chessClock.completeTurn(Color.WHITE, Color.WHITE));
+	}
+
 
 }
