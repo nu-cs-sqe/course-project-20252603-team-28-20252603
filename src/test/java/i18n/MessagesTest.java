@@ -1,6 +1,7 @@
 package i18n;
 
 import java.util.Locale;
+import java.util.MissingResourceException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,5 +41,11 @@ public class MessagesTest {
 		String result = Messages.get("app.title");
 
 		Assertions.assertEquals("체스", result);
+	}
+
+	@Test
+	public void getWithMissingKeyThrows() {
+		Assertions.assertThrows(MissingResourceException.class,
+			() -> Messages.get("key.that.does.not.exist"));
 	}
 }
