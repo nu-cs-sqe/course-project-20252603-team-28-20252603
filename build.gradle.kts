@@ -45,6 +45,7 @@ spotbugs {
     showStackTraces = true
     effort = Effort.MAX
     reportLevel = Confidence.LOW
+    excludeFilter = file("config/spotbugs/excludeFilter.xml")
 }
 
 tasks.withType<Checkstyle>().configureEach {
