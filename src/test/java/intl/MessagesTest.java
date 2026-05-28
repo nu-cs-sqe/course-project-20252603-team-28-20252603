@@ -1,4 +1,4 @@
-package i18n;
+package intl;
 
 import java.util.Locale;
 import java.util.MissingResourceException;

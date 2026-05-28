@@ -1,4 +1,4 @@
-package i18n;
+package intl;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -25,7 +25,8 @@ public final class Messages {
 		Objects.requireNonNull(key);
 		ResourceBundle bundle = ResourceBundle.getBundle(
 			BUNDLE_BASE_NAME, currentLocale,
-			ResourceBundle.Control.getNoFallbackControl(ResourceBundle.Control.FORMAT_PROPERTIES));
+			ResourceBundle.Control.getNoFallbackControl(
+				ResourceBundle.Control.FORMAT_PROPERTIES));
 		return bundle.getString(key);
 	}
 
