@@ -19,4 +19,10 @@ public class MessagesTest {
 
 		Assertions.assertEquals(Locale.KOREAN, Messages.getLocale());
 	}
+
+	@Test
+	public void setLocaleWithNullThrows() {
+		Assertions.assertThrows(NullPointerException.class,
+			() -> Messages.setLocale(null));
+	}
 }
