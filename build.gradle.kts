@@ -5,6 +5,7 @@ import org.gradle.api.plugins.quality.Checkstyle
 plugins {
     application
     java
+    application
     checkstyle
     id("com.github.spotbugs") version "6.4.4"
     jacoco
@@ -27,6 +28,10 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(11)
     }
+}
+
+application {
+    mainClass.set("ui.Main")
 }
 
 checkstyle {
