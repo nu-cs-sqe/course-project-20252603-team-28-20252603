@@ -21,6 +21,7 @@ public final class Messages {
 	}
 
 	public static String get(String key) {
+		Objects.requireNonNull(key);
 		ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE_BASE_NAME, currentLocale);
 		return bundle.getString(key);
 	}

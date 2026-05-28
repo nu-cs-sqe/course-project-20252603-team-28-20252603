@@ -48,4 +48,10 @@ public class MessagesTest {
 		Assertions.assertThrows(MissingResourceException.class,
 			() -> Messages.get("key.that.does.not.exist"));
 	}
+
+	@Test
+	public void getWithNullKeyThrows() {
+		Assertions.assertThrows(NullPointerException.class,
+			() -> Messages.get(null));
+	}
 }
