@@ -2,8 +2,10 @@ package i18n;
 
 import java.util.Locale;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 public final class Messages {
+	private static final String BUNDLE_BASE_NAME = "messages";
 	private static Locale currentLocale = Locale.ENGLISH;
 
 	private Messages() {
@@ -16,5 +18,10 @@ public final class Messages {
 
 	public static Locale getLocale() {
 		return currentLocale;
+	}
+
+	public static String get(String key) {
+		ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE_BASE_NAME, currentLocale);
+		return bundle.getString(key);
 	}
 }

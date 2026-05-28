@@ -25,4 +25,11 @@ public class MessagesTest {
 		Assertions.assertThrows(NullPointerException.class,
 			() -> Messages.setLocale(null));
 	}
+
+	@Test
+	public void getReturnsEnglishMessageByDefault() {
+		String result = Messages.get("app.title");
+
+		Assertions.assertEquals("Chess", result);
+	}
 }
