@@ -32,4 +32,13 @@ public class MessagesTest {
 
 		Assertions.assertEquals("Chess", result);
 	}
+
+	@Test
+	public void getReturnsKoreanMessageAfterSetLocale() {
+		Messages.setLocale(Locale.KOREAN);
+
+		String result = Messages.get("app.title");
+
+		Assertions.assertEquals("체스", result);
+	}
 }
