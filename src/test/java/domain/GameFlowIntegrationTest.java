@@ -26,4 +26,26 @@ public class GameFlowIntegrationTest {
 		Assertions.assertEquals(Color.BLACK,
 			board.pieceAt(Square.of(0, 7)).orElseThrow().color());
 	}
+
+	@Test
+	public void multiTurnSequenceAlternatesColorsAndUpdatesBoard() {
+		Board board = Board.standardSetup();
+		Game game = new Game(board);
+
+		game.makeMove(Square.of(1, 0), Square.of(2, 2));
+		Assertions.assertEquals(Color.BLACK, game.currentTurn());
+		Assertions.assertEquals(PieceType.KNIGHT,
+			board.pieceAt(Square.of(2, 2)).orElseThrow().type());
+		Assertions.assertEquals(Color.WHITE,
+			board.pieceAt(Square.of(2, 2)).orElseThrow().color());
+
+		game.makeMove(Square.of(1, 7), Square.of(2, 5));
+		Assertions.assertEquals(Color.WHITE, game.currentTurn());
+		Assertions.assertEquals(Color.BLACK,
+			board.pieceAt(Square.of(2, 5)).orElseThrow().color());
+
+		game.makeMove(Square.of(4, 1), Square.of(4, 3));
+		Assertions.assertEquals(Color.BLACK, game.currentTurn());
+	}
 }
+
