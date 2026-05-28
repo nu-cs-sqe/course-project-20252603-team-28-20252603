@@ -1,0 +1,29 @@
+package domain;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+public class GameFlowIntegrationTest {
+
+	@Test
+	public void standardSetupGameStartsWithWhiteAndExpectedPieces() {
+		Board board = Board.standardSetup();
+		Game game = new Game(board);
+
+		Assertions.assertEquals(Color.WHITE, game.currentTurn());
+
+		Assertions.assertEquals(PieceType.ROOK,
+			board.pieceAt(Square.of(0, 0)).orElseThrow().type());
+		Assertions.assertEquals(PieceType.KNIGHT,
+			board.pieceAt(Square.of(1, 0)).orElseThrow().type());
+		Assertions.assertEquals(PieceType.KING,
+			board.pieceAt(Square.of(4, 0)).orElseThrow().type());
+		Assertions.assertEquals(PieceType.KING,
+			board.pieceAt(Square.of(4, 7)).orElseThrow().type());
+
+		Assertions.assertEquals(Color.WHITE,
+			board.pieceAt(Square.of(0, 0)).orElseThrow().color());
+		Assertions.assertEquals(Color.BLACK,
+			board.pieceAt(Square.of(0, 7)).orElseThrow().color());
+	}
+}
