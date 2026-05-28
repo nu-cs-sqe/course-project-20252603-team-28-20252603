@@ -5,7 +5,6 @@ import org.gradle.api.plugins.quality.Checkstyle
 plugins {
     application
     java
-    application
     checkstyle
     id("com.github.spotbugs") version "6.4.4"
     jacoco
@@ -54,8 +53,10 @@ tasks.withType<Checkstyle>().configureEach {
         html.required.set(true)
     }
 }
+
 val excluded = listOf(
     "**/gui/**",
+    "**/ui/**",
     "**/*View*",
     "**/*GUI*",
     "**/*Enum*",
@@ -107,6 +108,7 @@ pitest {
     targetTests = setOf("domain.*")
     excludedClasses = setOf(
         "gui.*",
+        "ui.*",
         "*View*",
         "*GUI*",
         "*Enum*",
