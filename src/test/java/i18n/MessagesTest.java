@@ -54,4 +54,13 @@ public class MessagesTest {
 		Assertions.assertThrows(NullPointerException.class,
 			() -> Messages.get(null));
 	}
+
+	@Test
+	public void unsupportedLocaleFallsBackToEnglish() {
+		Messages.setLocale(Locale.FRENCH);
+
+		String result = Messages.get("app.title");
+
+		Assertions.assertEquals("Chess", result);
+	}
 }

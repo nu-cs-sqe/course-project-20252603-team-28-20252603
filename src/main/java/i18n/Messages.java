@@ -22,7 +22,9 @@ public final class Messages {
 
 	public static String get(String key) {
 		Objects.requireNonNull(key);
-		ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE_BASE_NAME, currentLocale);
+		ResourceBundle bundle = ResourceBundle.getBundle(
+			BUNDLE_BASE_NAME, currentLocale,
+			ResourceBundle.Control.getNoFallbackControl(ResourceBundle.Control.FORMAT_PROPERTIES));
 		return bundle.getString(key);
 	}
 }
