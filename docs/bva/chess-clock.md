@@ -31,49 +31,49 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `TimeControl(Duration startingTime, Duration increment)`
     - State of the system: starting time = 5 minutes, increment = 0 seconds
     - Expected output: TimeControl is created
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 2: normal clock with increment
     - Method(s) under test: `TimeControl(Duration startingTime, Duration increment)`
     - State of the system: starting time = 5 minutes, increment = 3 seconds
     - Expected output: TimeControl is created
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 3: one second starting time
     - Method(s) under test: `TimeControl(Duration startingTime, Duration increment)`
     - State of the system: starting time = 1 second, increment = 0 seconds
     - Expected output: TimeControl is created
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 4: zero starting time
     - Method(s) under test: `TimeControl(Duration startingTime, Duration increment)`
     - State of the system: starting time = 0 seconds, increment = 0 seconds
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 5: negative starting time
     - Method(s) under test: `TimeControl(Duration startingTime, Duration increment)`
     - State of the system: starting time = -1 second, increment = 0 seconds
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 6: negative increment
     - Method(s) under test: `TimeControl(Duration startingTime, Duration increment)`
     - State of the system: starting time = 5 minutes, increment = -1 second
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 7: null starting time
     - Method(s) under test: `TimeControl(Duration startingTime, Duration increment)`
     - State of the system: starting time = null, increment = 0 seconds
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 8: null increment
     - Method(s) under test: `TimeControl(Duration startingTime, Duration increment)`
     - State of the system: starting time = 5 minutes, increment = null
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 ---
 
