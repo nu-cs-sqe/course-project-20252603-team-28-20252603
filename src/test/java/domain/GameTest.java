@@ -57,4 +57,14 @@ public class GameTest {
 
 		Assertions.assertEquals(GameStatus.IN_PROGRESS, game.getStatus());
 	}
+
+	@Test
+	public void whiteResignsAndBlackWins() {
+		Board board = Board.standardSetup();
+		Game game = new Game(board);
+
+		game.resign(Color.WHITE);
+
+		Assertions.assertEquals(GameStatus.BLACK_WIN, game.getStatus());
+	}
 }

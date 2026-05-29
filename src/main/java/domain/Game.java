@@ -26,6 +26,10 @@ public final class Game {
 		return status;
 	}
 
+	public void resign(Color resigningColor) {
+		this.status = GameStatus.BLACK_WIN;
+	}
+
 	public void makeMove(Square from, Square to) {
 		Piece piece = board.pieceAt(from)
 			.orElseThrow(() -> new IllegalStateException("No piece at source square"));
