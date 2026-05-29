@@ -27,7 +27,11 @@ public final class Game {
 	}
 
 	public void resign(Color resigningColor) {
-		this.status = GameStatus.BLACK_WIN;
+		if (resigningColor == Color.WHITE) {
+			this.status = GameStatus.BLACK_WIN;
+		} else {
+			this.status = GameStatus.WHITE_WIN;
+		}
 	}
 
 	public void makeMove(Square from, Square to) {
