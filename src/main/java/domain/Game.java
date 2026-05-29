@@ -36,6 +36,9 @@ public final class Game {
 	}
 
 	public void makeMove(Square from, Square to) {
+		if (status != GameStatus.IN_PROGRESS) {
+			throw new IllegalStateException("Game is not in progress");
+		}
 		Piece piece = board.pieceAt(from)
 			.orElseThrow(() -> new IllegalStateException("No piece at source square"));
 		if (piece.color() != currentTurn) {

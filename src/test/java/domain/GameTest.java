@@ -85,4 +85,14 @@ public class GameTest {
 
 		Assertions.assertThrows(NullPointerException.class, () -> game.resign(null));
 	}
+
+	@Test
+	public void makeMoveAfterResignThrows() {
+		Board board = Board.standardSetup();
+		Game game = new Game(board);
+		game.resign(Color.WHITE);
+
+		Assertions.assertThrows(IllegalStateException.class,
+			() -> game.makeMove(Square.of(1, 0), Square.of(2, 2)));
+	}
 }
