@@ -27,6 +27,7 @@ public final class Game {
 	}
 
 	public void resign(Color resigningColor) {
+		Objects.requireNonNull(resigningColor);
 		if (resigningColor == Color.WHITE) {
 			this.status = GameStatus.BLACK_WIN;
 		} else {

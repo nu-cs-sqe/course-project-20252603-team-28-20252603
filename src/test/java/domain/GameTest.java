@@ -77,4 +77,12 @@ public class GameTest {
 
 		Assertions.assertEquals(GameStatus.WHITE_WIN, game.getStatus());
 	}
+
+	@Test
+	public void resignNullColorThrows() {
+		Board board = Board.standardSetup();
+		Game game = new Game(board);
+
+		Assertions.assertThrows(NullPointerException.class, () -> game.resign(null));
+	}
 }
