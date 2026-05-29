@@ -49,4 +49,12 @@ public class GameTest {
 		Assertions.assertThrows(IllegalStateException.class,
 			() -> game.makeMove(Square.of(1, 7), Square.of(2, 5)));
 	}
+
+	@Test
+	public void newGameStartsInProgress() {
+		Board board = Board.standardSetup();
+		Game game = new Game(board);
+
+		Assertions.assertEquals(GameStatus.IN_PROGRESS, game.getStatus());
+	}
 }
