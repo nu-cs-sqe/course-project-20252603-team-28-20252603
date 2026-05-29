@@ -8,48 +8,48 @@ import java.util.Map;
 import java.util.Objects;
 
 public final class ChessClock {
-	private final TimeControl control;
+	private final TimeControl timeControl;
 	private final Clock clock;
-	private final Map<Color, Duration> remaining;
-	private Color running;
+	private final Map<Color, Duration> remainingTimeFor;
+	private Color runningClockColor;
 	private Instant lastTickAt;
 
-	public ChessClock(TimeControl control, Clock clock) {
-		Objects.requireNonNull(control);
+	public ChessClock(TimeControl timeControl, Clock clock) {
+		Objects.requireNonNull(timeControl);
 		Objects.requireNonNull(clock);
-		this.control = control;
+		this.timeControl = timeControl;
 		this.clock = clock;
-		this.remaining = new EnumMap<>(Color.class);
-		this.remaining.put(Color.WHITE, control.startingTime());
-		this.remaining.put(Color.BLACK, control.startingTime());
+		this.remainingTimeFor = new EnumMap<>(Color.class);
+		this.remainingTimeFor.put(Color.WHITE, timeControl.startingTime());
+		this.remainingTimeFor.put(Color.BLACK, timeControl.startingTime());
 	}
 
 	public Duration remaining(Color color) {
 		Objects.requireNonNull(color);
-		return remaining.get(color);
+		return remainingTimeFor.get(color);
 	}
 
 	public Color running() {
-		return running;
+		return runningClockColor;
 	}
 
 	public void start(Color active) {
 		Objects.requireNonNull(active);
-		this.running = active;
+		this.runningClockColor = active;
 		this.lastTickAt = clock.instant();
 	}
 
 	public void tick() {
-		if (running == null) {
+		if (runningClockColor == null) {
 			return;
 		}
 		Instant now = clock.instant();
 		Duration elapsed = Duration.between(lastTickAt, now);
-		Duration next = remaining.get(running).minus(elapsed);
+		Duration next = remainingTimeFor.get(runningClockColor).minus(elapsed);
 		if (next.isNegative()) {
 			next = Duration.ZERO;
 		}
-		remaining.put(running, next);
+		remainingTimeFor.put(runningClockColor, next);
 		lastTickAt = now;
 	}
 
@@ -59,19 +59,19 @@ public final class ChessClock {
 		if (moved == next) {
 			throw new IllegalArgumentException("moved and next must differ");
 		}
-		Duration current = remaining.get(moved);
-		remaining.put(moved, current.plus(control.increment()));
-		this.running = next;
+		Duration current = remainingTimeFor.get(moved);
+		remainingTimeFor.put(moved, current.plus(timeControl.increment()));
+		this.runningClockColor = next;
 	}
 
 	public void pause() {
-		this.running = null;
+		this.runningClockColor = null;
 
 	}
 
 	public boolean isExpired(Color color) {
 		Objects.requireNonNull(color);
-		return remaining.get(color).isZero();
+		return remainingTimeFor.get(color).isZero();
 	}
 
 }
