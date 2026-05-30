@@ -50,6 +50,14 @@
 1. [done] Team: Talked through Yiji's feedback. Two things to fix going forward: TDD commits should be one passing test + the minimum impl that passes it, not "all tests, then all impl." And we need to spread the work more evenly so each of us has merged PRs.
 2. [in progress] Kyubinn Kim: Knight movement (#7). Draft PR open on `kyubinn/knight-movement`. Got the first test passing (knight from center of empty board returns 8 candidate moves) and expanded the BVA to cover TC1-TC6. Remaining cases to go, one red-green cycle per commit.
 
+# Week 8 (05/18/2026-05/24/2026)
+**Planning and Progress Tracking**:
+1. [done] Kyubinn Kim: Expanded the Knight BVA and got TC1 passing (knight at center returns 8 candidate squares). (https://github.com/nu-cs-sqe/course-project-20252603-team-28-20252603/pull/43)
+2. [done] Alvin Xu: Set up JaCoCo and PIT for coverage and mutation testing.
+3. [done] Jace Deng: Started Knight BDD implementation.
+4. [planned] Kyubinn Kim: Continue Knight TC2-TC6 next week.
+
+
 # Week X (XX/XX/2026-XX/XX/2026) TEMPLATE (You can change the format to whatever the team likes better)
 **Planning and Progress Tracking**:
 1. [done] Person: Task (Links to PR)
