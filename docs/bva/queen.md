@@ -47,7 +47,7 @@ opponent-occupied square as a capture destination. A queen cannot jump over piec
 ### Step 3 - Concrete Values
 - Source square: center square (3, 3), corner square (0, 0), edge square (0, 3)
 - Board state: empty board, friendly piece on orthogonal ray, opponent piece on
-  orthogonal ray
+  orthogonal ray, friendly piece on diagonal ray
 - Output: all queen ray squares from the center, friendly square excluded,
   opponent square included, beyond-blocker squares excluded
 
@@ -74,3 +74,7 @@ opponent-occupied square as a capture destination. A queen cannot jump over piec
 - **TC6: opponent piece on orthogonal ray can be captured and blocks beyond squares** ( ✅ )
 	- **State of the system**: white queen at (3, 3), black pawn at (5, 3)
 	- **Expected output**: (5, 3) is included; (6, 3) and (7, 3) are not included
+
+- **TC7: friendly piece blocks diagonal movement** ( ✅ )
+	- **State of the system**: white queen at (3, 3), white pawn at (5, 5)
+	- **Expected output**: (5, 5) and squares beyond it on that diagonal are not included
