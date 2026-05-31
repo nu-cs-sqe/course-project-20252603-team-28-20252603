@@ -46,7 +46,8 @@ square as a capture destination. A rook cannot jump over pieces.
 
 ### Step 3 - Concrete Values
 - Source square: center square (3, 3), corner square (0, 0), edge square (0, 3), null
-- Board state: empty board, friendly piece on rook ray, opponent piece on rook ray
+- Board state: empty board, friendly piece on rook ray, opponent piece on rook ray,
+  null
 - Output: all rook ray squares from the center, friendly square excluded,
   opponent square included, beyond-blocker squares excluded
 
@@ -76,4 +77,8 @@ square as a capture destination. A rook cannot jump over pieces.
 
 - **TC7: null source square is rejected** ( ✅ )
 	- **State of the system**: source square = null, board = empty board
+	- **Expected output**: exception
+
+- **TC8: null board is rejected** ( ✅ )
+	- **State of the system**: source square = (3, 3), board = null
 	- **Expected output**: exception
