@@ -45,7 +45,7 @@ cannot move to a square occupied by a friendly piece.
 - Output #2: Case
 
 ### Step 3 - Concrete Values
-- Source square: center square (3, 3)
+- Source square: center square (3, 3), corner square (0, 0)
 - Board state: empty board
 - Output: all adjacent squares from the center
 
@@ -53,3 +53,7 @@ cannot move to a square occupied by a friendly piece.
 - **TC2: center square has eight candidate moves** ( ✅ )
 	- **State of the system**: white king at (3, 3), otherwise empty board
 	- **Expected output**: candidate moves are the eight adjacent squares around (3, 3)
+
+- **TC3: corner square has three candidate moves** ( ✅ )
+	- **State of the system**: white king at (0, 0), otherwise empty board
+	- **Expected output**: candidate moves are (0, 1), (1, 0), and (1, 1)
