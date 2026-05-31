@@ -10,3 +10,4 @@ Feature: Rook movement
     Examples:
       | color | from | blockers | moves                                                 |
       | white | 3,3  | none     | 0,3;1,3;2,3;3,0;3,1;3,2;3,4;3,5;3,6;3,7;4,3;5,3;6,3;7,3 |
+      | white | 0,0  | none     | 0,1;0,2;0,3;0,4;0,5;0,6;0,7;1,0;2,0;3,0;4,0;5,0;6,0;7,0 |
