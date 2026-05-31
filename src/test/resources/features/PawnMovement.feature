@@ -10,3 +10,4 @@ Feature: Pawn movement
     Examples:
       | color | from | blockers | moves |
       | white | 3,3  | none     | 3,4   |
+      | black | 3,3  | none     | 3,2   |
