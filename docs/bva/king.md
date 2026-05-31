@@ -47,7 +47,7 @@ cannot move to a square occupied by a friendly piece.
 ### Step 3 - Concrete Values
 - Source square: center square (3, 3), corner square (0, 0), edge square (0, 3), null
 - Board state: empty board, friendly piece on adjacent square, opponent piece on
-  adjacent square
+  adjacent square, null
 - Output: all adjacent squares from the center, friendly-occupied square excluded,
   opponent-occupied square included
 
@@ -74,4 +74,8 @@ cannot move to a square occupied by a friendly piece.
 
 - **TC7: null source square is rejected** ( ✅ )
 	- **State of the system**: source square = null, board = empty board
+	- **Expected output**: exception
+
+- **TC8: null board is rejected** ( ✅ )
+	- **State of the system**: source square = (3, 3), board = null
 	- **Expected output**: exception
