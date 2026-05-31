@@ -17,3 +17,8 @@ Feature: Pawn movement
       | white | 3,3  | B@4,4    | 3,4;4,4 |
       | white | 3,3  | W@4,4    | 3,4     |
       | white | 0,3  | B@1,4    | 0,4;1,4 |
+
+  Scenario: Pawn rejects null source square
+    Given a white pawn starts at 3,3
+    When the pawn candidate moves are requested with a null source
+    Then the pawn movement request should fail with a null pointer exception
