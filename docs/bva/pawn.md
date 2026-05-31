@@ -31,3 +31,27 @@ backward, or move off the board.
 - **TC1: create white pawn** ( ✅ )
 	- **State of the system**: color = WHITE
 	- **Expected output**: Pawn is created; `color()` returns WHITE; `type()` returns PAWN
+
+## candidateMoves(Square from, Board board)
+
+### Step 1 - Inputs and Outputs
+- Input #1: source square
+- Input #2: board state
+- Output #1: set of candidate destination squares
+- Output #2: exception
+
+### Step 2 - Data Types
+- Input #1: Reference
+- Input #2: Reference
+- Output #1: Collection
+- Output #2: Case
+
+### Step 3 - Concrete Values
+- Source square: middle-board square (3, 3)
+- Board state: empty board
+- Output: one forward move for a white pawn
+
+### Step 4 - Test Cases
+- **TC2: white pawn moves one square forward** ( ✅ )
+	- **State of the system**: white pawn at (3, 3), otherwise empty board
+	- **Expected output**: candidate moves are (3, 4)
