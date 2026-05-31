@@ -16,3 +16,8 @@ Feature: Queen movement
       | white | 3,3  | B@5,3    | 0,0;0,3;0,6;1,1;1,3;1,5;2,2;2,3;2,4;3,0;3,1;3,2;3,4;3,5;3,6;3,7;4,2;4,3;4,4;5,1;5,3;5,5;6,0;6,6;7,7         |
       | white | 3,3  | W@5,5    | 0,0;0,3;0,6;1,1;1,3;1,5;2,2;2,3;2,4;3,0;3,1;3,2;3,4;3,5;3,6;3,7;4,2;4,3;4,4;5,1;5,3;6,0;6,3;7,3             |
       | white | 3,3  | B@5,5    | 0,0;0,3;0,6;1,1;1,3;1,5;2,2;2,3;2,4;3,0;3,1;3,2;3,4;3,5;3,6;3,7;4,2;4,3;4,4;5,1;5,3;5,5;6,0;6,3;7,3         |
+
+  Scenario: Queen rejects null source square
+    Given a white queen starts at 3,3
+    When the queen candidate moves are requested with a null source
+    Then the queen movement request should fail with a null pointer exception
