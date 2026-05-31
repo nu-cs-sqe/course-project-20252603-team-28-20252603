@@ -45,7 +45,7 @@ square as a capture destination. A rook cannot jump over pieces.
 - Output #2: Case
 
 ### Step 3 - Concrete Values
-- Source square: center square (3, 3)
+- Source square: center square (3, 3), corner square (0, 0)
 - Board state: empty board
 - Output: all rook ray squares from the center
 
@@ -54,3 +54,8 @@ square as a capture destination. A rook cannot jump over pieces.
 	- **State of the system**: white rook at (3, 3), otherwise empty board
 	- **Expected output**: candidate moves are all on-board horizontal and vertical
 	  squares from (3, 3)
+
+- **TC3: corner square has two rook rays** ( ✅ )
+	- **State of the system**: white rook at (0, 0), otherwise empty board
+	- **Expected output**: candidate moves are all squares to the right and upward
+	  from (0, 0)
