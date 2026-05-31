@@ -8,4 +8,5 @@ Feature: King movement
     Then the king candidate moves should be <moves>
 
     Examples:
-      | color | from | blockers | moves |
+      | color | from | blockers | moves                                   |
+      | white | 3,3  | none     | 2,2;2,3;2,4;3,2;3,4;4,2;4,3;4,4       |
