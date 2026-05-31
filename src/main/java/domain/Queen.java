@@ -49,7 +49,11 @@ public class Queen extends Piece {
 		Optional<Square> candidate = nextSquare(from, fileDelta, rankDelta);
 		while (candidate.isPresent()) {
 			Square square = candidate.get();
-			if (board.pieceAt(square).isPresent()) {
+			Optional<Piece> occupant = board.pieceAt(square);
+			if (occupant.isPresent()) {
+				if (occupant.get().color() != color()) {
+					moves.add(square);
+				}
 				return;
 			}
 			moves.add(square);
