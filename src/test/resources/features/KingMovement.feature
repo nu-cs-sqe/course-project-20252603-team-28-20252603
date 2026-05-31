@@ -10,3 +10,4 @@ Feature: King movement
     Examples:
       | color | from | blockers | moves                                   |
       | white | 3,3  | none     | 2,2;2,3;2,4;3,2;3,4;4,2;4,3;4,4       |
+      | white | 0,0  | none     | 0,1;1,0;1,1                             |
