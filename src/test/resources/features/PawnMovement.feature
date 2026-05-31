@@ -15,3 +15,4 @@ Feature: Pawn movement
       | white | 3,3  | B@3,4    | none   |
       | white | 3,1  | B@3,3    | 3,2    |
       | white | 3,3  | B@4,4    | 3,4;4,4 |
+      | white | 3,3  | W@4,4    | 3,4     |
