@@ -50,6 +50,7 @@ backward, or move off the board.
 - Source square: middle-board square (3, 3), white starting square (3, 1),
   edge square (0, 3), null
 - Board state: empty board, occupied forward square, occupied double-step destination
+  null
 - Capture state: opponent piece on diagonal forward square, friendly piece on
   diagonal forward square
 - Output: one forward move for a white or black pawn
@@ -89,4 +90,8 @@ backward, or move off the board.
 
 - **TC10: null source square is rejected** ( ✅ )
 	- **State of the system**: source square = null, board = empty board
+	- **Expected output**: exception
+
+- **TC11: null board is rejected** ( ✅ )
+	- **State of the system**: source square = (3, 3), board = null
 	- **Expected output**: exception
