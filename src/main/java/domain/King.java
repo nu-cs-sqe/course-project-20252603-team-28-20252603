@@ -35,8 +35,15 @@ public class King extends Piece {
 		Set<Square> moves = new HashSet<>();
 		for (int[] delta : MOVE_DELTAS) {
 			Optional<Square> candidate = from.offset(delta[0], delta[1]);
-			candidate.ifPresent(moves::add);
+			candidate.ifPresent(square -> addIfEmptyOrOpponent(board, moves, square));
 		}
 		return Collections.unmodifiableSet(moves);
+	}
+
+	private void addIfEmptyOrOpponent(Board board, Set<Square> moves, Square square) {
+		Optional<Piece> occupant = board.pieceAt(square);
+		if (occupant.isEmpty() || occupant.get().color() != color()) {
+			moves.add(square);
+		}
 	}
 }
