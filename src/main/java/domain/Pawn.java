@@ -8,6 +8,8 @@ import java.util.Set;
 public class Pawn extends Piece {
 	private static final int WHITE_FORWARD = 1;
 	private static final int BLACK_FORWARD = -1;
+	private static final int WHITE_START_RANK = 1;
+	private static final int BLACK_START_RANK = 6;
 
 	public Pawn(Color color) {
 		super(color);
@@ -24,7 +26,11 @@ public class Pawn extends Piece {
 		Objects.requireNonNull(board);
 
 		Set<Square> moves = new HashSet<>();
-		from.offset(0, forwardDelta()).ifPresent(moves::add);
+		int forward = forwardDelta();
+		from.offset(0, forward).ifPresent(moves::add);
+		if (from.rank() == startRank()) {
+			from.offset(0, forward * 2).ifPresent(moves::add);
+		}
 		return Collections.unmodifiableSet(moves);
 	}
 
@@ -33,5 +39,12 @@ public class Pawn extends Piece {
 			return WHITE_FORWARD;
 		}
 		return BLACK_FORWARD;
+	}
+
+	private int startRank() {
+		if (color() == Color.WHITE) {
+			return WHITE_START_RANK;
+		}
+		return BLACK_START_RANK;
 	}
 }
