@@ -31,6 +31,8 @@ public class Pawn extends Piece {
 		if (canMoveOne && from.rank() == startRank()) {
 			addForwardMoveIfEmpty(from, board, moves, forward * 2);
 		}
+		addDiagonalCapture(from, board, moves, -1, forward);
+		addDiagonalCapture(from, board, moves, 1, forward);
 		return Collections.unmodifiableSet(moves);
 	}
 
@@ -50,6 +52,22 @@ public class Pawn extends Piece {
 		}
 		moves.add(square);
 		return true;
+	}
+
+	private void addDiagonalCapture(
+			Square from,
+			Board board,
+			Set<Square> moves,
+			int fileDelta,
+			int rankDelta) {
+		from.offset(fileDelta, rankDelta)
+				.ifPresent(square -> addIfOpponent(board, moves, square));
+	}
+
+	private void addIfOpponent(Board board, Set<Square> moves, Square square) {
+		board.pieceAt(square)
+				.filter(piece -> piece.color() != color())
+				.ifPresent(piece -> moves.add(square));
 	}
 
 	private int forwardDelta() {
