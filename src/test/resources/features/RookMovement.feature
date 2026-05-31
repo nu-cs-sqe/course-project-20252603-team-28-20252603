@@ -14,3 +14,8 @@ Feature: Rook movement
       | white | 0,3  | none     | 0,0;0,1;0,2;0,4;0,5;0,6;0,7;1,3;2,3;3,3;4,3;5,3;6,3;7,3 |
       | white | 3,3  | W@5,3    | 0,3;1,3;2,3;3,0;3,1;3,2;3,4;3,5;3,6;3,7;4,3             |
       | white | 3,3  | B@5,3    | 0,3;1,3;2,3;3,0;3,1;3,2;3,4;3,5;3,6;3,7;4,3;5,3         |
+
+  Scenario: Rook rejects null source square
+    Given a white rook starts at 3,3
+    When the rook candidate moves are requested with a null source
+    Then the rook movement request should fail with a null pointer exception
