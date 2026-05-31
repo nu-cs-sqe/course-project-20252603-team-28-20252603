@@ -19,3 +19,8 @@ Feature: Rook movement
     Given a white rook starts at 3,3
     When the rook candidate moves are requested with a null source
     Then the rook movement request should fail with a null pointer exception
+
+  Scenario: Rook rejects null board
+    Given a white rook starts at 3,3
+    When the rook candidate moves are requested with a null board
+    Then the rook movement request should fail with a null pointer exception
