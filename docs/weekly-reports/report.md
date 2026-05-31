@@ -86,7 +86,13 @@
 13. [done] Jace Deng: Added King Cucumber coverage with the scenario outline, step definitions, and each passing example row committed separately.
 14. [done] Jace Deng: Implemented King candidate movement with minimal commits for adjacent moves and friendly occupied-square exclusion.
 15. [done] Jace Deng: Verified the King branch with `sh gradlew check`.
-16. [planned] Team: Open and review the Queen, Rook, and King movement PRs, checking that each branch history demonstrates the required BDD+BVA commit discipline.
+16. [done] Jace Deng: Create the pawn-bdd-movement feature branch for Pawn movement using the same BDD+BVA workflow.
+17. [done] Jace Deng: Add Pawn BVA one test case per commit, covering white and black forward movement, starting-square two-step movement, blocked forward movement, diagonal opponent capture, diagonal friendly blocker, board-edge behavior, and null input cases.
+18. [done] Jace Deng: Add Pawn Cucumber coverage with the scenario outline and step definitions committed before examples.
+19. [done] Jace Deng: Add each Pawn BDD example row as its own commit, following the same commit discipline used for Queen, Rook, and King.
+20. [done] Jace Deng: Implement Pawn candidate movement with minimal commits for one-step forward movement, starting-square two-step movement, blocked movement prevention, and diagonal opponent captures.
+21. [done] Jace Deng: Verify the Pawn branch with sh gradlew check.
+22. [planned] Team: Open and review the Queen, Rook, and King, Pawn movement PRs, checking that each branch history demonstrates the required BDD+BVA commit discipline.
 
 # Week X (XX/XX/2026-XX/XX/2026) TEMPLATE (You can change the format to whatever the team likes better)
 **Planning and Progress Tracking**:
