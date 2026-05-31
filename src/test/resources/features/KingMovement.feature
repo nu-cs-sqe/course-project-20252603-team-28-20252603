@@ -14,3 +14,8 @@ Feature: King movement
       | white | 0,3  | none     | 0,2;0,4;1,2;1,3;1,4                     |
       | white | 3,3  | W@4,4    | 2,2;2,3;2,4;3,2;3,4;4,2;4,3             |
       | white | 3,3  | B@4,4    | 2,2;2,3;2,4;3,2;3,4;4,2;4,3;4,4       |
+
+  Scenario: King rejects null source square
+    Given a white king starts at 3,3
+    When the king candidate moves are requested with a null source
+    Then the king movement request should fail with a null pointer exception
