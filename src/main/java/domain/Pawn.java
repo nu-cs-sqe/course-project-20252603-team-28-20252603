@@ -29,7 +29,7 @@ public class Pawn extends Piece {
 		int forward = forwardDelta();
 		boolean canMoveOne = addForwardMoveIfEmpty(from, board, moves, forward);
 		if (canMoveOne && from.rank() == startRank()) {
-			from.offset(0, forward * 2).ifPresent(moves::add);
+			addForwardMoveIfEmpty(from, board, moves, forward * 2);
 		}
 		return Collections.unmodifiableSet(moves);
 	}
