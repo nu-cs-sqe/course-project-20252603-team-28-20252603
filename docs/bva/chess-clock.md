@@ -105,19 +105,19 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `ChessClock(TimeControl control, Clock clock)`, `remaining(Color color)`
     - State of the system: TimeControl has 5 minute starting time and 0 second increment; Clock is a valid fixed clock
     - Expected output: ChessClock is created; white and black both have 5 minutes remaining
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 10: null time control
     - Method(s) under test: `ChessClock(TimeControl control, Clock clock)`
     - State of the system: TimeControl is null; Clock is valid
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 11: null clock
     - Method(s) under test: `ChessClock(TimeControl control, Clock clock)`
     - State of the system: TimeControl is valid; Clock is null
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 ---
 
@@ -149,19 +149,19 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `start(Color active)`
     - State of the system: new ChessClock, active player = WHITE
     - Expected output: white clock is running; both players still have the starting time
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 13: start black clock
     - Method(s) under test: `start(Color active)`
     - State of the system: new ChessClock, active player = BLACK
     - Expected output: black clock is running; both players still have the starting time
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 14: start with null active player
     - Method(s) under test: `start(Color active)`
     - State of the system: new ChessClock, active player = null
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 ---
 
@@ -193,31 +193,31 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `tick()`
     - State of the system: new ChessClock, no player has started
     - Expected output: both players still have the starting time
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 16: tick with zero elapsed time
     - Method(s) under test: `start(Color active)`, `tick()`
     - State of the system: white clock is running; 0 seconds have passed
     - Expected output: white still has the starting time; black still has the starting time
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 17: tick with one second elapsed
     - Method(s) under test: `start(Color active)`, `tick()`, `remaining(Color color)`
     - State of the system: white clock is running; white starts with 5 minutes; 1 second has passed
     - Expected output: white has 4 minutes 59 seconds remaining; black still has 5 minutes
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 18: tick exactly to zero
     - Method(s) under test: `start(Color active)`, `tick()`, `remaining(Color color)`, `isExpired(Color color)`
     - State of the system: white clock is running; white has 1 second remaining; 1 second has passed
     - Expected output: white has 0 seconds remaining; white is expired
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 19: tick past zero
     - Method(s) under test: `start(Color active)`, `tick()`, `remaining(Color color)`, `isExpired(Color color)`
     - State of the system: white clock is running; white has 1 second remaining; 2 seconds have passed
     - Expected output: white has 0 seconds remaining, not negative time; white is expired
-    - Implemented: no
+    - Implemented: yes
 
 ---
 
@@ -252,31 +252,31 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `completeTurn(Color moved, Color next)`
     - State of the system: white has moved; increment is 0 seconds; white has 4 minutes 59 seconds remaining
     - Expected output: white still has 4 minutes 59 seconds; black clock is running
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 21: complete turn with increment
     - Method(s) under test: `completeTurn(Color moved, Color next)`
     - State of the system: white has moved; increment is 3 seconds; white has 4 minutes 59 seconds remaining
     - Expected output: white has 5 minutes 2 seconds remaining; black clock is running
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 22: complete turn with same player
     - Method(s) under test: `completeTurn(Color moved, Color next)`
     - State of the system: moved = WHITE, next = WHITE
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 23: complete turn with null moved player
     - Method(s) under test: `completeTurn(Color moved, Color next)`
     - State of the system: moved = null, next = BLACK
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 24: complete turn with null next player
     - Method(s) under test: `completeTurn(Color moved, Color next)`
     - State of the system: moved = WHITE, next = null
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 ---
 
@@ -302,13 +302,13 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `pause()`
     - State of the system: new ChessClock, no player has started
     - Expected output: no player is running; both players still have the starting time
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 26: pause while white is running
     - Method(s) under test: `start(Color active)`, `pause()`, `tick()`
     - State of the system: white clock is running, then the clock is paused, then time passes
     - Expected output: white's time does not keep going down after pause
-    - Implemented: no
+    - Implemented: yes
 
 ---
 
@@ -334,19 +334,19 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `remaining(Color color)`
     - State of the system: new ChessClock with 5 minute starting time
     - Expected output: white has 5 minutes remaining
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 28: remaining time for black
     - Method(s) under test: `remaining(Color color)`
     - State of the system: new ChessClock with 5 minute starting time
     - Expected output: black has 5 minutes remaining
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 29: remaining time with null color
     - Method(s) under test: `remaining(Color color)`
     - State of the system: color = null
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
 
 ---
 
@@ -375,16 +375,16 @@ The chess clock gives both players a starting amount of time. Only the current p
     - Method(s) under test: `isExpired(Color color)`
     - State of the system: white has 1 second remaining
     - Expected output: false
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 31: player is expired
     - Method(s) under test: `isExpired(Color color)`
     - State of the system: white has 0 seconds remaining
     - Expected output: true
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 32: isExpired with null color
     - Method(s) under test: `isExpired(Color color)`
     - State of the system: color = null
     - Expected output: exception
-    - Implemented: no
+    - Implemented: yes
