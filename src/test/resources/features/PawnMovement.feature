@@ -22,3 +22,8 @@ Feature: Pawn movement
     Given a white pawn starts at 3,3
     When the pawn candidate moves are requested with a null source
     Then the pawn movement request should fail with a null pointer exception
+
+  Scenario: Pawn rejects null board
+    Given a white pawn starts at 3,3
+    When the pawn candidate moves are requested with a null board
+    Then the pawn movement request should fail with a null pointer exception
