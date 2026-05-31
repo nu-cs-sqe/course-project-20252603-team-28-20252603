@@ -76,7 +76,12 @@
 3. [done] Jace Deng: Added Queen Cucumber coverage with the scenario outline and step definitions committed before examples.
 4. [done] Jace Deng: Added each Queen BDD example row as its own commit, then used minimal implementation commits for empty-board ray movement, blockers, and opponent captures.
 5. [done] Jace Deng: Verified the Queen branch with `sh gradlew check`.
-6. [planned] Team: Open and review the Queen movement PR, checking that the branch history demonstrates the required BDD+BVA commit discipline.
+6. [done] Jace Deng: Created the `rook-bdd-movement` feature branch for Rook movement using the same BDD+BVA workflow.
+7. [done] Jace Deng: Added Rook BVA one test case per commit, covering center, corner, edge, friendly blocker, opponent capture, and null input cases.
+8. [done] Jace Deng: Added Rook Cucumber coverage with the scenario outline, step definitions, and each passing example row committed separately.
+9. [done] Jace Deng: Implemented Rook candidate movement with minimal commits for empty-board rays, blocker stopping, and opponent captures.
+10. [done] Jace Deng: Verified the Rook branch with `sh gradlew check`.
+11. [planned] Team: Open and review the Queen and Rook movement PRs, checking that both branch histories demonstrate the required BDD+BVA commit discipline.
 
 # Week X (XX/XX/2026-XX/XX/2026) TEMPLATE (You can change the format to whatever the team likes better)
 **Planning and Progress Tracking**:
