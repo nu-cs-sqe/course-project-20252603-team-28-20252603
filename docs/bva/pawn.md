@@ -49,6 +49,7 @@ backward, or move off the board.
 ### Step 3 - Concrete Values
 - Source square: middle-board square (3, 3), white starting square (3, 1)
 - Board state: empty board, occupied forward square, occupied double-step destination
+- Capture state: opponent piece on diagonal forward square
 - Output: one forward move for a white or black pawn
 
 ### Step 4 - Test Cases
@@ -71,3 +72,7 @@ backward, or move off the board.
 - **TC6: occupied double-step destination blocks only the double move** ( ✅ )
 	- **State of the system**: white pawn at (3, 1), any piece at (3, 3), square (3, 2) empty
 	- **Expected output**: candidate moves are (3, 2)
+
+- **TC7: opponent piece on diagonal forward square can be captured** ( ✅ )
+	- **State of the system**: white pawn at (3, 3), black pawn at (4, 4)
+	- **Expected output**: candidate moves include (3, 4) and (4, 4)
