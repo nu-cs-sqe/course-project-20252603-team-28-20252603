@@ -47,7 +47,7 @@ backward, or move off the board.
 - Output #2: Case
 
 ### Step 3 - Concrete Values
-- Source square: middle-board square (3, 3), white starting square (3, 1)
+- Source square: middle-board square (3, 3), white starting square (3, 1), edge square (0, 3)
 - Board state: empty board, occupied forward square, occupied double-step destination
 - Capture state: opponent piece on diagonal forward square, friendly piece on
   diagonal forward square
@@ -81,3 +81,7 @@ backward, or move off the board.
 - **TC8: friendly piece on diagonal forward square is not captured** ( ✅ )
 	- **State of the system**: white pawn at (3, 3), white pawn at (4, 4)
 	- **Expected output**: candidate moves include (3, 4) and do not include (4, 4)
+
+- **TC9: edge pawn only has on-board diagonal capture squares** ( ✅ )
+	- **State of the system**: white pawn at (0, 3), black pawn at (1, 4)
+	- **Expected output**: candidate moves are (0, 4) and (1, 4)
