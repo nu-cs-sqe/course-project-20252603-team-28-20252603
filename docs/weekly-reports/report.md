@@ -69,6 +69,14 @@
 3. [done] Jace Deng: Started Knight BDD implementation.
 4. [planned] Kyubinn Kim: Continue Knight TC2-TC6 next week.
 
+# Week 9 (05/25/2026-05/31/2026)
+**Planning and Progress Tracking**:
+1. [done] Jace Deng: Created the `queen-bdd-movement` feature branch for Queen movement instead of working directly on `main`.
+2. [done] Jace Deng: Reworked Queen movement using the detailed BDD+BVA workflow, including one BVA commit per identified test case.
+3. [done] Jace Deng: Added Queen Cucumber coverage with the scenario outline and step definitions committed before examples.
+4. [done] Jace Deng: Added each Queen BDD example row as its own commit, then used minimal implementation commits for empty-board ray movement, blockers, and opponent captures.
+5. [done] Jace Deng: Verified the Queen branch with `sh gradlew check`.
+6. [planned] Team: Open and review the Queen movement PR, checking that the branch history demonstrates the required BDD+BVA commit discipline.
 
 # Week X (XX/XX/2026-XX/XX/2026) TEMPLATE (You can change the format to whatever the team likes better)
 **Planning and Progress Tracking**:
