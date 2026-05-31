@@ -45,7 +45,7 @@ cannot move to a square occupied by a friendly piece.
 - Output #2: Case
 
 ### Step 3 - Concrete Values
-- Source square: center square (3, 3), corner square (0, 0), edge square (0, 3)
+- Source square: center square (3, 3), corner square (0, 0), edge square (0, 3), null
 - Board state: empty board, friendly piece on adjacent square, opponent piece on
   adjacent square
 - Output: all adjacent squares from the center, friendly-occupied square excluded,
@@ -71,3 +71,7 @@ cannot move to a square occupied by a friendly piece.
 - **TC6: opponent piece on adjacent square can be captured** ( ✅ )
 	- **State of the system**: white king at (3, 3), black pawn at (4, 4)
 	- **Expected output**: (4, 4) is included with the other center moves
+
+- **TC7: null source square is rejected** ( ✅ )
+	- **State of the system**: source square = null, board = empty board
+	- **Expected output**: exception
