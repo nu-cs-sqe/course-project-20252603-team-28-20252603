@@ -19,3 +19,8 @@ Feature: King movement
     Given a white king starts at 3,3
     When the king candidate moves are requested with a null source
     Then the king movement request should fail with a null pointer exception
+
+  Scenario: King rejects null board
+    Given a white king starts at 3,3
+    When the king candidate moves are requested with a null board
+    Then the king movement request should fail with a null pointer exception
