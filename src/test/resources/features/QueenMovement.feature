@@ -21,3 +21,8 @@ Feature: Queen movement
     Given a white queen starts at 3,3
     When the queen candidate moves are requested with a null source
     Then the queen movement request should fail with a null pointer exception
+
+  Scenario: Queen rejects null board
+    Given a white queen starts at 3,3
+    When the queen candidate moves are requested with a null board
+    Then the queen movement request should fail with a null pointer exception
