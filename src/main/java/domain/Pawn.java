@@ -27,11 +27,29 @@ public class Pawn extends Piece {
 
 		Set<Square> moves = new HashSet<>();
 		int forward = forwardDelta();
-		from.offset(0, forward).ifPresent(moves::add);
-		if (from.rank() == startRank()) {
+		boolean canMoveOne = addForwardMoveIfEmpty(from, board, moves, forward);
+		if (canMoveOne && from.rank() == startRank()) {
 			from.offset(0, forward * 2).ifPresent(moves::add);
 		}
 		return Collections.unmodifiableSet(moves);
+	}
+
+	private boolean addForwardMoveIfEmpty(
+			Square from,
+			Board board,
+			Set<Square> moves,
+			int rankDelta) {
+		return from.offset(0, rankDelta)
+				.map(square -> addIfEmpty(board, moves, square))
+				.orElse(false);
+	}
+
+	private boolean addIfEmpty(Board board, Set<Square> moves, Square square) {
+		if (board.pieceAt(square).isPresent()) {
+			return false;
+		}
+		moves.add(square);
+		return true;
 	}
 
 	private int forwardDelta() {
