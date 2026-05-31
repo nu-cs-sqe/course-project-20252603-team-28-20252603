@@ -59,6 +59,11 @@
 5. [done] Jace Deng: Implemented Knight candidate movement and capture behavior while keeping existing JUnit tests for low-level object behavior.
 6. [planned] Team: Review the Knight movement PR and use it as the template for future piece movement features.
 7. [planned] Team: After Knight movement is merged, continue with sliding-piece movement and then one-turn game flow.
+1. [done] Kyubinn Kim: Expanded the Knight BVA and got TC1 passing (knight at center returns 8 candidate squares). (https://github.com/nu-cs-sqe/course-project-20252603-team-28-20252603/pull/43)
+2. [done] Alvin Xu: Set up JaCoCo and PIT for coverage and mutation testing.
+3. [done] Jace Deng: Started Knight BDD implementation.
+4. [planned] Kyubinn Kim: Continue Knight TC2-TC6 next week.
+
 
 # Week X (XX/XX/2026-XX/XX/2026) TEMPLATE (You can change the format to whatever the team likes better)
 **Planning and Progress Tracking**:
