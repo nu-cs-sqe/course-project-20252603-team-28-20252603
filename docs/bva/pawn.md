@@ -47,7 +47,7 @@ backward, or move off the board.
 - Output #2: Case
 
 ### Step 3 - Concrete Values
-- Source square: middle-board square (3, 3)
+- Source square: middle-board square (3, 3), white starting square (3, 1)
 - Board state: empty board
 - Output: one forward move for a white or black pawn
 
@@ -59,3 +59,7 @@ backward, or move off the board.
 - **TC3: black pawn moves one square forward toward lower ranks** ( ✅ )
 	- **State of the system**: black pawn at (3, 3), otherwise empty board
 	- **Expected output**: candidate moves are (3, 2)
+
+- **TC4: white pawn on starting rank may move two squares if unobstructed** ( ✅ )
+	- **State of the system**: white pawn at (3, 1), otherwise empty board
+	- **Expected output**: candidate moves are (3, 2) and (3, 3)
