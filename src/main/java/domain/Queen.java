@@ -35,19 +35,23 @@ public class Queen extends Piece {
 
 		Set<Square> moves = new HashSet<>();
 		for (int[] direction : MOVE_DIRECTIONS) {
-			addRayMoves(from, moves, direction[0], direction[1]);
+			addRayMoves(from, board, moves, direction[0], direction[1]);
 		}
 		return Collections.unmodifiableSet(moves);
 	}
 
 	private void addRayMoves(
 			Square from,
+			Board board,
 			Set<Square> moves,
 			int fileDelta,
 			int rankDelta) {
 		Optional<Square> candidate = nextSquare(from, fileDelta, rankDelta);
 		while (candidate.isPresent()) {
 			Square square = candidate.get();
+			if (board.pieceAt(square).isPresent()) {
+				return;
+			}
 			moves.add(square);
 			candidate = nextSquare(square, fileDelta, rankDelta);
 		}
