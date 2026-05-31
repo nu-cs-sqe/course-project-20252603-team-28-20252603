@@ -57,6 +57,18 @@
 3. [done] Jace Deng: Added Cucumber setup, the Bishop scenario outline, step definitions, and one BDD example row per commit.
 4. [done] Jace Deng: Added Bishop JUnit tests and minimal implementation commits for diagonal movement, edge handling, friendly blockers, opponent captures, and null inputs.
 5. [planned] Team: Review the Bishop movement PR and continue the same BDD+BVA commit discipline for the next piece.
+1. [done] Jace: Adopted a hybrid BDD+BVA workflow. Each new feature will use its own feature branch, BVA documented in `docs/bva`, executable BDD scenarios where appropriate, and a pull request before merging.
+2. [done] Jace Deng: Created the `knight-bdd-movement` feature branch for Knight movement using the BDD+BVA workflow.
+3. [done] Jace Deng: Expanded `docs/bva/knight.md` to cover Knight candidate moves from center, edge, and corner squares; friendly-piece blocking; opponent capture; jumping over pieces; and null inputs.
+4. [done] Jace Deng: Added Cucumber/Gherkin support and wrote `KnightMovement.feature` with Scenario Outline examples that contain the BVA cases.
+5. [done] Jace Deng: Implemented Knight candidate movement and capture behavior while keeping existing JUnit tests for low-level object behavior.
+6. [planned] Team: Review the Knight movement PR and use it as the template for future piece movement features.
+7. [planned] Team: After Knight movement is merged, continue with sliding-piece movement and then one-turn game flow.
+1. [done] Kyubinn Kim: Expanded the Knight BVA and got TC1 passing (knight at center returns 8 candidate squares). (https://github.com/nu-cs-sqe/course-project-20252603-team-28-20252603/pull/43)
+2. [done] Alvin Xu: Set up JaCoCo and PIT for coverage and mutation testing.
+3. [done] Jace Deng: Started Knight BDD implementation.
+4. [planned] Kyubinn Kim: Continue Knight TC2-TC6 next week.
+
 
 # Week X (XX/XX/2026-XX/XX/2026) TEMPLATE (You can change the format to whatever the team likes better)
 **Planning and Progress Tracking**:
