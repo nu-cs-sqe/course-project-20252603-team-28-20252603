@@ -46,8 +46,8 @@ cannot move to a square occupied by a friendly piece.
 
 ### Step 3 - Concrete Values
 - Source square: center square (3, 3), corner square (0, 0), edge square (0, 3)
-- Board state: empty board
-- Output: all adjacent squares from the center
+- Board state: empty board, friendly piece on adjacent square
+- Output: all adjacent squares from the center, friendly-occupied square excluded
 
 ### Step 4 - Test Cases
 - **TC2: center square has eight candidate moves** ( ✅ )
@@ -61,3 +61,7 @@ cannot move to a square occupied by a friendly piece.
 - **TC4: edge square has five candidate moves** ( ✅ )
 	- **State of the system**: white king at (0, 3), otherwise empty board
 	- **Expected output**: candidate moves are the five adjacent squares that remain on the board
+
+- **TC5: friendly piece blocks adjacent destination** ( ✅ )
+	- **State of the system**: white king at (3, 3), white pawn at (4, 4)
+	- **Expected output**: (4, 4) is not included; the other seven center moves remain
