@@ -1,6 +1,8 @@
 package domain;
 
+import java.util.Collections;
 import java.util.Objects;
+import java.util.Set;
 
 public abstract class Piece {
 	private final Color color;
@@ -14,6 +16,12 @@ public abstract class Piece {
 	}
 
 	public abstract PieceType type();
+
+	public Set<Square> candidateMoves(Square from, Board board) {
+		Objects.requireNonNull(from);
+		Objects.requireNonNull(board);
+		return Collections.emptySet();
+	}
 
 	public static Piece of(PieceType type, Color color) {
 		Objects.requireNonNull(type);
