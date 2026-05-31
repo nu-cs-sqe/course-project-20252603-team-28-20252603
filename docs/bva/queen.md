@@ -47,7 +47,8 @@ opponent-occupied square as a capture destination. A queen cannot jump over piec
 ### Step 3 - Concrete Values
 - Source square: center square (3, 3), corner square (0, 0), edge square (0, 3), null
 - Board state: empty board, friendly piece on orthogonal ray, opponent piece on
-  orthogonal ray, friendly piece on diagonal ray, opponent piece on diagonal ray
+  orthogonal ray, friendly piece on diagonal ray, opponent piece on diagonal ray,
+  null
 - Output: all queen ray squares from the center, friendly square excluded,
   opponent square included, beyond-blocker squares excluded
 
@@ -85,4 +86,8 @@ opponent-occupied square as a capture destination. A queen cannot jump over piec
 
 - **TC9: null source square is rejected** ( ✅ )
 	- **State of the system**: source square = null, board = empty board
+	- **Expected output**: exception
+
+- **TC10: null board is rejected** ( ✅ )
+	- **State of the system**: source square = (3, 3), board = null
 	- **Expected output**: exception
