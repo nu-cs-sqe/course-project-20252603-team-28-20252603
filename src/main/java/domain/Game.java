@@ -42,4 +42,8 @@ public final class Game {
 		board.move(from, to);
 		currentTurn = currentTurn.opposite();
 	}
+
+	public boolean isCheckmate(Color color) {
+		return false;
+	}
 }

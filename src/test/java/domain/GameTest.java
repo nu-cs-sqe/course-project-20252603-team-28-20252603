@@ -58,4 +58,13 @@ public class GameTest {
 
 		Assertions.assertThrows(NullPointerException.class, () -> game.isInCheck(null));
 	}
+
+	@Test
+	public void standardSetupNeitherSideInCheckmate() {
+		Board board = Board.standardSetup();
+		Game game = new Game(board);
+
+		Assertions.assertFalse(game.isCheckmate(Color.WHITE));
+		Assertions.assertFalse(game.isCheckmate(Color.BLACK));
+	}
 }
