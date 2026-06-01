@@ -44,6 +44,7 @@ public final class Game {
 	}
 
 	public boolean isStalemate(Color color) {
+		Objects.requireNonNull(color);
 		if (isInCheck(color)) {
 			return false;
 		}

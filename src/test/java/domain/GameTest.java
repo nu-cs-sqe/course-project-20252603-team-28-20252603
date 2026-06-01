@@ -116,4 +116,12 @@ public class GameTest {
 
 		Assertions.assertTrue(game.isStalemate(Color.WHITE));
 	}
+
+	@Test
+	public void isStalemateNullColorThrows() {
+		Board board = Board.standardSetup();
+		Game game = new Game(board);
+
+		Assertions.assertThrows(NullPointerException.class, () -> game.isStalemate(null));
+	}
 }

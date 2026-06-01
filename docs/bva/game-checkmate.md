@@ -86,4 +86,4 @@ isCheckmate(Color color) returns true if the given color's king is currently in 
     - Method(s) under test: `isStalemate(Color)`
     - State of the system: new game from standard setup
     - Expected output: NullPointerException
-    - Implemented: no
+    - Implemented: yes
