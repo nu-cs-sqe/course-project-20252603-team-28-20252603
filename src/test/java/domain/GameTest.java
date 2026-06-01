@@ -38,4 +38,16 @@ public class GameTest {
 		Assertions.assertTrue(game.isInCheck(Color.WHITE));
 		Assertions.assertFalse(game.isInCheck(Color.BLACK));
 	}
+
+	@Test
+	public void knightAttacksKingViaLMove() {
+		Board board = new Board();
+		board.place(Square.of(4, 0), Piece.of(PieceType.KING, Color.WHITE));
+		board.place(Square.of(4, 7), Piece.of(PieceType.KING, Color.BLACK));
+		board.place(Square.of(3, 2), Piece.of(PieceType.KNIGHT, Color.BLACK));
+		Game game = new Game(board);
+
+		Assertions.assertTrue(game.isInCheck(Color.WHITE));
+		Assertions.assertFalse(game.isInCheck(Color.BLACK));
+	}
 }
