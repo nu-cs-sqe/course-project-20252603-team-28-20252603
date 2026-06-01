@@ -50,4 +50,12 @@ public class GameTest {
 		Assertions.assertTrue(game.isInCheck(Color.WHITE));
 		Assertions.assertFalse(game.isInCheck(Color.BLACK));
 	}
+
+	@Test
+	public void isInCheckNullColorThrows() {
+		Board board = Board.standardSetup();
+		Game game = new Game(board);
+
+		Assertions.assertThrows(NullPointerException.class, () -> game.isInCheck(null));
+	}
 }

@@ -21,6 +21,7 @@ public final class Game {
 	}
 
 	public boolean isInCheck(Color color) {
+		Objects.requireNonNull(color);
 		Square kingSquare = board.findKing(color);
 		Color opponent = color.opposite();
 		for (Square square : board.occupiedSquaresOf(opponent)) {
