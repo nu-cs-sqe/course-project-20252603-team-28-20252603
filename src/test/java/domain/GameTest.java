@@ -26,4 +26,16 @@ public class GameTest {
 		Assertions.assertFalse(game.isInCheck(Color.WHITE));
 		Assertions.assertFalse(game.isInCheck(Color.BLACK));
 	}
+
+	@Test
+	public void bishopAttacksKingOnDiagonal() {
+		Board board = new Board();
+		board.place(Square.of(4, 0), Piece.of(PieceType.KING, Color.WHITE));
+		board.place(Square.of(4, 7), Piece.of(PieceType.KING, Color.BLACK));
+		board.place(Square.of(7, 3), Piece.of(PieceType.BISHOP, Color.BLACK));
+		Game game = new Game(board);
+
+		Assertions.assertTrue(game.isInCheck(Color.WHITE));
+		Assertions.assertFalse(game.isInCheck(Color.BLACK));
+	}
 }
