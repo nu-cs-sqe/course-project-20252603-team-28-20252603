@@ -7,4 +7,7 @@
             <Bug pattern="EI_EXPOSE_REP2"/>
         </Or>
     </Match>
+    <Match>
+        <Package name="ui"/>
+    </Match>
 </FindBugsFilter>

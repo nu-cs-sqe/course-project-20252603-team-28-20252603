@@ -5,6 +5,7 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import domain.Board;
 import intl.Messages;
 
 public final class Main {
@@ -14,7 +15,7 @@ public final class Main {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
 			selectLocale();
-			new MainFrame();
+			new MainFrame(Board.standardSetup());
 		});
 	}
 
