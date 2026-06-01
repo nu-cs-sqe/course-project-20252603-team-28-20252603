@@ -94,4 +94,13 @@ public class GameTest {
 
 		Assertions.assertFalse(game.isCheckmate(Color.WHITE));
 	}
+
+	@Test
+	public void standardSetupNeitherSideInStalemate() {
+		Board board = Board.standardSetup();
+		Game game = new Game(board);
+
+		Assertions.assertFalse(game.isStalemate(Color.WHITE));
+		Assertions.assertFalse(game.isStalemate(Color.BLACK));
+	}
 }

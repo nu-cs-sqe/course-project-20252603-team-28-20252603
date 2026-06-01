@@ -43,6 +43,10 @@ public final class Game {
 		return true;
 	}
 
+	public boolean isStalemate(Color color) {
+		return false;
+	}
+
 	private boolean isInCheckOn(Board boardSnapshot, Color color) {
 		Square kingSquare = boardSnapshot.findKing(color);
 		Color opponent = color.opposite();
