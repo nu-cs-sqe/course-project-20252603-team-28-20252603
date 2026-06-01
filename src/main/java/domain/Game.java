@@ -25,6 +25,23 @@ public final class Game {
 		return isInCheckOn(board, color);
 	}
 
+	public boolean isCheckmate(Color color) {
+		if (!isInCheck(color)) {
+			return false;
+		}
+		for (Square from : board.occupiedSquaresOf(color)) {
+			Piece piece = board.pieceAt(from).orElseThrow();
+			for (Square to : piece.candidateMoves(from, board)) {
+				Board copy = board.copy();
+				copy.move(from, to);
+				if (!isInCheckOn(copy, color)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	private boolean isInCheckOn(Board boardSnapshot, Color color) {
 		Square kingSquare = boardSnapshot.findKing(color);
 		Color opponent = color.opposite();
@@ -45,9 +62,5 @@ public final class Game {
 		}
 		board.move(from, to);
 		currentTurn = currentTurn.opposite();
-	}
-
-	public boolean isCheckmate(Color color) {
-		return false;
 	}
 }
