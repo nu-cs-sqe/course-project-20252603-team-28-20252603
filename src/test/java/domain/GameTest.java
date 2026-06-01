@@ -67,4 +67,19 @@ public class GameTest {
 		Assertions.assertFalse(game.isCheckmate(Color.WHITE));
 		Assertions.assertFalse(game.isCheckmate(Color.BLACK));
 	}
+
+	@Test
+	public void backRankCheckmateAgainstWhiteKing() {
+		Board board = new Board();
+		board.place(Square.of(4, 0), Piece.of(PieceType.KING, Color.WHITE));
+		board.place(Square.of(4, 7), Piece.of(PieceType.KING, Color.BLACK));
+		board.place(Square.of(3, 0), Piece.of(PieceType.BISHOP, Color.WHITE));
+		board.place(Square.of(3, 1), Piece.of(PieceType.BISHOP, Color.WHITE));
+		board.place(Square.of(4, 1), Piece.of(PieceType.BISHOP, Color.WHITE));
+		board.place(Square.of(5, 0), Piece.of(PieceType.BISHOP, Color.WHITE));
+		board.place(Square.of(7, 3), Piece.of(PieceType.BISHOP, Color.BLACK));
+		Game game = new Game(board);
+
+		Assertions.assertTrue(game.isCheckmate(Color.WHITE));
+	}
 }
