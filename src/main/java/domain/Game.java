@@ -22,11 +22,15 @@ public final class Game {
 
 	public boolean isInCheck(Color color) {
 		Objects.requireNonNull(color);
-		Square kingSquare = board.findKing(color);
+		return isInCheckOn(board, color);
+	}
+
+	private boolean isInCheckOn(Board boardSnapshot, Color color) {
+		Square kingSquare = boardSnapshot.findKing(color);
 		Color opponent = color.opposite();
-		for (Square square : board.occupiedSquaresOf(opponent)) {
-			Piece piece = board.pieceAt(square).orElseThrow();
-			if (piece.candidateMoves(square, board).contains(kingSquare)) {
+		for (Square square : boardSnapshot.occupiedSquaresOf(opponent)) {
+			Piece piece = boardSnapshot.pieceAt(square).orElseThrow();
+			if (piece.candidateMoves(square, boardSnapshot).contains(kingSquare)) {
 				return true;
 			}
 		}
