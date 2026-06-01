@@ -17,4 +17,13 @@ public class GameTest {
 	public void nullBoardThrows() {
 		Assertions.assertThrows(NullPointerException.class, () -> new Game(null));
 	}
+
+	@Test
+	public void standardSetupNeitherKingInCheck() {
+		Board board = Board.standardSetup();
+		Game game = new Game(board);
+
+		Assertions.assertFalse(game.isInCheck(Color.WHITE));
+		Assertions.assertFalse(game.isInCheck(Color.BLACK));
+	}
 }

@@ -20,6 +20,10 @@ public final class Game {
 		return board;
 	}
 
+	public boolean isInCheck(Color color) {
+		return false;
+	}
+
 	public void makeMove(Square from, Square to) {
 		Piece piece = board.pieceAt(from)
 			.orElseThrow(() -> new IllegalStateException("No piece at source square"));
