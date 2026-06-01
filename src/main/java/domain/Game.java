@@ -26,6 +26,7 @@ public final class Game {
 	}
 
 	public boolean isCheckmate(Color color) {
+		Objects.requireNonNull(color);
 		if (!isInCheck(color)) {
 			return false;
 		}
