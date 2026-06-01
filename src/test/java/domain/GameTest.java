@@ -82,4 +82,16 @@ public class GameTest {
 
 		Assertions.assertTrue(game.isCheckmate(Color.WHITE));
 	}
+
+	@Test
+	public void inCheckWithEscapeIsNotCheckmate() {
+		Board board = new Board();
+		board.place(Square.of(4, 4), Piece.of(PieceType.KING, Color.WHITE));
+		board.place(Square.of(4, 7), Piece.of(PieceType.KING, Color.BLACK));
+		board.place(Square.of(7, 7), Piece.of(PieceType.BISHOP, Color.BLACK));
+		board.place(Square.of(5, 4), Piece.of(PieceType.KNIGHT, Color.WHITE));
+		Game game = new Game(board);
+
+		Assertions.assertFalse(game.isCheckmate(Color.WHITE));
+	}
 }
