@@ -29,25 +29,25 @@ isCheckmate(Color color) returns true if the given color's king is currently in 
     - Method(s) under test: `isCheckmate(Color)`
     - State of the system: new Game with standard starting position
     - Expected output: isCheckmate(WHITE) returns false, isCheckmate(BLACK) returns false
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 16: back-rank checkmate against white king
     - Method(s) under test: `isCheckmate(Color)`
     - State of the system: white king at (4,0), black rook at (4,7), white pawns blocking escape on rank 1
     - Expected output: isCheckmate(WHITE) returns true
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 17: in check but king has an escape square
     - Method(s) under test: `isCheckmate(Color)`
     - State of the system: white king at (4,0), black rook at (4,7), no blockers on escape squares
     - Expected output: isCheckmate(WHITE) returns false because king can step away
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 18: isCheckmate rejects null color
     - Method(s) under test: `isCheckmate(Color)`
     - State of the system: new game from standard setup
     - Expected output: NullPointerException
-    - Implemented: no
+    - Implemented: yes
 
 ---
 
@@ -74,13 +74,13 @@ isCheckmate(Color color) returns true if the given color's king is currently in 
     - Method(s) under test: `isStalemate(Color)`
     - State of the system: new Game with standard starting position
     - Expected output: isStalemate(WHITE) returns false, isStalemate(BLACK) returns false
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 20: stalemate position, white not in check but no legal moves
     - Method(s) under test: `isStalemate(Color)`
     - State of the system: white king cornered, black king and queen creating no-legal-move position without check
     - Expected output: isStalemate(WHITE) returns true
-    - Implemented: no
+    - Implemented: yes
 
 - Test Case 21: isStalemate rejects null color
     - Method(s) under test: `isStalemate(Color)`
