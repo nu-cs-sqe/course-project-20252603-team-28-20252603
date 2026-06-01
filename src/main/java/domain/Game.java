@@ -44,7 +44,20 @@ public final class Game {
 	}
 
 	public boolean isStalemate(Color color) {
-		return false;
+		if (isInCheck(color)) {
+			return false;
+		}
+		for (Square from : board.occupiedSquaresOf(color)) {
+			Piece piece = board.pieceAt(from).orElseThrow();
+			for (Square to : piece.candidateMoves(from, board)) {
+				Board copy = board.copy();
+				copy.move(from, to);
+				if (!isInCheckOn(copy, color)) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	private boolean isInCheckOn(Board boardSnapshot, Color color) {

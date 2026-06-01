@@ -103,4 +103,17 @@ public class GameTest {
 		Assertions.assertFalse(game.isStalemate(Color.WHITE));
 		Assertions.assertFalse(game.isStalemate(Color.BLACK));
 	}
+
+	@Test
+	public void stalematePositionWithBlockedKingNotInCheck() {
+		Board board = new Board();
+		board.place(Square.of(0, 0), Piece.of(PieceType.KING, Color.WHITE));
+		board.place(Square.of(7, 7), Piece.of(PieceType.KING, Color.BLACK));
+		board.place(Square.of(1, 2), Piece.of(PieceType.BISHOP, Color.BLACK));
+		board.place(Square.of(2, 1), Piece.of(PieceType.BISHOP, Color.BLACK));
+		board.place(Square.of(3, 2), Piece.of(PieceType.KNIGHT, Color.BLACK));
+		Game game = new Game(board);
+
+		Assertions.assertTrue(game.isStalemate(Color.WHITE));
+	}
 }
