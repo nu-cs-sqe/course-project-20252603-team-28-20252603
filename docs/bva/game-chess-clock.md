@@ -2,7 +2,7 @@
 
 ## Specification
 
-A Game can take a ChessClock so we can tell who runss out of time. When the game is built, the clock starts on white. If a players time hits zero, the other color wins. winnerByTimeout returns the winning color, or empty if no one has timed out yet.
+A Game can take a ChessClock so we can tell who runs out of time. When the game is built, the clock starts on white. If a players time hits zero, the other color wins. winnerByTimeout returns the winning color, or empty if no one has timed out yet.
 
 ---
 
