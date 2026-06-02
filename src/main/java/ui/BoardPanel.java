@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
+import java.util.Optional;
 
 import javax.swing.JPanel;
 
@@ -32,9 +33,27 @@ public class BoardPanel extends JPanel {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				System.out.println("clicked at " + e.getX() + ", " + e.getY());
+				squareAt(e.getX(), e.getY()).ifPresent(square ->
+					System.out.println("clicked square file=" + square.file() + " rank=" + square.rank()));
 			}
 		});
+	}
+
+	// inverse of the paint math, figures out which square the pixel landed on
+	private Optional<Square> squareAt(int pixelX, int pixelY) {
+		int squareSize = Math.min(getWidth(), getHeight()) / BOARD_SIZE;
+		int xOffset = (getWidth() - squareSize * BOARD_SIZE) / 2;
+		int yOffset = (getHeight() - squareSize * BOARD_SIZE) / 2;
+		int relX = pixelX - xOffset;
+		int relY = pixelY - yOffset;
+		int boardPixelSize = squareSize * BOARD_SIZE;
+		if (relX < 0 || relY < 0 || relX >= boardPixelSize || relY >= boardPixelSize) {
+			return Optional.empty();
+		}
+		int file = relX / squareSize;
+		// rank flips again because we paint rank=7 at top
+		int rank = BOARD_SIZE - 1 - relY / squareSize;
+		return Optional.of(Square.of(file, rank));
 	}
 
 	@Override
