@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.time.Clock;
 import java.time.Duration;
+import java.time.Instant;
+import java.util.Optional;
 
 public class GameTest {
 
@@ -45,5 +47,18 @@ public class GameTest {
 		Game game = new Game(board, chessClock);
 
 		Assertions.assertTrue(game.winnerByTimeout().isEmpty());
+	}
+
+	@Test
+	public void whiteClockExpiredReturnsBlackAsWinner() {
+		MutableClock mutableClock = new MutableClock(Instant.parse("2026-01-01T00:00:00Z"));
+		TimeControl tc = new TimeControl(Duration.ofMinutes(5), Duration.ZERO);
+		ChessClock chessClock = new ChessClock(tc, mutableClock);
+		Board board = Board.standardSetup();
+		Game game = new Game(board, chessClock);
+
+		mutableClock.advance(Duration.ofMinutes(6));
+
+		Assertions.assertEquals(Optional.of(Color.BLACK), game.winnerByTimeout());
 	}
 }

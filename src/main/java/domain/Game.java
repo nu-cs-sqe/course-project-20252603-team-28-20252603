@@ -37,6 +37,16 @@ public final class Game {
 	}
 
 	public Optional<Color> winnerByTimeout() {
+		if (clock == null) {
+			return Optional.empty();
+		}
+		clock.tick();
+		if (clock.isExpired(Color.WHITE)) {
+			return Optional.of(Color.BLACK);
+		}
+		if (clock.isExpired(Color.BLACK)) {
+			return Optional.of(Color.WHITE);
+		}
 		return Optional.empty();
 	}
 
