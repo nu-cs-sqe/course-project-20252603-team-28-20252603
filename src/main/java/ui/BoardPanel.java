@@ -7,7 +7,9 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
+import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.swing.JPanel;
 
@@ -23,6 +25,7 @@ public class BoardPanel extends JPanel {
 	private static final java.awt.Color DARK_SQUARE = new java.awt.Color(70, 100, 130);
 	private static final java.awt.Color BACKGROUND = new java.awt.Color(50, 50, 60);
 	private static final java.awt.Color HIGHLIGHT = new java.awt.Color(255, 235, 50, 120);
+	private static final java.awt.Color LEGAL_DEST = new java.awt.Color(50, 100, 50, 150);
 
 	private final Board board;
 	private Square selected;
@@ -68,6 +71,15 @@ public class BoardPanel extends JPanel {
 		int xOffset = (getWidth() - squareSize * BOARD_SIZE) / 2;
 		int yOffset = (getHeight() - squareSize * BOARD_SIZE) / 2;
 
+		// figure out which squares the selected piece can move to
+		Set<Square> legalDests = Collections.emptySet();
+		if (selected != null) {
+			Optional<Piece> selectedPiece = board.pieceAt(selected);
+			if (selectedPiece.isPresent()) {
+				legalDests = selectedPiece.get().candidateMoves(selected, board);
+			}
+		}
+
 		for (int file = 0; file < BOARD_SIZE; file++) {
 			for (int rank = 0; rank < BOARD_SIZE; rank++) {
 				int x = xOffset + file * squareSize;
@@ -85,7 +97,21 @@ public class BoardPanel extends JPanel {
 					g.fillRect(x, y, squareSize, squareSize);
 				}
 
-				board.pieceAt(Square.of(file, rank)).ifPresent(piece -> {
+				// dot on empty legal destinations, ring on capturable squares
+				Square here = Square.of(file, rank);
+				if (legalDests.contains(here)) {
+					g.setColor(LEGAL_DEST);
+					if (board.pieceAt(here).isPresent()) {
+						java.awt.Graphics2D g2 = (java.awt.Graphics2D) g;
+						g2.setStroke(new java.awt.BasicStroke(squareSize / 16f));
+						g2.drawOval(x + squareSize / 16, y + squareSize / 16, squareSize - squareSize / 8, squareSize - squareSize / 8);
+					} else {
+						int dotSize = squareSize / 4;
+						g.fillOval(x + (squareSize - dotSize) / 2, y + (squareSize - dotSize) / 2, dotSize, dotSize);
+					}
+				}
+
+				board.pieceAt(here).ifPresent(piece -> {
 					g.setColor(piece.color() == Color.WHITE ? java.awt.Color.WHITE : java.awt.Color.BLACK);
 					g.setFont(new Font("Serif", Font.PLAIN, squareSize * 9 / 10));
 					// y is the font basline so we offset down so the glyph centers veritcally
