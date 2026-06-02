@@ -19,9 +19,10 @@ import domain.Square;
 // renders the chess Board as an 8x8 grid with unicode chess glyphs
 public class BoardPanel extends JPanel {
 	private static final int BOARD_SIZE = 8;
-	private static final java.awt.Color LIGHT_SQUARE = new java.awt.Color(240, 217, 181);
-	private static final java.awt.Color DARK_SQUARE = new java.awt.Color(181, 136, 99);
+	private static final java.awt.Color LIGHT_SQUARE = new java.awt.Color(238, 238, 210);
+	private static final java.awt.Color DARK_SQUARE = new java.awt.Color(118, 150, 86);
 	private static final java.awt.Color BACKGROUND = new java.awt.Color(50, 50, 60);
+	private static final java.awt.Color HIGHLIGHT = new java.awt.Color(255, 235, 50, 120);
 
 	private final Board board;
 	private Square selected;
@@ -78,8 +79,14 @@ public class BoardPanel extends JPanel {
 				g.setColor(dark ? DARK_SQUARE : LIGHT_SQUARE);
 				g.fillRect(x, y, squareSize, squareSize);
 
+				// highlight if this is the selected square
+				if (selected != null && selected.file() == file && selected.rank() == rank) {
+					g.setColor(HIGHLIGHT);
+					g.fillRect(x, y, squareSize, squareSize);
+				}
+
 				board.pieceAt(Square.of(file, rank)).ifPresent(piece -> {
-					g.setColor(java.awt.Color.BLACK);
+					g.setColor(piece.color() == Color.WHITE ? java.awt.Color.WHITE : java.awt.Color.BLACK);
 					g.setFont(new Font("Serif", Font.PLAIN, squareSize * 9 / 10));
 					// y is the font basline so we offset down so the glyph centers veritcally
 					FontMetrics fm = g.getFontMetrics();
@@ -94,14 +101,13 @@ public class BoardPanel extends JPanel {
 	}
 
 	private static String glyphFor(Piece piece) {
-		boolean white = piece.color() == Color.WHITE;
 		switch (piece.type()) {
-			case KING:   return white ? "♔" : "♚";
-			case QUEEN:  return white ? "♕" : "♛";
-			case ROOK:   return white ? "♖" : "♜";
-			case BISHOP: return white ? "♗" : "♝";
-			case KNIGHT: return white ? "♘" : "♞";
-			case PAWN:   return white ? "♙" : "♟";
+			case KING:   return "♚";
+			case QUEEN:  return "♛";
+			case ROOK:   return "♜";
+			case BISHOP: return "♝";
+			case KNIGHT: return "♞";
+			case PAWN:   return "♟";
 			default:
 				throw new IllegalArgumentException(
 					"Unknown piece type: " + piece.type());
