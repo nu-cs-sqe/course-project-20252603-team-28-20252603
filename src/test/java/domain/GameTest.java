@@ -65,4 +65,20 @@ public class GameTest {
 
 		Assertions.assertEquals(Optional.of(Color.BLACK), game.winnerByTimeout());
 	}
+
+	@Test
+	public void blackClockExpiredReturnsWhiteAsWinner() {
+		MutableClock mutableClock = new MutableClock(
+			Instant.parse("2026-01-01T00:00:00Z"),
+			ZoneOffset.UTC);
+		TimeControl tc = new TimeControl(Duration.ofMinutes(5), Duration.ZERO);
+		ChessClock chessClock = new ChessClock(tc, mutableClock);
+		Board board = Board.standardSetup();
+		Game game = new Game(board, chessClock);
+
+		chessClock.completeTurn(Color.WHITE, Color.BLACK);
+		mutableClock.advance(Duration.ofMinutes(6));
+
+		Assertions.assertEquals(Optional.of(Color.WHITE), game.winnerByTimeout());
+	}
 }
