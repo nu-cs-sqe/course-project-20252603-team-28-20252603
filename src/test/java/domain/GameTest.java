@@ -53,7 +53,9 @@ public class GameTest {
 
 	@Test
 	public void whiteClockExpiredReturnsBlackAsWinner() {
-		MutableClock mutableClock = new MutableClock(Instant.parse("2026-01-01T00:00:00Z"), ZoneOffset.UTC);
+		MutableClock mutableClock = new MutableClock(
+			Instant.parse("2026-01-01T00:00:00Z"),
+			ZoneOffset.UTC);
 		TimeControl tc = new TimeControl(Duration.ofMinutes(5), Duration.ZERO);
 		ChessClock chessClock = new ChessClock(tc, mutableClock);
 		Board board = Board.standardSetup();
