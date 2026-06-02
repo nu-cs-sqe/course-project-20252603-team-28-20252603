@@ -2,7 +2,11 @@ package ui;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 
@@ -11,36 +15,57 @@ import domain.Color;
 import domain.Piece;
 import domain.Square;
 
-// Renders the chess Board as an 8x8 grid with Unicode chess glyphs.
+// renders the chess Board as an 8x8 grid with unicode chess glyphs
 public class BoardPanel extends JPanel {
-	private static final int SQUARE_SIZE = 64;
 	private static final int BOARD_SIZE = 8;
 	private static final java.awt.Color LIGHT_SQUARE = new java.awt.Color(240, 217, 181);
 	private static final java.awt.Color DARK_SQUARE = new java.awt.Color(181, 136, 99);
+	private static final java.awt.Color BACKGROUND = new java.awt.Color(50, 50, 60);
 
 	private final Board board;
 
 	public BoardPanel(Board board) {
 		this.board = board;
-		setPreferredSize(new Dimension(SQUARE_SIZE * BOARD_SIZE, SQUARE_SIZE * BOARD_SIZE));
+		setBackground(BACKGROUND);
+		setPreferredSize(new Dimension(900, 900));
+		// TODO replace this println with click to select logic in step 3
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				System.out.println("clicked at " + e.getX() + ", " + e.getY());
+			}
+		});
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		// recompute square size each repaint so the board adapts to window resize
+		int squareSize = Math.min(getWidth(), getHeight()) / BOARD_SIZE;
+		int xOffset = (getWidth() - squareSize * BOARD_SIZE) / 2;
+		int yOffset = (getHeight() - squareSize * BOARD_SIZE) / 2;
+
 		for (int file = 0; file < BOARD_SIZE; file++) {
 			for (int rank = 0; rank < BOARD_SIZE; rank++) {
-				int x = file * SQUARE_SIZE;
-				int y = (BOARD_SIZE - 1 - rank) * SQUARE_SIZE;
+				int x = xOffset + file * squareSize;
+				// swing draws y = 0 at top of the panel, but rank=0 is whites home row
+				// flip rank so rank= 7 (black side) draws at top
+				int y = yOffset + (BOARD_SIZE - 1 - rank) * squareSize;
 
 				boolean dark = (file + rank) % 2 == 0;
 				g.setColor(dark ? DARK_SQUARE : LIGHT_SQUARE);
-				g.fillRect(x, y, SQUARE_SIZE, SQUARE_SIZE);
+				g.fillRect(x, y, squareSize, squareSize);
 
 				board.pieceAt(Square.of(file, rank)).ifPresent(piece -> {
 					g.setColor(java.awt.Color.BLACK);
-					g.setFont(new Font("Serif", Font.PLAIN, SQUARE_SIZE - 8));
-					g.drawString(glyphFor(piece), x + 8, y + SQUARE_SIZE - 12);
+					g.setFont(new Font("Serif", Font.PLAIN, squareSize * 9 / 10));
+					// y is the font basline so we offset down so the glyph centers veritcally
+					FontMetrics fm = g.getFontMetrics();
+					String glyph = glyphFor(piece);
+					Rectangle2D bounds = fm.getStringBounds(glyph, g);
+					int glyphX = x + (int) ((squareSize - bounds.getWidth()) / 2);
+					int glyphY = y + (int) ((squareSize - bounds.getHeight()) / 2 - bounds.getY());
+					g.drawString(glyph, glyphX, glyphY);
 				});
 			}
 		}
