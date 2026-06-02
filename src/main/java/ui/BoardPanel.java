@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import domain.Board;
 import domain.Color;
+import domain.Game;
 import domain.Piece;
 import domain.Square;
 
@@ -27,23 +28,41 @@ public class BoardPanel extends JPanel {
 	private static final java.awt.Color HIGHLIGHT = new java.awt.Color(255, 235, 50, 120);
 	private static final java.awt.Color LEGAL_DEST = new java.awt.Color(50, 100, 50, 150);
 
+	private final Game game;
 	private final Board board;
 	private Square selected;
 
-	public BoardPanel(Board board) {
+	public BoardPanel(Game game, Board board) {
+		this.game = game;
 		this.board = board;
 		setBackground(BACKGROUND);
 		setPreferredSize(new Dimension(900, 900));
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				squareAt(e.getX(), e.getY()).ifPresent(square -> {
-					selected = square;
-					System.out.println("selected square file=" + square.file() + " rank=" + square.rank());
-					repaint();
-				});
+				squareAt(e.getX(), e.getY()).ifPresent(clicked -> handleClick(clicked));
 			}
 		});
+	}
+
+	private void handleClick(Square clicked) {
+		if (selected != null) {
+			Optional<Piece> selectedPiece = board.pieceAt(selected);
+			if (selectedPiece.isPresent()
+				&& selectedPiece.get().candidateMoves(selected, board).contains(clicked)) {
+				game.makeMove(selected, clicked);
+				selected = null;
+				repaint();
+				return;
+			}
+		}
+		Optional<Piece> clickedPiece = board.pieceAt(clicked);
+		if (clickedPiece.isPresent() && clickedPiece.get().color() == game.currentTurn()) {
+			selected = clicked;
+		} else {
+			selected = null;
+		}
+		repaint();
 	}
 
 	// inverse of the paint math, figures out which square the pixel landed on
