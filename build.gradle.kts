@@ -31,6 +31,10 @@ java {
     }
 }
 
+application {
+    mainClass.set("ui.Main")
+}
+
 checkstyle {
     toolVersion = "10.26.1"
     configDirectory.set(layout.projectDirectory.dir("config/checkstyle"))
@@ -52,8 +56,10 @@ tasks.withType<Checkstyle>().configureEach {
         html.required.set(true)
     }
 }
+
 val excluded = listOf(
     "**/gui/**",
+    "**/ui/**",
     "**/*View*",
     "**/*GUI*",
     "**/*Enum*",
@@ -105,6 +111,7 @@ pitest {
     targetTests = setOf("domain.*")
     excludedClasses = setOf(
         "gui.*",
+        "ui.*",
         "*View*",
         "*GUI*",
         "*Enum*",
