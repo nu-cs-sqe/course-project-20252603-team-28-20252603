@@ -19,8 +19,8 @@ import domain.Square;
 // renders the chess Board as an 8x8 grid with unicode chess glyphs
 public class BoardPanel extends JPanel {
 	private static final int BOARD_SIZE = 8;
-	private static final java.awt.Color LIGHT_SQUARE = new java.awt.Color(238, 238, 210);
-	private static final java.awt.Color DARK_SQUARE = new java.awt.Color(118, 150, 86);
+	private static final java.awt.Color LIGHT_SQUARE = new java.awt.Color(160, 180, 200);
+	private static final java.awt.Color DARK_SQUARE = new java.awt.Color(70, 100, 130);
 	private static final java.awt.Color BACKGROUND = new java.awt.Color(50, 50, 60);
 	private static final java.awt.Color HIGHLIGHT = new java.awt.Color(255, 235, 50, 120);
 
