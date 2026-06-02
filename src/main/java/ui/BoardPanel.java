@@ -24,17 +24,20 @@ public class BoardPanel extends JPanel {
 	private static final java.awt.Color BACKGROUND = new java.awt.Color(50, 50, 60);
 
 	private final Board board;
+	private Square selected;
 
 	public BoardPanel(Board board) {
 		this.board = board;
 		setBackground(BACKGROUND);
 		setPreferredSize(new Dimension(900, 900));
-		// TODO replace this println with click to select logic in step 3
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				squareAt(e.getX(), e.getY()).ifPresent(square ->
-					System.out.println("clicked square file=" + square.file() + " rank=" + square.rank()));
+				squareAt(e.getX(), e.getY()).ifPresent(square -> {
+					selected = square;
+					System.out.println("selected square file=" + square.file() + " rank=" + square.rank());
+					repaint();
+				});
 			}
 		});
 	}
