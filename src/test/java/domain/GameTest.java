@@ -29,4 +29,11 @@ public class GameTest {
 
 		Assertions.assertEquals(Color.WHITE, game.clock().running());
 	}
+
+	@Test
+	public void newGameNullClockThrows() {
+		Board board = Board.standardSetup();
+
+		Assertions.assertThrows(NullPointerException.class, () -> new Game(board, null));
+	}
 }
