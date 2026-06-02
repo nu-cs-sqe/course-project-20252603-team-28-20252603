@@ -18,7 +18,7 @@ public final class Game {
 		return currentTurn;
 	}
 
-	public Board board() {
+	Board board() {
 		return board;
 	}
 
