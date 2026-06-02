@@ -4,12 +4,23 @@ import java.util.Objects;
 
 public final class Game {
 	private final Board board;
+	private final ChessClock clock;
 	private Color currentTurn;
 
 	public Game(Board board) {
 		Objects.requireNonNull(board);
 		this.board = board;
+		this.clock = null;
 		this.currentTurn = Color.WHITE;
+	}
+
+	public Game(Board board, ChessClock clock) {
+		Objects.requireNonNull(board);
+		Objects.requireNonNull(clock);
+		this.board = board;
+		this.clock = clock;
+		this.currentTurn = Color.WHITE;
+		clock.start(Color.WHITE);
 	}
 
 	public Color currentTurn() {
@@ -18,6 +29,10 @@ public final class Game {
 
 	public Board board() {
 		return board;
+	}
+
+	public ChessClock clock() {
+		return clock;
 	}
 
 	public void makeMove(Square from, Square to) {
