@@ -3,23 +3,23 @@
 
 # Chess — CS 380 Team 28
 
-A 2D chess game built in Java for COMP_SCI 380: Software Quality Engineering (Spring 2026). The project follows a TDD/BDD workflow with continuous integration, branch protection, mutation testing, and BVA-driven test design.
+A 2D chess game built in Java for COMP_SCI 380: Software Quality Engineering (Spring 2026). Most features start with a BVA doc and JUnit tests. PIT runs mutation testing, and CI gates every PR to main.
 
 ## Project Scope
 
-The game implements the full standard chess ruleset along with one team-defined feature.
+The game covers standard chess rules plus a chess clock.
 
 **Standard rules**
 - All six piece types (Pawn, Knight, Bishop, Rook, Queen, King) with correct movement and capture
 - Check, checkmate, and stalemate detection
-- Special moves: castling (kingside and queenside), en passant, pawn promotion
-- Draw conditions: stalemate, threefold repetition, fifty-move rule, insufficient material
-- Turn-based play with two human players sharing one machine
+- Pawn promotion
+
+Scope REVISED: not adding castling, en passant, threefold repetition, fifty-move rule, or insufficient material draws.
 
 **Team-defined feature: Chess clock**
-- Configurable per-side starting time
-- Turn-based countdown that pauses on the inactive player's clock
-- Timeout produces an additional win condition (the player whose clock runs out loses)
+- Each side has a starting time (configurable)
+- The active player's clock ticks down. The other player's pauses.
+- If your clock hits zero, you lose.
 
 ## Team
 
@@ -61,11 +61,7 @@ Run instructions will be added once the application entry point is implemented.
 
 ## Development Workflow
 
-1. Create a feature branch off `main` using the format `<author>/<scope>` (for example `kyubinn/knight-movement`).
-2. For each feature, document the BVA in `docs/bva/<feature>.md` before writing code.
-3. Write failing JUnit tests that reflect the BVA, then implement the feature until the tests pass (TDD).
-4. Open a pull request against `main`. CI must pass and at least one teammate must approve before merging.
-5. Update `docs/weekly-reports/report.md` at the end of each week with planning and progress notes.
+All changes go through pull requests to `main`. CI must pass and at least one teammate must approve before merging.
 
 ## Acknowledgements
 
