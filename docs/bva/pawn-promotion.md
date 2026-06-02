@@ -2,7 +2,7 @@
 
 ## Specification
 
-A pawn promotes when it reaches the other side of the board. White promotes at row 7, black at row 0. The player picks what to promote to: Queen, Rook, Bishop, or Knight. King and Pawn are not allowed. canPromote tells us if a square has a pawn ready to promote. promote does the swap, and thorws if the square is wrong or the type is not allowed.
+A pawn promotes when it reaches the other side of the board. White promotes at row 7, black at row 0. The player picks what to promote to: Queen, Rook, Bishop, or Knight. King and Pawn are not allowed. canPromote tells us if a square has a pawn ready to promote. promote does the swap, and throws if the square is wrong or the type is not allowed.
 
 ---
 
@@ -68,15 +68,15 @@ A pawn promotes when it reaches the other side of the board. White promotes at r
     - Expected output: black knight at (0, 4)
     - Implemented: no
 
-- Test Case 30: promote pawn off back rank thorws
+- Test Case 30: promote pawn off back rank throws
     - Method(s) under test: `promote(Square square, PieceType newType)`
-    - State of the system: white pawn at (6, 4); newType = QUEN
+    - State of the system: white pawn at (6, 4); newType = QUEEN
     - Expected output: exception
     - Implemented: no
 
 - Test Case 31: promote non-pawn throws
     - Method(s) under test: `promote(Square square, PieceType newType)`
-    - State of the system: white rook at (7, 0); newType = QUeEN
+    - State of the system: white rook at (7, 0); newType = QUEEN
     - Expected output: exception
     - Implemented: no
 
