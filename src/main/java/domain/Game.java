@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public final class Game {
 	private final Board board;
@@ -33,6 +34,10 @@ public final class Game {
 
 	public ChessClock clock() {
 		return clock;
+	}
+
+	public Optional<Color> winnerByTimeout() {
+		return Optional.empty();
 	}
 
 	public void makeMove(Square from, Square to) {

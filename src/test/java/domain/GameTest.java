@@ -36,4 +36,14 @@ public class GameTest {
 
 		Assertions.assertThrows(NullPointerException.class, () -> new Game(board, null));
 	}
+
+	@Test
+	public void clockNotExpiredReturnsEmpty() {
+		Board board = Board.standardSetup();
+		TimeControl tc = new TimeControl(Duration.ofMinutes(5), Duration.ZERO);
+		ChessClock chessClock = new ChessClock(tc, Clock.systemUTC());
+		Game game = new Game(board, chessClock);
+
+		Assertions.assertTrue(game.winnerByTimeout().isEmpty());
+	}
 }
