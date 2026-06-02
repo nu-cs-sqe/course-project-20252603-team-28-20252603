@@ -69,6 +69,18 @@
 3. [done] Jace Deng: Started Knight BDD implementation.
 4. [planned] Kyubinn Kim: Continue Knight TC2-TC6 next week.
 
+# Week 9 (05/25/2026-05/31/2026)
+**Planning and Progress Tracking**:
+1. [done] Kyubinn Kim: Got TimeControl (#44) and ChessClock (#46) merged with full BVA and all TCs passing.
+2. [done] Kyubinn Kim: Merged i18n Messages class with EN/KO/ZH locale support. (#49)
+3. [done] Kyubinn Kim: Merged Game class for one-turn flow (currentTurn, makeMove). (#50)
+4. [done] Jace Deng: Set up Cucumber BDD framework. (#47)
+5. [done] Alvin Xu: Reviewed and approved a bunch of team PRs and gave detailed feedback on the ChessClock PR.
+6. [in progress] Kyubinn Kim: GUI locale picker, BoardPanel rendering, integration tests, GameStatus + resign action. (#52, #53, #54, #55, #56) All waiting on team review.
+7. [in progress] Jace Deng: Bishop and Knight BDD movement. (#41, #48)
+8. [planned] Wire ChessClock timeout into Game for the timeout loss win condition.
+9. [planned] Finish remaining piece BDDs (Rook, Queen, King, Pawn). Checkmate detection depends on these being done.
+10. [planned] Run PIT and JaCoCo for the team test quality report next week if there's time.
 
 # Week X (XX/XX/2026-XX/XX/2026) TEMPLATE (You can change the format to whatever the team likes better)
 **Planning and Progress Tracking**:
