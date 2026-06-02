@@ -7,12 +7,14 @@ public final class Game {
 	private final Board board;
 	private final ChessClock clock;
 	private Color currentTurn;
+	private GameStatus status;
 
 	public Game(Board board) {
 		Objects.requireNonNull(board);
 		this.board = board;
 		this.clock = null;
 		this.currentTurn = Color.WHITE;
+		this.status = GameStatus.IN_PROGRESS;
 	}
 
 	public Game(Board board, ChessClock clock) {
@@ -21,6 +23,7 @@ public final class Game {
 		this.board = board;
 		this.clock = clock;
 		this.currentTurn = Color.WHITE;
+		this.status = GameStatus.IN_PROGRESS;
 		clock.start(Color.WHITE);
 	}
 
@@ -28,7 +31,7 @@ public final class Game {
 		return currentTurn;
 	}
 
-	public Board board() {
+	Board board() {
 		return board;
 	}
 
@@ -50,7 +53,23 @@ public final class Game {
 		return Optional.empty();
 	}
 
+	public GameStatus getStatus() {
+		return status;
+	}
+
+	public void resign(Color resigningColor) {
+		Objects.requireNonNull(resigningColor);
+		if (resigningColor == Color.WHITE) {
+			this.status = GameStatus.BLACK_WIN;
+		} else {
+			this.status = GameStatus.WHITE_WIN;
+		}
+	}
+
 	public void makeMove(Square from, Square to) {
+		if (status != GameStatus.IN_PROGRESS) {
+			throw new IllegalStateException("Game is not in progress");
+		}
 		Piece piece = board.pieceAt(from)
 			.orElseThrow(() -> new IllegalStateException("No piece at source square"));
 		if (piece.color() != currentTurn) {
