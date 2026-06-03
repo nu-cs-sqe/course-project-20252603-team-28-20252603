@@ -53,6 +53,19 @@ public final class Game {
 		return Optional.empty();
 	}
 
+	public boolean isInCheck(Color color) {
+		Objects.requireNonNull(color);
+		Square kingSquare = board.findKing(color);
+		Color opponent = color.opposite();
+		for (Square square : board.occupiedSquaresOf(opponent)) {
+			Piece piece = board.pieceAt(square).orElseThrow();
+			if (piece.candidateMoves(square, board).contains(kingSquare)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public GameStatus getStatus() {
 		return status;
 	}
