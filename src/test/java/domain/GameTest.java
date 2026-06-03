@@ -19,6 +19,47 @@ public class GameTest {
 	}
 
 	@Test
+	public void standardSetupNeitherKingInCheck() {
+		Board board = Board.standardSetup();
+		Game game = new Game(board);
+
+		Assertions.assertFalse(game.isInCheck(Color.WHITE));
+		Assertions.assertFalse(game.isInCheck(Color.BLACK));
+	}
+
+	@Test
+	public void bishopAttacksKingOnDiagonal() {
+		Board board = new Board();
+		board.place(Square.of(4, 0), Piece.of(PieceType.KING, Color.WHITE));
+		board.place(Square.of(4, 7), Piece.of(PieceType.KING, Color.BLACK));
+		board.place(Square.of(7, 3), Piece.of(PieceType.BISHOP, Color.BLACK));
+		Game game = new Game(board);
+
+		Assertions.assertTrue(game.isInCheck(Color.WHITE));
+		Assertions.assertFalse(game.isInCheck(Color.BLACK));
+	}
+
+	@Test
+	public void knightAttacksKingViaLMove() {
+		Board board = new Board();
+		board.place(Square.of(4, 0), Piece.of(PieceType.KING, Color.WHITE));
+		board.place(Square.of(4, 7), Piece.of(PieceType.KING, Color.BLACK));
+		board.place(Square.of(3, 2), Piece.of(PieceType.KNIGHT, Color.BLACK));
+		Game game = new Game(board);
+
+		Assertions.assertTrue(game.isInCheck(Color.WHITE));
+		Assertions.assertFalse(game.isInCheck(Color.BLACK));
+	}
+
+	@Test
+	public void isInCheckNullColorThrows() {
+		Board board = Board.standardSetup();
+		Game game = new Game(board);
+
+		Assertions.assertThrows(NullPointerException.class, () -> game.isInCheck(null));
+	}
+
+	@Test
 	public void newGameStartsInProgress() {
 		Board board = Board.standardSetup();
 		Game game = new Game(board);
