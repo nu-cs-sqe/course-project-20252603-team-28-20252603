@@ -119,7 +119,7 @@ public class BoardPanel extends JPanel {
 	}
 
 	private void paintSquare(Graphics g, int file, int rank,
-	                         int squareSize, int xOffset, int yOffset, Set<Square> legalDests) {
+				int squareSize, int xOffset, int yOffset, Set<Square> legalDests) {
 		int x = xOffset + file * squareSize;
 		// swing draws y = 0 at top of the panel, but rank=0 is whites home row
 		// flip rank so rank= 7 (black side) draws at top
@@ -148,7 +148,7 @@ public class BoardPanel extends JPanel {
 	}
 
 	private void drawLegalMarker(Graphics g, Square here,
-	                             int x, int y, int squareSize) {
+	                int x, int y, int squareSize) {
 		g.setColor(LEGAL_DEST);
 		if (board.pieceAt(here).isPresent()) {
 			Graphics2D g2 = (Graphics2D) g;
@@ -164,7 +164,7 @@ public class BoardPanel extends JPanel {
 	}
 
 	private void drawPiece(Graphics g, Piece piece,
-	                       int x, int y, int squareSize) {
+	                int x, int y, int squareSize) {
 		java.awt.Color paint = piece.color() == Color.WHITE
 			? java.awt.Color.WHITE : java.awt.Color.BLACK;
 		g.setColor(paint);
