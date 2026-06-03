@@ -101,7 +101,8 @@ public class BoardPanel extends JPanel {
 
 		for (int file = 0; file < BOARD_SIZE; file++) {
 			for (int rank = 0; rank < BOARD_SIZE; rank++) {
-				paintSquare(g, file, rank, squareSize, xOffset, yOffset, legalDests);
+				paintSquare(g, file, rank, squareSize,
+					xOffset, yOffset, legalDests);
 			}
 		}
 	}
