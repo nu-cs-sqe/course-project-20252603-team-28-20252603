@@ -1,9 +1,11 @@
 package ui;
 
+import java.awt.BasicStroke;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
@@ -40,24 +42,29 @@ public class BoardPanel extends JPanel {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				squareAt(e.getX(), e.getY()).ifPresent(clicked -> handleClick(clicked));
+				squareAt(e.getX(), e.getY())
+					.ifPresent(s -> handleClick(s));
 			}
 		});
 	}
 
 	private void handleClick(Square clicked) {
 		if (selected != null) {
-			Optional<Piece> selectedPiece = board.pieceAt(selected);
-			if (selectedPiece.isPresent()
-				&& selectedPiece.get().candidateMoves(selected, board).contains(clicked)) {
-				game.makeMove(selected, clicked);
-				selected = null;
-				repaint();
-				return;
+			Optional<Piece> picked = board.pieceAt(selected);
+			if (picked.isPresent()) {
+				Set<Square> dests = picked.get()
+					.candidateMoves(selected, board);
+				if (dests.contains(clicked)) {
+					game.makeMove(selected, clicked);
+					selected = null;
+					repaint();
+					return;
+				}
 			}
 		}
 		Optional<Piece> clickedPiece = board.pieceAt(clicked);
-		if (clickedPiece.isPresent() && clickedPiece.get().color() == game.currentTurn()) {
+		if (clickedPiece.isPresent()
+			&& clickedPiece.get().color() == game.currentTurn()) {
 			selected = clicked;
 		} else {
 			selected = null;
@@ -72,8 +79,8 @@ public class BoardPanel extends JPanel {
 		int yOffset = (getHeight() - squareSize * BOARD_SIZE) / 2;
 		int relX = pixelX - xOffset;
 		int relY = pixelY - yOffset;
-		int boardPixelSize = squareSize * BOARD_SIZE;
-		if (relX < 0 || relY < 0 || relX >= boardPixelSize || relY >= boardPixelSize) {
+		int boardPx = squareSize * BOARD_SIZE;
+		if (relX < 0 || relY < 0 || relX >= boardPx || relY >= boardPx) {
 			return Optional.empty();
 		}
 		int file = relX / squareSize;
@@ -90,59 +97,85 @@ public class BoardPanel extends JPanel {
 		int xOffset = (getWidth() - squareSize * BOARD_SIZE) / 2;
 		int yOffset = (getHeight() - squareSize * BOARD_SIZE) / 2;
 
-		// figure out which squares the selected piece can move to
-		Set<Square> legalDests = Collections.emptySet();
-		if (selected != null) {
-			Optional<Piece> selectedPiece = board.pieceAt(selected);
-			if (selectedPiece.isPresent()) {
-				legalDests = selectedPiece.get().candidateMoves(selected, board);
-			}
-		}
+		Set<Square> legalDests = computeLegalDests();
 
 		for (int file = 0; file < BOARD_SIZE; file++) {
 			for (int rank = 0; rank < BOARD_SIZE; rank++) {
-				int x = xOffset + file * squareSize;
-				// swing draws y = 0 at top of the panel, but rank=0 is whites home row
-				// flip rank so rank= 7 (black side) draws at top
-				int y = yOffset + (BOARD_SIZE - 1 - rank) * squareSize;
-
-				boolean dark = (file + rank) % 2 == 0;
-				g.setColor(dark ? DARK_SQUARE : LIGHT_SQUARE);
-				g.fillRect(x, y, squareSize, squareSize);
-
-				// highlight if this is the selected square
-				if (selected != null && selected.file() == file && selected.rank() == rank) {
-					g.setColor(HIGHLIGHT);
-					g.fillRect(x, y, squareSize, squareSize);
-				}
-
-				// dot on empty legal destinations, ring on capturable squares
-				Square here = Square.of(file, rank);
-				if (legalDests.contains(here)) {
-					g.setColor(LEGAL_DEST);
-					if (board.pieceAt(here).isPresent()) {
-						java.awt.Graphics2D g2 = (java.awt.Graphics2D) g;
-						g2.setStroke(new java.awt.BasicStroke(squareSize / 16f));
-						g2.drawOval(x + squareSize / 16, y + squareSize / 16, squareSize - squareSize / 8, squareSize - squareSize / 8);
-					} else {
-						int dotSize = squareSize / 4;
-						g.fillOval(x + (squareSize - dotSize) / 2, y + (squareSize - dotSize) / 2, dotSize, dotSize);
-					}
-				}
-
-				board.pieceAt(here).ifPresent(piece -> {
-					g.setColor(piece.color() == Color.WHITE ? java.awt.Color.WHITE : java.awt.Color.BLACK);
-					g.setFont(new Font("Serif", Font.PLAIN, squareSize * 9 / 10));
-					// y is the font basline so we offset down so the glyph centers veritcally
-					FontMetrics fm = g.getFontMetrics();
-					String glyph = glyphFor(piece);
-					Rectangle2D bounds = fm.getStringBounds(glyph, g);
-					int glyphX = x + (int) ((squareSize - bounds.getWidth()) / 2);
-					int glyphY = y + (int) ((squareSize - bounds.getHeight()) / 2 - bounds.getY());
-					g.drawString(glyph, glyphX, glyphY);
-				});
+				paintSquare(g, file, rank, squareSize, xOffset, yOffset, legalDests);
 			}
 		}
+	}
+
+	// figure out which squares the selected piece can move to
+	private Set<Square> computeLegalDests() {
+		if (selected == null) {
+			return Collections.emptySet();
+		}
+		Optional<Piece> piece = board.pieceAt(selected);
+		if (!piece.isPresent()) {
+			return Collections.emptySet();
+		}
+		return piece.get().candidateMoves(selected, board);
+	}
+
+	private void paintSquare(Graphics g, int file, int rank,
+	                         int squareSize, int xOffset, int yOffset, Set<Square> legalDests) {
+		int x = xOffset + file * squareSize;
+		// swing draws y = 0 at top of the panel, but rank=0 is whites home row
+		// flip rank so rank= 7 (black side) draws at top
+		int y = yOffset + (BOARD_SIZE - 1 - rank) * squareSize;
+
+		boolean dark = (file + rank) % 2 == 0;
+		g.setColor(dark ? DARK_SQUARE : LIGHT_SQUARE);
+		g.fillRect(x, y, squareSize, squareSize);
+
+		// highlight if this is the selected square
+		if (selected != null
+			&& selected.file() == file
+			&& selected.rank() == rank) {
+			g.setColor(HIGHLIGHT);
+			g.fillRect(x, y, squareSize, squareSize);
+		}
+
+		// dot on empty legal destinations, ring on capturable squares
+		Square here = Square.of(file, rank);
+		if (legalDests.contains(here)) {
+			drawLegalMarker(g, here, x, y, squareSize);
+		}
+
+		board.pieceAt(here).ifPresent(piece ->
+			drawPiece(g, piece, x, y, squareSize));
+	}
+
+	private void drawLegalMarker(Graphics g, Square here,
+	                             int x, int y, int squareSize) {
+		g.setColor(LEGAL_DEST);
+		if (board.pieceAt(here).isPresent()) {
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setStroke(new BasicStroke(squareSize / 16f));
+			int pad = squareSize / 16;
+			int inner = squareSize - squareSize / 8;
+			g2.drawOval(x + pad, y + pad, inner, inner);
+		} else {
+			int dotSize = squareSize / 4;
+			int pad = (squareSize - dotSize) / 2;
+			g.fillOval(x + pad, y + pad, dotSize, dotSize);
+		}
+	}
+
+	private void drawPiece(Graphics g, Piece piece,
+	                       int x, int y, int squareSize) {
+		java.awt.Color paint = piece.color() == Color.WHITE
+			? java.awt.Color.WHITE : java.awt.Color.BLACK;
+		g.setColor(paint);
+		g.setFont(new Font("Serif", Font.PLAIN, squareSize * 9 / 10));
+		// y is the font basline so we offset down so the glyph centers veritcally
+		FontMetrics fm = g.getFontMetrics();
+		String glyph = glyphFor(piece);
+		Rectangle2D bounds = fm.getStringBounds(glyph, g);
+		int glyphX = x + (int) ((squareSize - bounds.getWidth()) / 2);
+		int glyphY = y + (int) ((squareSize - bounds.getHeight()) / 2 - bounds.getY());
+		g.drawString(glyph, glyphX, glyphY);
 	}
 
 	private static String glyphFor(Piece piece) {
