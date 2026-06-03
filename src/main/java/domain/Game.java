@@ -43,6 +43,11 @@ public final class Game {
 			.orElse(false);
 	}
 
+	public void promote(Square square, PieceType newType) {
+		Piece piece = board.pieceAt(square).orElseThrow();
+		board.place(square, Piece.of(newType, piece.color()));
+	}
+
 	public GameStatus getStatus() {
 		return status;
 	}
