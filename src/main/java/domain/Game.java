@@ -35,6 +35,14 @@ public final class Game {
 		return false;
 	}
 
+	public boolean canPromote(Square square) {
+		return board.pieceAt(square)
+			.filter(p -> p.type() == PieceType.PAWN)
+			.map(p -> (p.color() == Color.WHITE && square.rank() == 7)
+				|| (p.color() == Color.BLACK && square.rank() == 0))
+			.orElse(false);
+	}
+
 	public GameStatus getStatus() {
 		return status;
 	}

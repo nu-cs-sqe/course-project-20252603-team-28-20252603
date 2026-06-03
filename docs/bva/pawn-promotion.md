@@ -28,7 +28,7 @@ A pawn promotes when it reaches the other side of the board. White promotes at r
     - Method(s) under test: `canPromote(Square square)`
     - State of the system: empty board with a white pawn placed at (7, 4)
     - Expected output: true
-    - Implemented: no
+    - Implemented: yes
 
 ---
 

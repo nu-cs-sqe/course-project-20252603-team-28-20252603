@@ -2,6 +2,8 @@ package domain;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import java.util.Optional;
+import org.easymock.EasyMock;
 
 public class GameTest {
 
@@ -103,5 +105,20 @@ public class GameTest {
 
 		Assertions.assertThrows(IllegalStateException.class,
 			() -> game.makeMove(Square.of(1, 0), Square.of(2, 2)));
+	}
+
+	@Test
+	public void canPromoteWhitePawnOnRank7() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Square target = Square.of(4, 7);
+		Piece whitePawn = Piece.of(PieceType.PAWN, Color.WHITE);
+
+		EasyMock.expect(boardMock.pieceAt(target)).andReturn(Optional.of(whitePawn));
+		EasyMock.replay(boardMock);
+
+		Game game = new Game(boardMock);
+
+		Assertions.assertTrue(game.canPromote(target));
+		EasyMock.verify(boardMock);
 	}
 }
