@@ -66,7 +66,7 @@ A pawn promotes when it reaches the other side of the board. White promotes at r
     - Method(s) under test: `promote(Square square, PieceType newType)`
     - State of the system: black pawn at (0, 4); newType = KNIGHT
     - Expected output: black knight at (0, 4)
-    - Implemented: no
+    - Implemented: yes  
 
 - Test Case 30: promote pawn off back rank throws
     - Method(s) under test: `promote(Square square, PieceType newType)`

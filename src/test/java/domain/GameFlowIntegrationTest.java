@@ -77,4 +77,17 @@ public class GameFlowIntegrationTest {
 		Assertions.assertEquals(PieceType.QUEEN, result.type());
 		Assertions.assertEquals(Color.WHITE, result.color());
 	}
+
+	@Test
+	public void promoteBlackPawnToKnight() {
+		Board board = new Board();
+		board.place(Square.of(3, 0), Piece.of(PieceType.PAWN, Color.BLACK));
+		Game game = new Game(board);
+
+		game.promote(Square.of(3, 0), PieceType.KNIGHT);
+
+		Piece result = board.pieceAt(Square.of(3, 0)).orElseThrow();
+		Assertions.assertEquals(PieceType.KNIGHT, result.type());
+		Assertions.assertEquals(Color.BLACK, result.color());
+	}
 }
