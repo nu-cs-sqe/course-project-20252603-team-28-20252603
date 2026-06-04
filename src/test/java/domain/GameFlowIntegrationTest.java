@@ -90,4 +90,15 @@ public class GameFlowIntegrationTest {
 		Assertions.assertEquals(PieceType.KNIGHT, result.type());
 		Assertions.assertEquals(Color.BLACK, result.color());
 	}
+
+	@Test
+	public void promotePawnOffBackRankThrows() {
+		Board board = new Board();
+		board.place(Square.of(4, 5), Piece.of(PieceType.PAWN, Color.WHITE));
+		Game game = new Game(board);
+
+		Assertions.assertThrows(IllegalArgumentException.class,
+			() -> game.promote(Square.of(4, 5), PieceType.QUEEN));
+	}
 }
+

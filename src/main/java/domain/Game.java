@@ -44,6 +44,9 @@ public final class Game {
 	}
 
 	public void promote(Square square, PieceType newType) {
+		if (!canPromote(square)) {
+			throw new IllegalArgumentException("square does not hold a promotable pawn");
+		}
 		Piece piece = board.pieceAt(square).orElseThrow();
 		board.place(square, Piece.of(newType, piece.color()));
 	}
