@@ -50,6 +50,60 @@
 1. [done] Team: Talked through Yiji's feedback. Two things to fix going forward: TDD commits should be one passing test + the minimum impl that passes it, not "all tests, then all impl." And we need to spread the work more evenly so each of us has merged PRs.
 2. [in progress] Kyubinn Kim: Knight movement (#7). Draft PR open on `kyubinn/knight-movement`. Got the first test passing (knight from center of empty board returns 8 candidate moves) and expanded the BVA to cover TC1-TC6. Remaining cases to go, one red-green cycle per commit.
 
+# Week 8 (05/18/2026-05/24/2026)
+**Planning and Progress Tracking**:
+1. [done] Jace Deng: Started Bishop movement on `Jace/bishop-bdd-movement` from updated `main`.
+2. [done] Jace Deng: Added Bishop BVA one test case per commit to make each boundary/equivalence case visible in history.
+3. [done] Jace Deng: Added Cucumber setup, the Bishop scenario outline, step definitions, and one BDD example row per commit.
+4. [done] Jace Deng: Added Bishop JUnit tests and minimal implementation commits for diagonal movement, edge handling, friendly blockers, opponent captures, and null inputs.
+5. [planned] Team: Review the Bishop movement PR and continue the same BDD+BVA commit discipline for the next piece.
+1. [done] Jace: Adopted a hybrid BDD+BVA workflow. Each new feature will use its own feature branch, BVA documented in `docs/bva`, executable BDD scenarios where appropriate, and a pull request before merging.
+2. [done] Jace Deng: Created the `knight-bdd-movement` feature branch for Knight movement using the BDD+BVA workflow.
+3. [done] Jace Deng: Expanded `docs/bva/knight.md` to cover Knight candidate moves from center, edge, and corner squares; friendly-piece blocking; opponent capture; jumping over pieces; and null inputs.
+4. [done] Jace Deng: Added Cucumber/Gherkin support and wrote `KnightMovement.feature` with Scenario Outline examples that contain the BVA cases.
+5. [done] Jace Deng: Implemented Knight candidate movement and capture behavior while keeping existing JUnit tests for low-level object behavior.
+6. [planned] Team: Review the Knight movement PR and use it as the template for future piece movement features.
+7. [planned] Team: After Knight movement is merged, continue with sliding-piece movement and then one-turn game flow.
+1. [done] Kyubinn Kim: Expanded the Knight BVA and got TC1 passing (knight at center returns 8 candidate squares). (https://github.com/nu-cs-sqe/course-project-20252603-team-28-20252603/pull/43)
+2. [done] Alvin Xu: Set up JaCoCo and PIT for coverage and mutation testing.
+3. [done] Jace Deng: Started Knight BDD implementation.
+4. [planned] Kyubinn Kim: Continue Knight TC2-TC6 next week.
+
+# Week 9 (05/25/2026-05/31/2026)
+**Planning and Progress Tracking**:
+1. [done] Jace Deng: Created the `queen-bdd-movement` feature branch for Queen movement instead of working directly on `main`.
+2. [done] Jace Deng: Reworked Queen movement using the detailed BDD+BVA workflow, including one BVA commit per identified test case.
+3. [done] Jace Deng: Added Queen Cucumber coverage with the scenario outline and step definitions committed before examples.
+4. [done] Jace Deng: Added each Queen BDD example row as its own commit, then used minimal implementation commits for empty-board ray movement, blockers, and opponent captures.
+5. [done] Jace Deng: Verified the Queen branch with `sh gradlew check`.
+6. [done] Jace Deng: Created the `rook-bdd-movement` feature branch for Rook movement using the same BDD+BVA workflow.
+7. [done] Jace Deng: Added Rook BVA one test case per commit, covering center, corner, edge, friendly blocker, opponent capture, and null input cases.
+8. [done] Jace Deng: Added Rook Cucumber coverage with the scenario outline, step definitions, and each passing example row committed separately.
+9. [done] Jace Deng: Implemented Rook candidate movement with minimal commits for empty-board rays, blocker stopping, and opponent captures.
+10. [done] Jace Deng: Verified the Rook branch with `sh gradlew check`.
+11. [done] Jace Deng: Created the `king-bdd-movement` feature branch for King movement using the same BDD+BVA workflow.
+12. [done] Jace Deng: Added King BVA one test case per commit, covering center, corner, edge, friendly blocker, opponent capture, and null input cases.
+13. [done] Jace Deng: Added King Cucumber coverage with the scenario outline, step definitions, and each passing example row committed separately.
+14. [done] Jace Deng: Implemented King candidate movement with minimal commits for adjacent moves and friendly occupied-square exclusion.
+15. [done] Jace Deng: Verified the King branch with `sh gradlew check`.
+16. [done] Jace Deng: Create the pawn-bdd-movement feature branch for Pawn movement using the same BDD+BVA workflow.
+17. [done] Jace Deng: Add Pawn BVA one test case per commit, covering white and black forward movement, starting-square two-step movement, blocked forward movement, diagonal opponent capture, diagonal friendly blocker, board-edge behavior, and null input cases.
+18. [done] Jace Deng: Add Pawn Cucumber coverage with the scenario outline and step definitions committed before examples.
+19. [done] Jace Deng: Add each Pawn BDD example row as its own commit, following the same commit discipline used for Queen, Rook, and King.
+20. [done] Jace Deng: Implement Pawn candidate movement with minimal commits for one-step forward movement, starting-square two-step movement, blocked movement prevention, and diagonal opponent captures.
+21. [done] Jace Deng: Verify the Pawn branch with sh gradlew check.
+22. [planned] Team: Open and review the Queen, Rook, and King, Pawn movement PRs, checking that each branch history demonstrates the required BDD+BVA commit discipline.
+23. [done] Kyubinn Kim: Got TimeControl (#44) and ChessClock (#46) merged with full BVA and all TCs passing.
+24. [done] Kyubinn Kim: Merged i18n Messages class with EN/KO/ZH locale support. (#49)
+25. [done] Kyubinn Kim: Merged Game class for one-turn flow (currentTurn, makeMove). (#50)
+26. [done] Jace Deng: Set up Cucumber BDD framework. (#47)
+27. [done] Alvin Xu: Reviewed and approved a bunch of team PRs and gave detailed feedback on the ChessClock PR.
+28. [in progress] Kyubinn Kim: GUI locale picker, BoardPanel rendering, integration tests, GameStatus + resign action. (#52, #53, #54, #55, #56) All waiting on team review.
+29. [in progress] Jace Deng: Bishop and Knight BDD movement. (#41, #48)
+30. [planned] Wire ChessClock timeout into Game for the timeout loss win condition.
+31. [planned] Finish remaining piece BDDs (Rook, Queen, King, Pawn). Checkmate detection depends on these being done.
+32. [planned] Run PIT and JaCoCo for the team test quality report next week if there's time.
+
 # Week X (XX/XX/2026-XX/XX/2026) TEMPLATE (You can change the format to whatever the team likes better)
 **Planning and Progress Tracking**:
 1. [done] Person: Task (Links to PR)
