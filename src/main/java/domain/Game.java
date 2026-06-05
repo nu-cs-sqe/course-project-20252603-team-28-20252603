@@ -47,6 +47,9 @@ public final class Game {
 		if (!canPromote(square)) {
 			throw new IllegalArgumentException("square does not hold a promotable pawn");
 		}
+		if (newType == PieceType.KING || newType == PieceType.PAWN) {
+			throw new IllegalArgumentException("cannot promote to king or pawn");
+		}
 		Piece piece = board.pieceAt(square).orElseThrow();
 		board.place(square, Piece.of(newType, piece.color()));
 	}

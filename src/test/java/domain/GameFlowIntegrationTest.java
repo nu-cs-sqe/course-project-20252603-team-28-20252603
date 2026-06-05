@@ -110,5 +110,15 @@ public class GameFlowIntegrationTest {
 		Assertions.assertThrows(IllegalArgumentException.class,
 			() -> game.promote(Square.of(4, 7), PieceType.QUEEN));
 	}
+
+	@Test
+	public void promoteToKingThrows() {
+		Board board = new Board();
+		board.place(Square.of(4, 7), Piece.of(PieceType.PAWN, Color.WHITE));
+		Game game = new Game(board);
+
+		Assertions.assertThrows(IllegalArgumentException.class,
+			() -> game.promote(Square.of(4, 7), PieceType.KING));
+	}
 }
 
