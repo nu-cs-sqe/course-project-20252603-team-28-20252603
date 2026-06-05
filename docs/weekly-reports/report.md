@@ -93,6 +93,16 @@
 20. [done] Jace Deng: Implement Pawn candidate movement with minimal commits for one-step forward movement, starting-square two-step movement, blocked movement prevention, and diagonal opponent captures.
 21. [done] Jace Deng: Verify the Pawn branch with sh gradlew check.
 22. [planned] Team: Open and review the Queen, Rook, and King, Pawn movement PRs, checking that each branch history demonstrates the required BDD+BVA commit discipline.
+23. [done] Kyubinn Kim: Got TimeControl (#44) and ChessClock (#46) merged with full BVA and all TCs passing.
+24. [done] Kyubinn Kim: Merged i18n Messages class with EN/KO/ZH locale support. (#49)
+25. [done] Kyubinn Kim: Merged Game class for one-turn flow (currentTurn, makeMove). (#50)
+26. [done] Jace Deng: Set up Cucumber BDD framework. (#47)
+27. [done] Alvin Xu: Reviewed and approved a bunch of team PRs and gave detailed feedback on the ChessClock PR.
+28. [in progress] Kyubinn Kim: GUI locale picker, BoardPanel rendering, integration tests, GameStatus + resign action. (#52, #53, #54, #55, #56) All waiting on team review.
+29. [in progress] Jace Deng: Bishop and Knight BDD movement. (#41, #48)
+30. [planned] Wire ChessClock timeout into Game for the timeout loss win condition.
+31. [planned] Finish remaining piece BDDs (Rook, Queen, King, Pawn). Checkmate detection depends on these being done.
+32. [planned] Run PIT and JaCoCo for the team test quality report next week if there's time.
 
 # Week X (XX/XX/2026-XX/XX/2026) TEMPLATE (You can change the format to whatever the team likes better)
 **Planning and Progress Tracking**:
