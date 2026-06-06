@@ -64,4 +64,61 @@ public class GameFlowIntegrationTest {
 		game.makeMove(Square.of(1, 0), Square.of(2, 2));
 		Assertions.assertEquals(Color.BLACK, game.currentTurn());
 	}
+
+	@Test
+	public void promoteWhitePawnToQueen() {
+		Board board = new Board();
+		board.place(Square.of(4, 7), Piece.of(PieceType.PAWN, Color.WHITE));
+		Game game = new Game(board);
+
+		game.promote(Square.of(4, 7), PieceType.QUEEN);
+
+		Piece result = board.pieceAt(Square.of(4, 7)).orElseThrow();
+		Assertions.assertEquals(PieceType.QUEEN, result.type());
+		Assertions.assertEquals(Color.WHITE, result.color());
+	}
+
+	@Test
+	public void promoteBlackPawnToKnight() {
+		Board board = new Board();
+		board.place(Square.of(3, 0), Piece.of(PieceType.PAWN, Color.BLACK));
+		Game game = new Game(board);
+
+		game.promote(Square.of(3, 0), PieceType.KNIGHT);
+
+		Piece result = board.pieceAt(Square.of(3, 0)).orElseThrow();
+		Assertions.assertEquals(PieceType.KNIGHT, result.type());
+		Assertions.assertEquals(Color.BLACK, result.color());
+	}
+
+	@Test
+	public void promotePawnOffBackRankThrows() {
+		Board board = new Board();
+		board.place(Square.of(4, 5), Piece.of(PieceType.PAWN, Color.WHITE));
+		Game game = new Game(board);
+
+		Assertions.assertThrows(IllegalArgumentException.class,
+			() -> game.promote(Square.of(4, 5), PieceType.QUEEN));
+	}
+
+	@Test
+	public void promoteNonPawnThrows() {
+		Board board = new Board();
+		board.place(Square.of(4, 7), Piece.of(PieceType.ROOK, Color.WHITE));
+		Game game = new Game(board);
+
+		Assertions.assertThrows(IllegalArgumentException.class,
+			() -> game.promote(Square.of(4, 7), PieceType.QUEEN));
+	}
+
+	@Test
+	public void promoteToKingThrows() {
+		Board board = new Board();
+		board.place(Square.of(4, 7), Piece.of(PieceType.PAWN, Color.WHITE));
+		Game game = new Game(board);
+
+		Assertions.assertThrows(IllegalArgumentException.class,
+			() -> game.promote(Square.of(4, 7), PieceType.KING));
+	}
 }
+
