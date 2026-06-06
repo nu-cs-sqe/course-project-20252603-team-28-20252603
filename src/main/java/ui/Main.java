@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import domain.Board;
+import domain.Game;
 import intl.Messages;
 
 public final class Main {
@@ -15,7 +16,9 @@ public final class Main {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
 			selectLocale();
-			new MainFrame(Board.standardSetup());
+			Board board = Board.standardSetup();
+			Game game = new Game(board);
+			new MainFrame(game, board);
 		});
 	}
 
