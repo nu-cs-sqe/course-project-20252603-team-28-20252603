@@ -76,7 +76,8 @@ public final class Game {
 
 	public void promote(Square square, PieceType newType) {
 		if (!canPromote(square)) {
-			throw new IllegalArgumentException("square does not hold a promotable pawn");
+			throw new IllegalArgumentException(
+				"square does not hold a promotable pawn");
 		}
 		if (newType == PieceType.KING || newType == PieceType.PAWN) {
 			throw new IllegalArgumentException("cannot promote to king or pawn");
