@@ -24,6 +24,7 @@ dependencies {
     testImplementation("org.junit.platform:junit-platform-suite")
     testImplementation("io.cucumber:cucumber-java:7.20.1")
     testImplementation("io.cucumber:cucumber-junit-platform-engine:7.20.1")
+    testImplementation("org.easymock:easymock:5.2.0")
 }
 
 java {
