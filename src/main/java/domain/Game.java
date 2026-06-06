@@ -106,6 +106,26 @@ public final class Game {
 		return false;
 	}
 
+	public boolean canPromote(Square square) {
+		return board.pieceAt(square)
+			.filter(p -> p.type() == PieceType.PAWN)
+			.map(p -> (p.color() == Color.WHITE && square.rank() == 7)
+				|| (p.color() == Color.BLACK && square.rank() == 0))
+			.orElse(false);
+	}
+
+	public void promote(Square square, PieceType newType) {
+		if (!canPromote(square)) {
+			throw new IllegalArgumentException(
+				"square does not hold a promotable pawn");
+		}
+		if (newType == PieceType.KING || newType == PieceType.PAWN) {
+			throw new IllegalArgumentException("cannot promote to king or pawn");
+		}
+		Piece piece = board.pieceAt(square).orElseThrow();
+		board.place(square, Piece.of(newType, piece.color()));
+	}
+
 	public GameStatus getStatus() {
 		return status;
 	}
