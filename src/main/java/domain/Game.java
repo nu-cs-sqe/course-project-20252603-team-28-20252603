@@ -150,5 +150,10 @@ public final class Game {
 		}
 		board.move(from, to);
 		currentTurn = currentTurn.opposite();
+		if (isCheckmate(currentTurn)) {
+			status = currentTurn == Color.WHITE
+				? GameStatus.BLACK_WIN
+				: GameStatus.WHITE_WIN;
+		}
 	}
 }
