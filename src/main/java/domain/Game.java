@@ -1,17 +1,30 @@
 package domain;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public final class Game {
 	private final Board board;
+	private final ChessClock clock;
 	private Color currentTurn;
 	private GameStatus status;
 
 	public Game(Board board) {
 		Objects.requireNonNull(board);
 		this.board = board;
+		this.clock = null;
 		this.currentTurn = Color.WHITE;
 		this.status = GameStatus.IN_PROGRESS;
+	}
+
+	public Game(Board board, ChessClock clock) {
+		Objects.requireNonNull(board);
+		Objects.requireNonNull(clock);
+		this.board = board;
+		this.clock = clock;
+		this.currentTurn = Color.WHITE;
+		this.status = GameStatus.IN_PROGRESS;
+		clock.start(Color.WHITE);
 	}
 
 	public Color currentTurn() {
@@ -20,6 +33,24 @@ public final class Game {
 
 	Board board() {
 		return board;
+	}
+
+	public ChessClock clock() {
+		return clock;
+	}
+
+	public Optional<Color> winnerByTimeout() {
+		if (clock == null) {
+			return Optional.empty();
+		}
+		clock.tick();
+		if (clock.isExpired(Color.WHITE)) {
+			return Optional.of(Color.BLACK);
+		}
+		if (clock.isExpired(Color.BLACK)) {
+			return Optional.of(Color.WHITE);
+		}
+		return Optional.empty();
 	}
 
 	public boolean isInCheck(Color color) {
