@@ -274,4 +274,16 @@ public class GameTest {
 		Assertions.assertEquals(GameStatus.WHITE_WIN, game.getStatus());
 	}
 
+	@Test
+	public void stalemateMoveUpdatesStatusToStalemate() {
+		Board board = new Board();
+		board.place(Square.of(0, 7), Piece.of(PieceType.KING, Color.BLACK));
+		board.place(Square.of(2, 5), Piece.of(PieceType.KING, Color.WHITE));
+		board.place(Square.of(1, 2), Piece.of(PieceType.QUEEN, Color.WHITE));
+		Game game = new Game(board);
+
+		game.makeMove(Square.of(1, 2), Square.of(1, 5));
+
+		Assertions.assertEquals(GameStatus.STALEMATE, game.getStatus());
+	}
 }

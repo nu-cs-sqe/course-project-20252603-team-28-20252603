@@ -154,6 +154,8 @@ public final class Game {
 			status = currentTurn == Color.WHITE
 				? GameStatus.BLACK_WIN
 				: GameStatus.WHITE_WIN;
+		} else if (isStalemate(currentTurn)) {
+			status = GameStatus.STALEMATE;
 		}
 	}
 }
