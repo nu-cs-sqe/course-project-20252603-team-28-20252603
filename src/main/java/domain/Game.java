@@ -55,11 +55,51 @@ public final class Game {
 
 	public boolean isInCheck(Color color) {
 		Objects.requireNonNull(color);
-		Square kingSquare = board.findKing(color);
+		return isInCheckOn(board, color);
+	}
+
+	public boolean isCheckmate(Color color) {
+		Objects.requireNonNull(color);
+		if (!isInCheck(color)) {
+			return false;
+		}
+		for (Square from : board.occupiedSquaresOf(color)) {
+			Piece piece = board.pieceAt(from).orElseThrow();
+			for (Square to : piece.candidateMoves(from, board)) {
+				Board copy = board.copy();
+				copy.move(from, to);
+				if (!isInCheckOn(copy, color)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	public boolean isStalemate(Color color) {
+		Objects.requireNonNull(color);
+		if (isInCheck(color)) {
+			return false;
+		}
+		for (Square from : board.occupiedSquaresOf(color)) {
+			Piece piece = board.pieceAt(from).orElseThrow();
+			for (Square to : piece.candidateMoves(from, board)) {
+				Board copy = board.copy();
+				copy.move(from, to);
+				if (!isInCheckOn(copy, color)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	private boolean isInCheckOn(Board boardSnapshot, Color color) {
+		Square kingSquare = boardSnapshot.findKing(color);
 		Color opponent = color.opposite();
-		for (Square square : board.occupiedSquaresOf(opponent)) {
-			Piece piece = board.pieceAt(square).orElseThrow();
-			if (piece.candidateMoves(square, board).contains(kingSquare)) {
+		for (Square square : boardSnapshot.occupiedSquaresOf(opponent)) {
+			Piece piece = boardSnapshot.pieceAt(square).orElseThrow();
+			if (piece.candidateMoves(square, boardSnapshot).contains(kingSquare)) {
 				return true;
 			}
 		}
