@@ -46,4 +46,13 @@ public class PieceTest {
 				NullPointerException.class,
 				() -> Piece.of(PieceType.PAWN, null));
 	}
+
+	@Test
+	public void candidateMovesNullFromThrows() {
+		Piece piece = new StubPiece(Color.WHITE);
+		Board board = new Board();
+
+		Assertions.assertThrows(NullPointerException.class,
+			() -> piece.candidateMoves(null, board));
+	}
 }
