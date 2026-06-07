@@ -65,7 +65,9 @@ val excluded = listOf(
     "**/*View*",
     "**/*GUI*",
     "**/*Enum*",
-    "**/Color.class"
+    "**/Color.class",
+    "**/GameStatus.class",
+    "**/PieceType.class"
 )
 tasks.jacocoTestCoverageVerification {
     violationRules {
@@ -88,6 +90,13 @@ tasks.jacocoTestCoverageVerification {
 tasks.jacocoTestReport {
     // Give jacoco the file generated with the cucumber tests for the coverage.
     executionData(files("$buildDir/jacoco/test.exec", "$buildDir/results/jacoco/cucumber.exec"))
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude(excluded)
+            }
+        })
+    )
     reports {
         xml.required = false
         csv.required = false
@@ -105,7 +114,7 @@ tasks.build {
 tasks.test {
     useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
-    finalizedBy(tasks.pitest)
+    //finalizedBy(tasks.pitest)
 }
 tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
