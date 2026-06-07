@@ -1,5 +1,10 @@
 package ui;
 
+import java.time.Clock;
+import java.time.Duration;
+import domain.ChessClock;
+import domain.TimeControl;
+
 import java.util.Locale;
 
 import javax.swing.JOptionPane;
@@ -17,7 +22,9 @@ public final class Main {
 		SwingUtilities.invokeLater(() -> {
 			selectLocale();
 			Board board = Board.standardSetup();
-			Game game = new Game(board);
+			TimeControl timeControl = new TimeControl(Duration.ofMinutes(5), Duration.ZERO);
+			ChessClock clock = new ChessClock(timeControl, Clock.systemUTC());
+			Game game = new Game(board, clock);
 			new MainFrame(game, board);
 		});
 	}
