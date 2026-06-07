@@ -2,6 +2,7 @@ package ui;
 
 import java.util.Optional;
 
+import java.time.Duration;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import javax.swing.JLabel;
@@ -48,9 +49,19 @@ public class MainFrame extends JFrame {
 				game.resign(loser);
 				((Timer) e.getSource()).stop();
 			}
+			whiteTime.setText("White: "
+				+ format(game.clock().remaining(Color.WHITE)));
+			blackTime.setText("Black: "
+				+ format(game.clock().remaining(Color.BLACK)));
 		});
+		game.clock().start(game.currentTurn());
 		timer.start();
 
 		setVisible(true);
+	}
+
+	private static String format(Duration d) {
+		long totalSec = Math.max(0, (long) Math.ceil(d.toMillis() / 1000.0));
+		return String.format("%d:%02d", totalSec / 60, totalSec % 60);
 	}
 }
