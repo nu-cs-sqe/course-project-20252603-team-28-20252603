@@ -1,9 +1,10 @@
 package domain;
 
-import java.util.Optional;
-import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.Optional;
+import java.util.Set;
 
 public class BoardTest {
 	private static final Square WHITE_KNIGHT_START = Square.of(1, 0);

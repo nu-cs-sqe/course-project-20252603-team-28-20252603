@@ -1,9 +1,9 @@
 package domain;
 
-import java.time.Duration;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
 
 public class TimeControlTest {
 
