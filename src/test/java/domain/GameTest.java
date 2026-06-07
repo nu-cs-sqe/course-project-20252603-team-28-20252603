@@ -257,4 +257,33 @@ public class GameTest {
 
 		Assertions.assertThrows(NullPointerException.class, () -> game.isStalemate(null));
 	}
+
+	@Test
+	public void backRankMateMoveUpdatesStatusToWhiteWin() {
+		Board board = new Board();
+		board.place(Square.of(7, 7), Piece.of(PieceType.KING, Color.BLACK));
+		board.place(Square.of(5, 6), Piece.of(PieceType.PAWN, Color.BLACK));
+		board.place(Square.of(6, 6), Piece.of(PieceType.PAWN, Color.BLACK));
+		board.place(Square.of(7, 6), Piece.of(PieceType.PAWN, Color.BLACK));
+		board.place(Square.of(0, 0), Piece.of(PieceType.ROOK, Color.WHITE));
+		board.place(Square.of(4, 0), Piece.of(PieceType.KING, Color.WHITE));
+		Game game = new Game(board);
+
+		game.makeMove(Square.of(0, 0), Square.of(0, 7));
+
+		Assertions.assertEquals(GameStatus.WHITE_WIN, game.getStatus());
+	}
+
+	@Test
+	public void stalemateMoveUpdatesStatusToStalemate() {
+		Board board = new Board();
+		board.place(Square.of(0, 7), Piece.of(PieceType.KING, Color.BLACK));
+		board.place(Square.of(2, 5), Piece.of(PieceType.KING, Color.WHITE));
+		board.place(Square.of(1, 2), Piece.of(PieceType.QUEEN, Color.WHITE));
+		Game game = new Game(board);
+
+		game.makeMove(Square.of(1, 2), Square.of(1, 5));
+
+		Assertions.assertEquals(GameStatus.STALEMATE, game.getStatus());
+	}
 }
