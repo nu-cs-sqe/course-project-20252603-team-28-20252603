@@ -36,7 +36,7 @@ public class BoardPanel extends JPanel {
 
 	private final Game game;
 	private final Board board;
-	private Square selected;
+	private Square selectedSquare;
 
 	public BoardPanel(Game game, Board board) {
 		this.game = game;
@@ -52,29 +52,29 @@ public class BoardPanel extends JPanel {
 		});
 	}
 
-	private void handleClick(Square clicked) {
-		if (selected != null) {
-			Optional<Piece> picked = board.pieceAt(selected);
+	private void handleClick(Square clickedSquare) {
+		if (selectedSquare != null) {
+			Optional<Piece> picked = board.pieceAt(selectedSquare);
 			if (picked.isPresent()) {
 				Set<Square> dests = picked.get()
-					.candidateMoves(selected, board);
-				if (dests.contains(clicked)) {
-					game.makeMove(selected, clicked);
-					if (game.canPromote(clicked)) {
-						showPromotionDialog(clicked);
+					.candidateMoves(selectedSquare, board);
+				if (dests.contains(clickedSquare)) {
+					game.makeMove(selectedSquare, clickedSquare);
+					if (game.canPromote(clickedSquare)) {
+						showPromotionDialog(clickedSquare);
 					}
-					selected = null;
+					selectedSquare = null;
 					repaint();
 					return;
 				}
 			}
 		}
-		Optional<Piece> clickedPiece = board.pieceAt(clicked);
+		Optional<Piece> clickedPiece = board.pieceAt(clickedSquare);
 		if (clickedPiece.isPresent()
 			&& clickedPiece.get().color() == game.currentTurn()) {
-			selected = clicked;
+			selectedSquare = clickedSquare;
 		} else {
-			selected = null;
+			selectedSquare = null;
 		}
 		repaint();
 	}
@@ -147,14 +147,14 @@ public class BoardPanel extends JPanel {
 
 	// figure out which squares the selected piece can move to
 	private Set<Square> computeLegalDests() {
-		if (selected == null) {
+		if (selectedSquare == null) {
 			return Collections.emptySet();
 		}
-		Optional<Piece> piece = board.pieceAt(selected);
+		Optional<Piece> piece = board.pieceAt(selectedSquare);
 		if (!piece.isPresent()) {
 			return Collections.emptySet();
 		}
-		return piece.get().candidateMoves(selected, board);
+		return piece.get().candidateMoves(selectedSquare, board);
 	}
 
 	private void paintSquare(Graphics g, int file, int rank,
@@ -169,9 +169,9 @@ public class BoardPanel extends JPanel {
 		g.fillRect(x, y, squareSize, squareSize);
 
 		// highlight if this is the selected square
-		if (selected != null
-			&& selected.file() == file
-			&& selected.rank() == rank) {
+		if (selectedSquare != null
+			&& selectedSquare.file() == file
+			&& selectedSquare.rank() == rank) {
 			g.setColor(HIGHLIGHT);
 			g.fillRect(x, y, squareSize, squareSize);
 		}
