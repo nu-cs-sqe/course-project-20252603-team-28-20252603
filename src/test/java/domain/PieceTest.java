@@ -55,4 +55,12 @@ public class PieceTest {
 		Assertions.assertThrows(NullPointerException.class,
 			() -> piece.candidateMoves(null, board));
 	}
+
+	@Test
+	public void candidateMovesNullBoardThrows() {
+		Piece piece = new StubPiece(Color.WHITE);
+
+		Assertions.assertThrows(NullPointerException.class,
+			() -> piece.candidateMoves(Square.of(0, 0), null));
+	}
 }
