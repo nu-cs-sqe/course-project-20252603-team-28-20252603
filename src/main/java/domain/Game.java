@@ -149,7 +149,11 @@ public final class Game {
 			throw new IllegalStateException("Not your turn");
 		}
 		board.move(from, to);
+		Color moved = currentTurn;
 		currentTurn = currentTurn.opposite();
+		if (clock != null) {
+			clock.completeTurn(moved, currentTurn);
+		}
 		if (isCheckmate(currentTurn)) {
 			status = currentTurn == Color.WHITE
 				? GameStatus.BLACK_WIN

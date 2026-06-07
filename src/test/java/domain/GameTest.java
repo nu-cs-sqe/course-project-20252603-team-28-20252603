@@ -286,4 +286,16 @@ public class GameTest {
 
 		Assertions.assertEquals(GameStatus.STALEMATE, game.getStatus());
 	}
+
+	@Test
+	public void makeMoveSwitchesClockToOpponent() {
+		Board board = Board.standardSetup();
+		TimeControl tc = new TimeControl(Duration.ofMinutes(5), Duration.ZERO);
+		ChessClock chessClock = new ChessClock(tc, Clock.systemUTC());
+		Game game = new Game(board, chessClock);
+
+		game.makeMove(Square.of(1, 0), Square.of(2, 2));
+
+		Assertions.assertEquals(Color.BLACK, game.clock().running());
+	}
 }
