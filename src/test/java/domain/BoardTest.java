@@ -98,7 +98,8 @@ public class BoardTest {
 		board.move(WHITE_KNIGHT_START, WHITE_KNIGHT_TARGET);
 
 		Assertions.assertTrue(board.pieceAt(WHITE_KNIGHT_START).isEmpty());
-		Assertions.assertEquals(Optional.of(mockedWhiteKnight), board.pieceAt(WHITE_KNIGHT_TARGET));
+		Assertions.assertEquals(
+                Optional.of(mockedWhiteKnight), board.pieceAt(WHITE_KNIGHT_TARGET));
 	}
 
 	@Test
