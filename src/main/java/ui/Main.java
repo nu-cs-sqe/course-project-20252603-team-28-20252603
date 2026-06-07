@@ -22,7 +22,8 @@ public final class Main {
 		SwingUtilities.invokeLater(() -> {
 			selectLocale();
 			Board board = Board.standardSetup();
-			TimeControl timeControl = new TimeControl(Duration.ofMinutes(5), Duration.ZERO);
+			TimeControl timeControl = new TimeControl(
+				Duration.ofMinutes(5), Duration.ZERO);
 			ChessClock clock = new ChessClock(timeControl, Clock.systemUTC());
 			Game game = new Game(board, clock);
 			new MainFrame(game, board);
