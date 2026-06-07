@@ -10,8 +10,12 @@ public class PieceTest {
 	// stub that inherits candidateMoves without overiding it so the base
 	// methods null guards and default empty return actually run in the tests
 	private static class StubPiece extends Piece {
-		StubPiece(Color color) { super(color); }
-		@Override public PieceType type() { return PieceType.PAWN; }
+		StubPiece(Color color) {
+			super(color);
+		}
+		@Override public PieceType type() {
+			return PieceType.PAWN;
+		}
 	}
 
 	@Test
