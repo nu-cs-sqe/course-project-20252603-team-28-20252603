@@ -110,11 +110,19 @@ public class BoardPanel extends JPanel {
 		);
 		PieceType type;
 		switch (choice) {
-			case 1: type = PieceType.ROOK; break;
-			case 2: type = PieceType.BISHOP; break;
-			case 3: type = PieceType.KNIGHT; break;
+			case 1:
+				type = PieceType.ROOK;
+				break;
+			case 2:
+				type = PieceType.BISHOP;
+				break;
+			case 3:
+				type = PieceType.KNIGHT;
+				break;
 			case 0:
-			default: type = PieceType.QUEEN; break;
+			default:
+				type = PieceType.QUEEN;
+				break;
 		}
 		game.promote(square, type);
 	}
