@@ -63,4 +63,13 @@ public class PieceTest {
 		Assertions.assertThrows(NullPointerException.class,
 			() -> piece.candidateMoves(Square.of(0, 0), null));
 	}
+
+	@Test
+	public void candidateMovesDefaultReturnsEmpty() {
+		Piece piece = new StubPiece(Color.WHITE);
+		Board board = new Board();
+		Set<Square> moves = piece.candidateMoves(Square.of(0, 0), board);
+
+		Assertions.assertTrue(moves.isEmpty());
+	}
 }
