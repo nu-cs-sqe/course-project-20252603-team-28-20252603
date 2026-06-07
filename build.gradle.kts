@@ -75,7 +75,7 @@ tasks.jacocoTestCoverageVerification {
             limit {
                 counter = "COMPLEXITY"
                 value = "COVEREDRATIO"
-                minimum = "1.0".toBigDecimal()
+                minimum = "1.0000".toBigDecimal()
             }
         }
     }
