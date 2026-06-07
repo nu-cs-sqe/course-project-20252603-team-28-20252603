@@ -114,6 +114,10 @@ tasks.build {
 tasks.test {
     useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+    finalizedBy(tasks.checkstyleMain) // Run Checkstyle
+    finalizedBy(tasks.checkstyleTest) // Run Checkstyle
+    finalizedBy(tasks.spotbugsMain) // Run Spotbugs
+    finalizedBy(tasks.spotbugsTest) // Run Spotbugs
     //finalizedBy(tasks.pitest)
 }
 tasks.jacocoTestReport {

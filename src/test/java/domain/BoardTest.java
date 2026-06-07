@@ -43,7 +43,8 @@ public class BoardTest {
 
 		Assertions.assertThrows(
 				NullPointerException.class,
-				() -> board.place(null, knight));
+				() -> board.place(null, knight)
+		);
 	}
 
 	@Test
@@ -52,7 +53,8 @@ public class BoardTest {
 
 		Assertions.assertThrows(
 				NullPointerException.class,
-				() -> board.place(WHITE_KNIGHT_START, null));
+				() -> board.place(WHITE_KNIGHT_START, null)
+		);
 	}
 
 	@Test
@@ -99,7 +101,7 @@ public class BoardTest {
 
 		Assertions.assertTrue(board.pieceAt(WHITE_KNIGHT_START).isEmpty());
 		Assertions.assertEquals(
-                Optional.of(mockedWhiteKnight), board.pieceAt(WHITE_KNIGHT_TARGET));
+				Optional.of(mockedWhiteKnight), board.pieceAt(WHITE_KNIGHT_TARGET));
 	}
 
 	@Test
@@ -108,7 +110,8 @@ public class BoardTest {
 
 		Assertions.assertThrows(
 				IllegalStateException.class,
-				() -> board.move(WHITE_KNIGHT_START, WHITE_KNIGHT_TARGET));
+				() -> board.move(WHITE_KNIGHT_START, WHITE_KNIGHT_TARGET)
+		);
 	}
 
 	@Test
@@ -135,7 +138,8 @@ public class BoardTest {
 
 		Assertions.assertEquals(
 				Optional.of(mockedWhiteKnight),
-				copiedBoard.pieceAt(WHITE_KNIGHT_START));
+				copiedBoard.pieceAt(WHITE_KNIGHT_START)
+		);
 	}
 
 	@Test
@@ -152,7 +156,8 @@ public class BoardTest {
 
 		Assertions.assertThrows(
 				IllegalStateException.class,
-				() -> board.findKing(Color.WHITE));
+				() -> board.findKing(Color.WHITE)
+		);
 	}
 
 	@Test
