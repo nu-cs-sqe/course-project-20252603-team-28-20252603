@@ -32,11 +32,13 @@ public class BoardPanel extends JPanel {
 
 	private final Game game;
 	private final Board board;
+	private final Runnable onMove;
 	private Square selected;
 
-	public BoardPanel(Game game, Board board) {
+	public BoardPanel(Game game, Board board, Runnable onMove) {
 		this.game = game;
 		this.board = board;
+		this.onMove = onMove;
 		setBackground(BACKGROUND);
 		setPreferredSize(new Dimension(900, 900));
 		addMouseListener(new MouseAdapter() {
@@ -57,6 +59,7 @@ public class BoardPanel extends JPanel {
 				if (dests.contains(clicked)) {
 					game.makeMove(selected, clicked);
 					selected = null;
+					onMove.run();
 					repaint();
 					return;
 				}
@@ -120,7 +123,7 @@ public class BoardPanel extends JPanel {
 	}
 
 	private void paintSquare(Graphics g, int file, int rank,
-				int squareSize, int xOffset, int yOffset, Set<Square> legalDests) {
+	                         int squareSize, int xOffset, int yOffset, Set<Square> legalDests) {
 		int x = xOffset + file * squareSize;
 		// swing draws y = 0 at top of the panel, but rank=0 is whites home row
 		// flip rank so rank= 7 (black side) draws at top
@@ -149,7 +152,7 @@ public class BoardPanel extends JPanel {
 	}
 
 	private void drawLegalMarker(Graphics g, Square here,
-	                int x, int y, int squareSize) {
+	                             int x, int y, int squareSize) {
 		g.setColor(LEGAL_DEST);
 		if (board.pieceAt(here).isPresent()) {
 			Graphics2D g2 = (Graphics2D) g;
@@ -165,7 +168,7 @@ public class BoardPanel extends JPanel {
 	}
 
 	private void drawPiece(Graphics g, Piece piece,
-	                int x, int y, int squareSize) {
+	                       int x, int y, int squareSize) {
 		java.awt.Color paint = piece.color() == Color.WHITE
 			? java.awt.Color.WHITE : java.awt.Color.BLACK;
 		g.setColor(paint);
