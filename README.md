@@ -55,15 +55,6 @@ The project uses the Gradle wrapper, so no Gradle installation is required.
 
 CI runs `./gradlew build` on every pull request and on every push to `main`.
 
-## Testing Strategy
-
-Unit tests use EasyMock where isolation of external collaborators is beneficial. Some integration tests, such as those for the pieces, use cucumber.
-
-The following classes are intentionally not always mocked:
-
-- Square
-  - Square is a public final class and thus cannot be mocked. Additionally, Square generally acts as a data structure to contain file and rank, and is called most often through Square.of(file, rank) in order to create and return a new square.
-
 ## Run the Game
 
 Run instructions will be added once the application entry point is implemented.
@@ -75,6 +66,13 @@ Run instructions will be added once the application entry point is implemented.
 3. Write failing JUnit tests that reflect the BVA, then implement the feature until the tests pass (TDD).
 4. Open a pull request against `main`. CI must pass and at least one teammate must approve before merging.
 5. Update `docs/weekly-reports/report.md` at the end of each week with planning and progress notes.
+
+## Special Design Decisions and Exceptions
+
+The following classes are intentionally not always mocked:
+
+- Square
+  - Square is a public final class and thus cannot be mocked. Additionally, Square generally acts as a data structure to contain file and rank, and is called most often through Square.of(file, rank) in order to create and return a new square.
 
 ## Acknowledgements
 
