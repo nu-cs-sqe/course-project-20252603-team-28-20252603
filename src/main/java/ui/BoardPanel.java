@@ -14,12 +14,16 @@ import java.util.Optional;
 import java.util.Set;
 
 import javax.swing.JPanel;
+import javax.swing.JOptionPane;
+
 
 import domain.Board;
 import domain.Color;
 import domain.Game;
 import domain.Piece;
 import domain.Square;
+import domain.PieceType;
+
 
 // renders the chess Board as an 8x8 grid with unicode chess glyphs
 public class BoardPanel extends JPanel {
@@ -56,6 +60,9 @@ public class BoardPanel extends JPanel {
 					.candidateMoves(selected, board);
 				if (dests.contains(clicked)) {
 					game.makeMove(selected, clicked);
+					if (game.canPromote(clicked)) {
+						showPromotionDialog(clicked);
+					}
 					selected = null;
 					repaint();
 					return;
@@ -87,6 +94,29 @@ public class BoardPanel extends JPanel {
 		// rank flips again because we paint rank=7 at top
 		int rank = BOARD_SIZE - 1 - relY / squareSize;
 		return Optional.of(Square.of(file, rank));
+	}
+
+	private void showPromotionDialog(Square square) {
+		String[] options = {"Queen", "Rook", "Bishop", "Knight"};
+		int choice = JOptionPane.showOptionDialog(
+			this,
+			"Promote pawn to:",
+			"Pawn Promotion",
+			JOptionPane.DEFAULT_OPTION,
+			JOptionPane.QUESTION_MESSAGE,
+			null,
+			options,
+			options[0]
+		);
+		PieceType type;
+		switch (choice) {
+			case 1: type = PieceType.ROOK; break;
+			case 2: type = PieceType.BISHOP; break;
+			case 3: type = PieceType.KNIGHT; break;
+			case 0:
+			default: type = PieceType.QUEEN; break;
+		}
+		game.promote(square, type);
 	}
 
 	@Override
