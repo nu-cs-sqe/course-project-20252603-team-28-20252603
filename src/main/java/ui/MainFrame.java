@@ -24,13 +24,19 @@ public class MainFrame extends JFrame {
 		setExtendedState(MAXIMIZED_BOTH);
 		setLayout(new BorderLayout());
 
-		JLabel whiteTime = new JLabel("White: 5:00");
-		JLabel blackTime = new JLabel("Black: 5:00");
+		JLabel whiteName = new JLabel(Messages.get("clock.white"));
+		JLabel blackName = new JLabel(Messages.get("clock.black"));
+		JLabel whiteTime = new JLabel("5:00");
+		JLabel blackTime = new JLabel("5:00");
+		whiteName.setFont(whiteName.getFont().deriveFont(Font.BOLD, 24f));
+		blackName.setFont(blackName.getFont().deriveFont(Font.BOLD, 24f));
 		whiteTime.setFont(new Font("SansSerif", Font.BOLD, 24));
 		blackTime.setFont(new Font("SansSerif", Font.BOLD, 24));
 
 		JPanel clockBar = new JPanel();
+		clockBar.add(whiteName);
 		clockBar.add(whiteTime);
+		clockBar.add(blackName);
 		clockBar.add(blackTime);
 
 		add(clockBar, BorderLayout.NORTH);
@@ -54,10 +60,8 @@ public class MainFrame extends JFrame {
 				game.resign(loser);
 				((Timer) e.getSource()).stop();
 			}
-			whiteTime.setText("White: "
-				+ format(game.clock().remaining(Color.WHITE)));
-			blackTime.setText("Black: "
-				+ format(game.clock().remaining(Color.BLACK)));
+			whiteTime.setText(format(game.clock().remaining(Color.WHITE)));
+			blackTime.setText(format(game.clock().remaining(Color.BLACK)));
 			statusLabel.setText(statusText(game));
 		});
 		game.clock().start(game.currentTurn());
