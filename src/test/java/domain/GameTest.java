@@ -465,4 +465,29 @@ public class GameTest {
 		Assertions.assertTrue(game.legalMovesFrom(Square.of(1, 0)).isEmpty());
 		EasyMock.verify(boardMock);
 	}
+
+	@Test
+	public void legalMovesFromIncludesMoveThatKeepsKingSafe() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Piece whiteKnightMock = getMockedPiece(Color.WHITE, PieceType.KNIGHT);
+
+		EasyMock.expect(boardMock.pieceAt(Square.of(1, 0)))
+			.andReturn(Optional.of(whiteKnightMock));
+		EasyMock.expect(whiteKnightMock.candidateMoves(Square.of(1, 0), boardMock))
+			.andReturn(Set.of(Square.of(2, 2)));
+		EasyMock.expect(boardMock.copy()).andStubReturn(boardMock);
+		boardMock.move(Square.of(1, 0), Square.of(2, 2));
+		EasyMock.expectLastCall();
+		EasyMock.expect(boardMock.findKing(Color.WHITE))
+			.andStubReturn(Square.of(4, 0));
+		EasyMock.expect(boardMock.occupiedSquaresOf(Color.BLACK))
+			.andStubReturn(Set.of());
+
+		EasyMock.replay(boardMock, whiteKnightMock);
+		Game game = new Game(boardMock);
+
+		Set<Square> legal = game.legalMovesFrom(Square.of(1, 0));
+		Assertions.assertTrue(legal.contains(Square.of(2, 2)));
+		EasyMock.verify(boardMock);
+	}
 }
