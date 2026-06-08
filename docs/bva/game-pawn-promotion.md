@@ -24,7 +24,7 @@ A pawn promotes when it reaches the other side of the board. White promotes at r
 - Output #1: true, false
 
 ### Step 4 - Test Cases
-- Test Case 27: white pawn on rank 7 can be promoted
+- Test Case 32: white pawn on rank 7 can be promoted
     - Method(s) under test: `canPromote(Square square)`
     - State of the system: empty board with a white pawn placed at (7, 4)
     - Expected output: true
@@ -56,31 +56,31 @@ A pawn promotes when it reaches the other side of the board. White promotes at r
 - Output #2: exception
 
 ### Step 4 - Test Cases
-- Test Case 28: promote white pawn to queen
+- Test Case 33: promote white pawn to queen
     - Method(s) under test: `promote(Square square, PieceType newType)`
     - State of the system: white pawn at (7, 4); newType = QUEEN
     - Expected output: white queen at (7, 4)
     - Implemented: yes
 
-- Test Case 29: promote black pawn to knight
+- Test Case 34: promote black pawn to knight
     - Method(s) under test: `promote(Square square, PieceType newType)`
     - State of the system: black pawn at (0, 4); newType = KNIGHT
     - Expected output: black knight at (0, 4)
     - Implemented: yes  
 
-- Test Case 30: promote pawn off back rank throws
+- Test Case 35: promote pawn off back rank throws
     - Method(s) under test: `promote(Square square, PieceType newType)`
     - State of the system: white pawn at (6, 4); newType = QUEEN
     - Expected output: exception
     - Implemented: yes
 
-- Test Case 31: promote non-pawn throws
+- Test Case 36: promote non-pawn throws
     - Method(s) under test: `promote(Square square, PieceType newType)`
     - State of the system: white rook at (7, 0); newType = QUEEN
     - Expected output: exception
     - Implemented: yes
 
-- Test Case 32: promote to king throws
+- Test Case 37: promote to king throws
     - Method(s) under test: `promote(Square square, PieceType newType)`
     - State of the system: white pawn at (7, 4); newType = KING
     - Expected output: exception
