@@ -1,5 +1,9 @@
 package domain;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import java.util.Objects;
 import java.util.Optional;
 
@@ -51,6 +55,24 @@ public final class Game {
 			return Optional.of(Color.WHITE);
 		}
 		return Optional.empty();
+	}
+
+	public Set<Square> legalMovesFrom(Square from) {
+		Objects.requireNonNull(from);
+		Optional<Piece> piece = board.pieceAt(from);
+		if (piece.isEmpty()) {
+			return Collections.emptySet();
+		}
+		Color color = piece.get().color();
+		Set<Square> moves = new HashSet<>();
+		for (Square to : piece.get().candidateMoves(from, board)) {
+			Board simulated = board.copy();
+			simulated.move(from, to);
+			if (!isInCheckOn(simulated, color)) {
+				moves.add(to);
+			}
+		}
+		return Collections.unmodifiableSet(moves);
 	}
 
 	public boolean isInCheck(Color color) {
@@ -149,6 +171,11 @@ public final class Game {
 			.orElseThrow(() -> new IllegalStateException("No piece at source square"));
 		if (piece.color() != currentTurn) {
 			throw new IllegalStateException("Not your turn");
+		}
+		Board simulated = board.copy();
+		simulated.move(from, to);
+		if (isInCheckOn(simulated, currentTurn)) {
+			throw new IllegalStateException("Move would leave own king in check");
 		}
 		board.move(from, to);
 		Color moved = currentTurn;

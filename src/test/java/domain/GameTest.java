@@ -32,7 +32,7 @@ public class GameTest {
 		EasyMock.expect(boardMock.pieceAt(Square.of(1, 0))).andReturn(
 				Optional.of(whiteKnightMock));
 		boardMock.move(Square.of(1, 0), Square.of(2, 2));
-		EasyMock.expectLastCall();
+		EasyMock.expectLastCall().times(2);
 		EasyMock.expect(boardMock.pieceAt(Square.of(2, 2))).andReturn(
 				Optional.of(whiteKnightMock)).times(4);
 		// These stubs are generally irrelevant to the result, only to ensure
@@ -43,6 +43,9 @@ public class GameTest {
 		EasyMock.expect(boardMock.occupiedSquaresOf(Color.BLACK)).andStubReturn(Set.of());
 		EasyMock.expect(whiteKnightMock.candidateMoves(Square.of(2, 2), boardMock))
 		        .andStubReturn(Set.of());
+
+		EasyMock.expect(boardMock.copy()).andStubReturn(boardMock);
+		EasyMock.expect(boardMock.findKing(Color.WHITE)).andStubReturn(Square.of(4, 0));
 
 		EasyMock.replay(boardMock, whiteKnightMock);
 
@@ -410,5 +413,110 @@ public class GameTest {
 		EasyMock.expect(mockedPiece.color()).andStubReturn(color);
 		EasyMock.expect(mockedPiece.type()).andStubReturn(type);
 		return mockedPiece;
+	}
+
+	// tests for legal-move-enforcement
+	@Test
+	public void legalMovesFromEmptySquareReturnsEmptySet() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		EasyMock.expect(boardMock.pieceAt(Square.of(3, 3)))
+			.andReturn(Optional.empty());
+		EasyMock.replay(boardMock);
+		Game game = new Game(boardMock);
+
+		Assertions.assertTrue(game.legalMovesFrom(Square.of(3, 3)).isEmpty());
+		EasyMock.verify(boardMock);
+	}
+
+	@Test
+	public void legalMovesFromNullSquareThrows() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Game game = new Game(boardMock);
+
+		Assertions.assertThrows(
+			NullPointerException.class, () -> game.legalMovesFrom(null));
+	}
+
+	@Test
+	public void legalMovesFromExcludesMoveThatExposesKing() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Piece whiteKnightMock = getMockedPiece(Color.WHITE, PieceType.KNIGHT);
+		Piece blackRookMock = getMockedPiece(Color.BLACK, PieceType.ROOK);
+
+		EasyMock.expect(boardMock.pieceAt(Square.of(1, 0)))
+			.andReturn(Optional.of(whiteKnightMock));
+		EasyMock.expect(whiteKnightMock.candidateMoves(Square.of(1, 0), boardMock))
+			.andReturn(Set.of(Square.of(2, 2)));
+		EasyMock.expect(boardMock.copy()).andStubReturn(boardMock);
+		boardMock.move(Square.of(1, 0), Square.of(2, 2));
+		EasyMock.expectLastCall();
+		EasyMock.expect(boardMock.findKing(Color.WHITE))
+			.andStubReturn(Square.of(4, 0));
+		EasyMock.expect(boardMock.occupiedSquaresOf(Color.BLACK))
+			.andStubReturn(Set.of(Square.of(4, 7)));
+		EasyMock.expect(boardMock.pieceAt(Square.of(4, 7)))
+			.andStubReturn(Optional.of(blackRookMock));
+		EasyMock.expect(blackRookMock.candidateMoves(Square.of(4, 7), boardMock))
+			.andStubReturn(Set.of(Square.of(4, 0)));
+
+		EasyMock.replay(boardMock, whiteKnightMock, blackRookMock);
+		Game game = new Game(boardMock);
+
+		Assertions.assertTrue(game.legalMovesFrom(Square.of(1, 0)).isEmpty());
+		EasyMock.verify(boardMock);
+	}
+
+	@Test
+	public void legalMovesFromIncludesMoveThatKeepsKingSafe() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Piece whiteKnightMock = getMockedPiece(Color.WHITE, PieceType.KNIGHT);
+
+		EasyMock.expect(boardMock.pieceAt(Square.of(1, 0)))
+			.andReturn(Optional.of(whiteKnightMock));
+		EasyMock.expect(whiteKnightMock.candidateMoves(Square.of(1, 0), boardMock))
+			.andReturn(Set.of(Square.of(2, 2)));
+		EasyMock.expect(boardMock.copy()).andStubReturn(boardMock);
+		boardMock.move(Square.of(1, 0), Square.of(2, 2));
+		EasyMock.expectLastCall();
+		EasyMock.expect(boardMock.findKing(Color.WHITE))
+			.andStubReturn(Square.of(4, 0));
+		EasyMock.expect(boardMock.occupiedSquaresOf(Color.BLACK))
+			.andStubReturn(Set.of());
+
+		EasyMock.replay(boardMock, whiteKnightMock);
+		Game game = new Game(boardMock);
+
+		Set<Square> legal = game.legalMovesFrom(Square.of(1, 0));
+		Assertions.assertTrue(legal.contains(Square.of(2, 2)));
+		EasyMock.verify(boardMock);
+	}
+
+	@Test
+	public void makeMoveRejectsMoveLeavingOwnKingInCheck() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Piece whiteKnightMock = getMockedPiece(Color.WHITE, PieceType.KNIGHT);
+		Piece blackRookMock = getMockedPiece(Color.BLACK, PieceType.ROOK);
+
+		EasyMock.expect(boardMock.pieceAt(Square.of(1, 0)))
+			.andReturn(Optional.of(whiteKnightMock));
+		EasyMock.expect(boardMock.copy()).andStubReturn(boardMock);
+		boardMock.move(Square.of(1, 0), Square.of(2, 2));
+		EasyMock.expectLastCall();
+		EasyMock.expect(boardMock.findKing(Color.WHITE))
+			.andStubReturn(Square.of(4, 0));
+		EasyMock.expect(boardMock.occupiedSquaresOf(Color.BLACK))
+			.andStubReturn(Set.of(Square.of(4, 7)));
+		EasyMock.expect(boardMock.pieceAt(Square.of(4, 7)))
+			.andStubReturn(Optional.of(blackRookMock));
+		EasyMock.expect(blackRookMock.candidateMoves(Square.of(4, 7), boardMock))
+			.andStubReturn(Set.of(Square.of(4, 0)));
+
+		EasyMock.replay(boardMock, whiteKnightMock, blackRookMock);
+		Game game = new Game(boardMock);
+
+		Assertions.assertThrows(
+			IllegalStateException.class,
+			() -> game.makeMove(Square.of(1, 0), Square.of(2, 2)));
+		EasyMock.verify(boardMock);
 	}
 }
