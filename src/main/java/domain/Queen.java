@@ -7,16 +7,15 @@ import java.util.Optional;
 import java.util.Set;
 
 public class Queen extends Piece {
-	private static final int FIRST_STEP = 1;
-	private static final int[][] MOVE_DIRECTIONS = {
-		{1, 0},
-		{1, 1},
-		{0, 1},
-		{-1, 1},
-		{-1, 0},
-		{-1, -1},
-		{0, -1},
-		{1, -1}
+	private static final Direction[] MOVE_DIRECTIONS = {
+		new Direction(1, 0),
+		new Direction(1, 1),
+		new Direction(0, 1),
+		new Direction(-1, 1),
+		new Direction(-1, 0),
+		new Direction(-1, -1),
+		new Direction(0, -1),
+		new Direction(1, -1)
 	};
 
 	public Queen(Color color) {
@@ -34,19 +33,18 @@ public class Queen extends Piece {
 		Objects.requireNonNull(board);
 
 		Set<Square> moves = new HashSet<>();
-		for (int[] direction : MOVE_DIRECTIONS) {
-			addRayMoves(from, board, moves, direction[0], direction[1]);
+		for (Direction direction : MOVE_DIRECTIONS) {
+			addRayMoves(from, board, moves, direction);
 		}
 		return Collections.unmodifiableSet(moves);
 	}
 
 	private void addRayMoves(
-			Square from,
-			Board board,
-			Set<Square> moves,
-			int fileDelta,
-			int rankDelta) {
-		Optional<Square> candidate = nextSquare(from, fileDelta, rankDelta);
+		Square from,
+		Board board,
+		Set<Square> moves,
+		Direction direction) {
+		Optional<Square> candidate = direction.from(from);
 		while (candidate.isPresent()) {
 			Square square = candidate.get();
 			Optional<Piece> occupant = board.pieceAt(square);
@@ -57,14 +55,7 @@ public class Queen extends Piece {
 				return;
 			}
 			moves.add(square);
-			candidate = nextSquare(square, fileDelta, rankDelta);
+			candidate = direction.from(square);
 		}
-	}
-
-	private Optional<Square> nextSquare(
-			Square square,
-			int fileDelta,
-			int rankDelta) {
-		return square.offset(fileDelta * FIRST_STEP, rankDelta * FIRST_STEP);
 	}
 }
