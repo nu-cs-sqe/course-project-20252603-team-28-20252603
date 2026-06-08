@@ -54,19 +54,19 @@ public class BoardPanel extends JPanel {
 
 	private void handleClick(Square clickedSquare) {
 		if (selectedSquare != null) {
-			Optional<Piece> picked = board.pieceAt(selectedSquare);
-			if (picked.isPresent()) {
-				Set<Square> dests = picked.get()
-					.candidateMoves(selectedSquare, board);
-				if (dests.contains(clickedSquare)) {
+			Set<Square> legalDests = game.legalMovesFrom(selectedSquare);
+			if (legalDests.contains(clickedSquare)) {
+				try {
 					game.makeMove(selectedSquare, clickedSquare);
 					if (game.canPromote(clickedSquare)) {
 						showPromotionDialog(clickedSquare);
 					}
-					selectedSquare = null;
-					repaint();
-					return;
+				} catch (IllegalStateException ex) {
+					JOptionPane.showMessageDialog(this, ex.getMessage());
 				}
+				selectedSquare = null;
+				repaint();
+				return;
 			}
 		}
 		Optional<Piece> clickedPiece = board.pieceAt(clickedSquare);
@@ -150,11 +150,7 @@ public class BoardPanel extends JPanel {
 		if (selectedSquare == null) {
 			return Collections.emptySet();
 		}
-		Optional<Piece> piece = board.pieceAt(selectedSquare);
-		if (!piece.isPresent()) {
-			return Collections.emptySet();
-		}
-		return piece.get().candidateMoves(selectedSquare, board);
+		return game.legalMovesFrom(selectedSquare);
 	}
 
 	private void paintSquare(Graphics g, int file, int rank,
