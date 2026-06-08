@@ -67,4 +67,10 @@ public class SquareTest {
 	public void squareNotEqualToNonSquareExpectFalse() {
 		Assertions.assertNotEquals(Square.of(1, 1), "not a square");
 	}
+
+	@Test
+	public void differentSquaresHaveDifferentHashCodes() {
+		Assertions.assertNotEquals(
+			Square.of(3, 5).hashCode(), Square.of(5, 3).hashCode());
+	}
 }
