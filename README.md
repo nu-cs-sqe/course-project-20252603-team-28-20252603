@@ -73,6 +73,9 @@ The following classes are intentionally not always mocked:
 
 - Square
   - Square is a public final class and thus cannot be mocked. Additionally, Square generally acts as a data structure to contain file and rank, and is called most often through Square.of(file, rank) in order to create and return a new square.
+- Game is a public final class and thus cannot be mocked using EasyMock.
+- TimeControl is a public final class and thus cannot be mocked using EasyMock.
+- ChessClock is a public final class and thus cannot be mocked using EasyMock.
 
 ## Acknowledgements
 
