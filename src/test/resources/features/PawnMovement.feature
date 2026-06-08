@@ -19,6 +19,8 @@ Feature: Pawn movement
       | white | 0,3  | B@1,4    | 0,4;1,4 |
       | white | 3,3  | B@2,4    | 3,4;2,4 |
       | white | 3,1  | B@3,2    | none    |
+      | black | 3,6  | none     | 3,5;3,4 |
+
 
   Scenario: Pawn rejects null source square
     Given a white pawn starts at 3,3
