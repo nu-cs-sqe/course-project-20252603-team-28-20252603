@@ -1,15 +1,14 @@
 package ui;
 
-import java.util.Optional;
-
-import java.time.Duration;
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.time.Duration;
+import java.util.Optional;
+
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JFrame;
 import javax.swing.Timer;
-
 
 import domain.Board;
 import domain.Color;
@@ -37,8 +36,14 @@ public class MainFrame extends JFrame {
 		add(clockBar, BorderLayout.NORTH);
 		add(new BoardPanel(game, board), BorderLayout.CENTER);
 
+		JLabel statusLabel = new JLabel(statusText(game));
+		statusLabel.setHorizontalAlignment(JLabel.CENTER);
+		statusLabel.setFont(statusLabel.getFont().deriveFont(20f));
+		add(statusLabel, BorderLayout.SOUTH);
+
 		Timer timer = new Timer(1000, e -> {
 			if (game.getStatus() != GameStatus.IN_PROGRESS) {
+				statusLabel.setText(statusText(game));
 				((Timer) e.getSource()).stop();
 				return;
 			}
@@ -53,11 +58,28 @@ public class MainFrame extends JFrame {
 				+ format(game.clock().remaining(Color.WHITE)));
 			blackTime.setText("Black: "
 				+ format(game.clock().remaining(Color.BLACK)));
+			statusLabel.setText(statusText(game));
 		});
 		game.clock().start(game.currentTurn());
 		timer.start();
 
 		setVisible(true);
+	}
+
+	private static String statusText(Game game) {
+		GameStatus status = game.getStatus();
+		if (status == GameStatus.WHITE_WIN) {
+			return Messages.get("status.whiteWin");
+		}
+		if (status == GameStatus.BLACK_WIN) {
+			return Messages.get("status.blackWin");
+		}
+		if (status == GameStatus.STALEMATE) {
+			return Messages.get("status.stalemate");
+		}
+		return game.currentTurn() == Color.WHITE
+			? Messages.get("status.whiteToMove")
+			: Messages.get("status.blackToMove");
 	}
 
 	private static String format(Duration d) {
