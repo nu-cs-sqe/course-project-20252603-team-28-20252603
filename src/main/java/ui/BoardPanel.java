@@ -14,12 +14,16 @@ import java.util.Optional;
 import java.util.Set;
 
 import javax.swing.JPanel;
+import javax.swing.JOptionPane;
+
 
 import domain.Board;
 import domain.Color;
 import domain.Game;
 import domain.Piece;
 import domain.Square;
+import domain.PieceType;
+
 
 // renders the chess Board as an 8x8 grid with unicode chess glyphs
 public class BoardPanel extends JPanel {
@@ -32,7 +36,7 @@ public class BoardPanel extends JPanel {
 
 	private final Game game;
 	private final Board board;
-	private Square selected;
+	private Square selectedSquare;
 
 	public BoardPanel(Game game, Board board) {
 		this.game = game;
@@ -48,26 +52,29 @@ public class BoardPanel extends JPanel {
 		});
 	}
 
-	private void handleClick(Square clicked) {
-		if (selected != null) {
-			Optional<Piece> picked = board.pieceAt(selected);
+	private void handleClick(Square clickedSquare) {
+		if (selectedSquare != null) {
+			Optional<Piece> picked = board.pieceAt(selectedSquare);
 			if (picked.isPresent()) {
 				Set<Square> dests = picked.get()
-					.candidateMoves(selected, board);
-				if (dests.contains(clicked)) {
-					game.makeMove(selected, clicked);
-					selected = null;
+					.candidateMoves(selectedSquare, board);
+				if (dests.contains(clickedSquare)) {
+					game.makeMove(selectedSquare, clickedSquare);
+					if (game.canPromote(clickedSquare)) {
+						showPromotionDialog(clickedSquare);
+					}
+					selectedSquare = null;
 					repaint();
 					return;
 				}
 			}
 		}
-		Optional<Piece> clickedPiece = board.pieceAt(clicked);
+		Optional<Piece> clickedPiece = board.pieceAt(clickedSquare);
 		if (clickedPiece.isPresent()
 			&& clickedPiece.get().color() == game.currentTurn()) {
-			selected = clicked;
+			selectedSquare = clickedSquare;
 		} else {
-			selected = null;
+			selectedSquare = null;
 		}
 		repaint();
 	}
@@ -87,6 +94,37 @@ public class BoardPanel extends JPanel {
 		// rank flips again because we paint rank=7 at top
 		int rank = BOARD_SIZE - 1 - relY / squareSize;
 		return Optional.of(Square.of(file, rank));
+	}
+
+	private void showPromotionDialog(Square square) {
+		String[] options = {"Queen", "Rook", "Bishop", "Knight"};
+		int choice = JOptionPane.showOptionDialog(
+			this,
+			"Promote pawn to:",
+			"Pawn Promotion",
+			JOptionPane.DEFAULT_OPTION,
+			JOptionPane.QUESTION_MESSAGE,
+			null,
+			options,
+			options[0]
+		);
+		PieceType type;
+		switch (choice) {
+			case 1:
+				type = PieceType.ROOK;
+				break;
+			case 2:
+				type = PieceType.BISHOP;
+				break;
+			case 3:
+				type = PieceType.KNIGHT;
+				break;
+			case 0:
+			default:
+				type = PieceType.QUEEN;
+				break;
+		}
+		game.promote(square, type);
 	}
 
 	@Override
@@ -109,14 +147,14 @@ public class BoardPanel extends JPanel {
 
 	// figure out which squares the selected piece can move to
 	private Set<Square> computeLegalDests() {
-		if (selected == null) {
+		if (selectedSquare == null) {
 			return Collections.emptySet();
 		}
-		Optional<Piece> piece = board.pieceAt(selected);
+		Optional<Piece> piece = board.pieceAt(selectedSquare);
 		if (!piece.isPresent()) {
 			return Collections.emptySet();
 		}
-		return piece.get().candidateMoves(selected, board);
+		return piece.get().candidateMoves(selectedSquare, board);
 	}
 
 	private void paintSquare(Graphics g, int file, int rank,
@@ -131,9 +169,9 @@ public class BoardPanel extends JPanel {
 		g.fillRect(x, y, squareSize, squareSize);
 
 		// highlight if this is the selected square
-		if (selected != null
-			&& selected.file() == file
-			&& selected.rank() == rank) {
+		if (selectedSquare != null
+			&& selectedSquare.file() == file
+			&& selectedSquare.rank() == rank) {
 			g.setColor(HIGHLIGHT);
 			g.fillRect(x, y, squareSize, squareSize);
 		}
