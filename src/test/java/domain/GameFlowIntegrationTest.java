@@ -52,15 +52,23 @@ public class GameFlowIntegrationTest {
 	public void illegalMoveAttemptsLeaveStateUnchanged() {
 		Board board = Board.standardSetup();
 		Game game = new Game(board);
-
+		// Moving from Empty Square
 		Assertions.assertThrows(IllegalStateException.class,
 			() -> game.makeMove(Square.of(4, 3), Square.of(4, 4)));
 		Assertions.assertEquals(Color.WHITE, game.currentTurn());
-
+		// Moving opponent's piece
 		Assertions.assertThrows(IllegalStateException.class,
 			() -> game.makeMove(Square.of(1, 7), Square.of(2, 5)));
 		Assertions.assertEquals(Color.WHITE, game.currentTurn());
-
+		// Null From
+		Assertions.assertThrows(NullPointerException.class,
+		                        () -> game.makeMove(null, Square.of(2, 2)));
+		Assertions.assertEquals(Color.WHITE, game.currentTurn());
+		// Null To
+		Assertions.assertThrows(NullPointerException.class,
+		                        () -> game.makeMove(Square.of(1, 0), null));
+		Assertions.assertEquals(Color.WHITE, game.currentTurn());
+		// Legal Move
 		game.makeMove(Square.of(1, 0), Square.of(2, 2));
 		Assertions.assertEquals(Color.BLACK, game.currentTurn());
 	}

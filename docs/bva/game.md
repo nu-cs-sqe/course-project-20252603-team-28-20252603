@@ -24,10 +24,10 @@ A Game tracks the Board and whose turn it is. Players take turns moving. After a
 - Output #2: NullPointerException
 
 ### Step 4 - Test Cases
-- **TC1: new game starts with WHITE to move**
+- **TC1: new game starts with WHITE to move** ( ✅ )
     - **State of the system**: standard starting board
     - **Expected output**: Game is created; `currentTurn()` returns WHITE
-- **TC2: null board throws NullPointerException**
+- **TC2: null board throws NullPointerException** ( ✅ )
     - **State of the system**: board = null
     - **Expected output**: NullPointerException
 
@@ -59,18 +59,18 @@ A Game tracks the Board and whose turn it is. Players take turns moving. After a
 - Output #3: IllegalStateException or NullPointerException
 
 ### Step 4 - Test Cases
-- **TC3: white moves piece, turn flips to BLACK**
+- **TC3: white moves piece, turn flips to BLACK** ( ✅ )
     - **State of the system**: standard starting board, WHITE to move, move knight b1 to c3
     - **Expected output**: knight is at c3, b1 is empty, currentTurn() returns BLACK
-- **TC4: moving from empty square throws**
+- **TC4: moving from empty square throws** ( ✅ )
     - **State of the system**: standard board, move from e4 (empty) to e5
     - **Expected output**: IllegalStateException
-- **TC5: moving opponent's piece throws**
+- **TC5: moving opponent's piece throws** ( ✅ )
     - **State of the system**: standard board, WHITE to move, move from b8 (black knight) to c6
     - **Expected output**: IllegalStateException
-- **TC6: null from throws NullPointerException**
+- **TC6: null from throws NullPointerException** ( ✅ )
     - **State of the system**: from = null
     - **Expected output**: NullPointerException
-- **TC7: null to throws NullPointerException**
+- **TC7: null to throws NullPointerException** ( ✅ )
     - **State of the system**: to = null
     - **Expected output**: NullPointerException
