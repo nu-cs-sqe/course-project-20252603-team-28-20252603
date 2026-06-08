@@ -67,6 +67,16 @@ Run instructions will be added once the application entry point is implemented.
 4. Open a pull request against `main`. CI must pass and at least one teammate must approve before merging.
 5. Update `docs/weekly-reports/report.md` at the end of each week with planning and progress notes.
 
+## Special Design Decisions and Exceptions
+
+The following classes are intentionally not always mocked:
+
+- Square
+  - Square is a public final class and thus cannot be mocked. Additionally, Square generally acts as a data structure to contain file and rank, and is called most often through Square.of(file, rank) in order to create and return a new square.
+- Game is a public final class and thus cannot be mocked using EasyMock.
+- TimeControl is a public final class and thus cannot be mocked using EasyMock.
+- ChessClock is a public final class and thus cannot be mocked using EasyMock.
+
 ## Acknowledgements
 
 - Course materials and rubric: COMP_SCI 380 Software Quality Engineering, taught by Dr. Yiji Zhang, Northwestern University.

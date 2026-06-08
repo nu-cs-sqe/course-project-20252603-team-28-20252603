@@ -1,5 +1,6 @@
 package domain;
 
+import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -54,10 +55,10 @@ public class PieceTest {
 	@Test
 	public void candidateMovesNullFromThrows() {
 		Piece piece = new StubPiece(Color.WHITE);
-		Board board = new Board();
+		Board boardMock = EasyMock.createMock(Board.class);
 
 		Assertions.assertThrows(NullPointerException.class,
-			() -> piece.candidateMoves(null, board));
+			() -> piece.candidateMoves(null, boardMock));
 	}
 
 	@Test
@@ -71,8 +72,8 @@ public class PieceTest {
 	@Test
 	public void candidateMovesDefaultReturnsEmpty() {
 		Piece piece = new StubPiece(Color.WHITE);
-		Board board = new Board();
-		Set<Square> moves = piece.candidateMoves(Square.of(0, 0), board);
+		Board boardMock = EasyMock.createMock(Board.class);
+		Set<Square> moves = piece.candidateMoves(Square.of(0, 0), boardMock);
 
 		Assertions.assertTrue(moves.isEmpty());
 	}

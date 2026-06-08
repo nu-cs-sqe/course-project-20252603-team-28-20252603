@@ -21,6 +21,7 @@ repositories {
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.junit.platform:junit-platform-suite")
     testImplementation("io.cucumber:cucumber-java:7.20.1")
     testImplementation("io.cucumber:cucumber-junit-platform-engine:7.20.1")
     testImplementation("org.easymock:easymock:5.2.0")
@@ -64,7 +65,9 @@ val excluded = listOf(
     "**/*View*",
     "**/*GUI*",
     "**/*Enum*",
-    "**/Color.class"
+    "**/Color.class",
+    "**/GameStatus.class",
+    "**/PieceType.class"
 )
 tasks.jacocoTestCoverageVerification {
     violationRules {
@@ -72,7 +75,7 @@ tasks.jacocoTestCoverageVerification {
             limit {
                 counter = "COMPLEXITY"
                 value = "COVEREDRATIO"
-                minimum = "1.0".toBigDecimal()
+                minimum = "1.0000".toBigDecimal()
             }
         }
     }
@@ -85,6 +88,15 @@ tasks.jacocoTestCoverageVerification {
     )
 }
 tasks.jacocoTestReport {
+    // Give jacoco the file generated with the cucumber tests for the coverage.
+    executionData(files("$buildDir/jacoco/test.exec", "$buildDir/results/jacoco/cucumber.exec"))
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude(excluded)
+            }
+        })
+    )
     reports {
         xml.required = false
         csv.required = false
@@ -102,7 +114,11 @@ tasks.build {
 tasks.test {
     useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
-    finalizedBy(tasks.pitest)
+    finalizedBy(tasks.checkstyleMain) // Run Checkstyle
+    finalizedBy(tasks.checkstyleTest) // Run Checkstyle
+    finalizedBy(tasks.spotbugsMain) // Run Spotbugs
+    finalizedBy(tasks.spotbugsTest) // Run Spotbugs
+    //finalizedBy(tasks.pitest)
 }
 tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report

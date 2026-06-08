@@ -143,6 +143,8 @@ public final class Game {
 		if (status != GameStatus.IN_PROGRESS) {
 			throw new IllegalStateException("Game is not in progress");
 		}
+		Objects.requireNonNull(from);
+		Objects.requireNonNull(to);
 		Piece piece = board.pieceAt(from)
 			.orElseThrow(() -> new IllegalStateException("No piece at source square"));
 		if (piece.color() != currentTurn) {

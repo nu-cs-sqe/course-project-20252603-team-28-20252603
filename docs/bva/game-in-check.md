@@ -25,25 +25,25 @@ isInCheck(Color color) returns true if the given color's king is under attack by
 
 ### Step 4 - Test Cases
 
-- Test Case 11: standard setup, neither king is in check
+- Test Case 15: standard setup, neither king is in check
     - Method(s) under test: `isInCheck(Color)`
     - State of the system: new Game with standard chess starting position
     - Expected output: isInCheck(WHITE) returns false, isInCheck(BLACK) returns false
     - Implemented: yes
 
-- Test Case 12: bishop attacks white king on diagonal
+- Test Case 16: bishop attacks white king on diagonal
     - Method(s) under test: `isInCheck(Color)`
     - State of the system: empty board, white king at (4,0), black bishop at (7,3)
     - Expected output: isInCheck(WHITE) returns true, isInCheck(BLACK) returns false
     - Implemented: yes
 
-- Test Case 13: knight attacks white king via L move
+- Test Case 17: knight attacks white king via L move
     - Method(s) under test: `isInCheck(Color)`
     - State of the system: empty board, white king at (4,0), black knight at (3,2)
     - Expected output: isInCheck(WHITE) returns true, isInCheck(BLACK) returns false
     - Implemented: yes
 
-- Test Case 14: isInCheck rejects null color
+- Test Case 18: isInCheck rejects null color
     - Method(s) under test: `isInCheck(Color)`
     - State of the system: new game from standard setup
     - Expected output: NullPointerException

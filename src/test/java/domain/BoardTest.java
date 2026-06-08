@@ -1,9 +1,11 @@
 package domain;
 
-import java.util.Optional;
-import java.util.Set;
+import org.easymock.EasyMock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.Optional;
+import java.util.Set;
 
 public class BoardTest {
 	private static final Square WHITE_KNIGHT_START = Square.of(1, 0);
@@ -27,7 +29,7 @@ public class BoardTest {
 	@Test
 	public void placePieceOnEmptySquareExpectPieceAtSquare() {
 		Board board = new Board();
-		Piece knight = whiteKnight();
+		Piece knight = getMockedWhiteKnight();
 
 		board.place(WHITE_KNIGHT_START, knight);
 
@@ -37,11 +39,12 @@ public class BoardTest {
 	@Test
 	public void placePieceWithNullSquareExpectException() {
 		Board board = new Board();
-		Piece knight = whiteKnight();
+		Piece knight = getMockedWhiteKnight();
 
 		Assertions.assertThrows(
 				NullPointerException.class,
-				() -> board.place(null, knight));
+				() -> board.place(null, knight)
+		);
 	}
 
 	@Test
@@ -50,13 +53,14 @@ public class BoardTest {
 
 		Assertions.assertThrows(
 				NullPointerException.class,
-				() -> board.place(WHITE_KNIGHT_START, null));
+				() -> board.place(WHITE_KNIGHT_START, null)
+		);
 	}
 
 	@Test
 	public void removeOccupiedSquareExpectPieceAndSquareBecomesEmpty() {
 		Board board = new Board();
-		Piece knight = whiteKnight();
+		Piece knight = getMockedWhiteKnight();
 		board.place(WHITE_KNIGHT_START, knight);
 
 		Optional<Piece> removedPiece = board.remove(WHITE_KNIGHT_START);
@@ -77,7 +81,7 @@ public class BoardTest {
 	@Test
 	public void movePieceToEmptySquareExpectPieceAtDestination() {
 		Board board = new Board();
-		Piece knight = whiteKnight();
+		Piece knight = getMockedWhiteKnight();
 		board.place(WHITE_KNIGHT_START, knight);
 
 		board.move(WHITE_KNIGHT_START, WHITE_KNIGHT_TARGET);
@@ -89,14 +93,15 @@ public class BoardTest {
 	@Test
 	public void movePieceToOccupiedSquareExpectCaptureAtDestination() {
 		Board board = new Board();
-		Piece knight = whiteKnight();
-		board.place(WHITE_KNIGHT_START, knight);
-		board.place(WHITE_KNIGHT_TARGET, Piece.of(PieceType.PAWN, Color.BLACK));
+		Piece mockedWhiteKnight = getMockedWhiteKnight();
+		board.place(WHITE_KNIGHT_START, mockedWhiteKnight);
+		board.place(WHITE_KNIGHT_TARGET, getMockedBlackKnight());
 
 		board.move(WHITE_KNIGHT_START, WHITE_KNIGHT_TARGET);
 
 		Assertions.assertTrue(board.pieceAt(WHITE_KNIGHT_START).isEmpty());
-		Assertions.assertEquals(Optional.of(knight), board.pieceAt(WHITE_KNIGHT_TARGET));
+		Assertions.assertEquals(
+				Optional.of(mockedWhiteKnight), board.pieceAt(WHITE_KNIGHT_TARGET));
 	}
 
 	@Test
@@ -105,14 +110,15 @@ public class BoardTest {
 
 		Assertions.assertThrows(
 				IllegalStateException.class,
-				() -> board.move(WHITE_KNIGHT_START, WHITE_KNIGHT_TARGET));
+				() -> board.move(WHITE_KNIGHT_START, WHITE_KNIGHT_TARGET)
+		);
 	}
 
 	@Test
 	public void occupiedSquaresOfColorExpectOnlyRequestedColor() {
 		Board board = new Board();
-		board.place(WHITE_KNIGHT_START, whiteKnight());
-		board.place(WHITE_KNIGHT_TARGET, Piece.of(PieceType.PAWN, Color.BLACK));
+		board.place(WHITE_KNIGHT_START, getMockedWhiteKnight());
+		board.place(WHITE_KNIGHT_TARGET, getMockedBlackKnight());
 
 		Set<Square> whiteSquares = board.occupiedSquaresOf(Color.WHITE);
 		Set<Square> blackSquares = board.occupiedSquaresOf(Color.BLACK);
@@ -124,15 +130,16 @@ public class BoardTest {
 	@Test
 	public void copyBoardThenChangeOriginalExpectCopyUnchanged() {
 		Board originalBoard = new Board();
-		Piece knight = whiteKnight();
-		originalBoard.place(WHITE_KNIGHT_START, knight);
+		Piece mockedWhiteKnight = getMockedWhiteKnight();
+		originalBoard.place(WHITE_KNIGHT_START, mockedWhiteKnight);
 
 		Board copiedBoard = originalBoard.copy();
 		originalBoard.remove(WHITE_KNIGHT_START);
 
 		Assertions.assertEquals(
-				Optional.of(knight),
-				copiedBoard.pieceAt(WHITE_KNIGHT_START));
+				Optional.of(mockedWhiteKnight),
+				copiedBoard.pieceAt(WHITE_KNIGHT_START)
+		);
 	}
 
 	@Test
@@ -149,7 +156,8 @@ public class BoardTest {
 
 		Assertions.assertThrows(
 				IllegalStateException.class,
-				() -> board.findKing(Color.WHITE));
+				() -> board.findKing(Color.WHITE)
+		);
 	}
 
 	@Test
@@ -186,8 +194,20 @@ public class BoardTest {
 		}
 	}
 
-	private Piece whiteKnight() {
-		return Piece.of(PieceType.KNIGHT, Color.WHITE);
+	private Piece getMockedWhiteKnight() {
+		Piece mockedKnight = EasyMock.createMock(Knight.class);
+		EasyMock.expect(mockedKnight.color()).andStubReturn(Color.WHITE);
+		EasyMock.expect(mockedKnight.type()).andStubReturn(PieceType.KNIGHT);
+		EasyMock.replay(mockedKnight);
+		return mockedKnight;
+	}
+
+	private Piece getMockedBlackKnight() {
+		Piece mockedKnight = EasyMock.createMock(Knight.class);
+		EasyMock.expect(mockedKnight.color()).andStubReturn(Color.BLACK);
+		EasyMock.expect(mockedKnight.type()).andStubReturn(PieceType.KNIGHT);
+		EasyMock.replay(mockedKnight);
+		return mockedKnight;
 	}
 
 	private void assertPiece(Board board, Square square, PieceType type, Color color) {

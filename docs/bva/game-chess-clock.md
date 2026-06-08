@@ -28,17 +28,17 @@ A Game can take a ChessClock so we can tell who runs out of time. When the game 
 
 ### Step 4 - Test Cases
 
-- Test Case 22: new Game with valid board and clock starts with white clock running
+- Test Case 26: new Game with valid board and clock starts with white clock running
     - Method(s) under test: `Game(Board, ChessClock)`
     - State of the system: standard setup board, fresh clock with 5 minute time control
     - Expected output: Game is created, clock running for white
-    - Implemented: no
+    - Implemented: yes
 
-- Test Case 23: null clock in constructor throws
+- Test Case 27: null clock in constructor throws
     - Method(s) under test: `Game(Board, ChessClock)`
     - State of the system: valid board, clock = null
     - Expected output: NullPointerException
-    - Implemented: no
+    - Implemented: yes
 
 ---
 
@@ -55,20 +55,30 @@ A Game can take a ChessClock so we can tell who runs out of time. When the game 
 
 ### Step 4 - Test Cases
 
-- Test Case 24: clock not expired returns empty
+- Test Case 28: clock not expired returns empty
     - Method(s) under test: `winnerByTimeout()`
     - State of the system: new Game, clock has time remaining
     - Expected output: Optional.empty()
-    - Implemented: no
+    - Implemented: yes
 
-- Test Case 25: white clock expired returns BLACK as winner
+- Test Case 29: white clock expired returns BLACK as winner
     - Method(s) under test: `winnerByTimeout()`
     - State of the system: clock advanced past white's time
     - Expected output: Optional.of(BLACK)
-    - Implemented: no
+    - Implemented: yes
 
-- Test Case 26: black clock expired returns WHITE as winner
+- Test Case 30: black clock expired returns WHITE as winner
     - Method(s) under test: `winnerByTimeout()`
     - State of the system: clock advanced past black's time
     - Expected output: Optional.of(WHITE)
-    - Implemented: no
+    - Implemented: yes
+
+---
+
+## game makeMove side effects
+
+### Step 4 - Test Cases
+
+- **TC31: making a move switches the clock to the opponent** ( ✅ )
+  - **State of the system**: Standard board, WHITE to move, move from Square.of(1, 0) to Square.of(2, 2)
+  - **Expected output**: The color of the player the clock is running for is Black
