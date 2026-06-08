@@ -427,4 +427,13 @@ public class GameTest {
 		Assertions.assertTrue(game.legalMovesFrom(Square.of(3, 3)).isEmpty());
 		EasyMock.verify(boardMock);
 	}
+
+	@Test
+	public void legalMovesFromNullSquareThrows() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Game game = new Game(boardMock);
+
+		Assertions.assertThrows(
+			NullPointerException.class, () -> game.legalMovesFrom(null));
+	}
 }
