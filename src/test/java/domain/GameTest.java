@@ -414,4 +414,17 @@ public class GameTest {
 		EasyMock.expect(mockedPiece.type()).andStubReturn(type);
 		return mockedPiece;
 	}
+
+	// tests for legal-move-enforcement
+	@Test
+	public void legalMovesFromEmptySquareReturnsEmptySet() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		EasyMock.expect(boardMock.pieceAt(Square.of(3, 3)))
+			.andReturn(Optional.empty());
+		EasyMock.replay(boardMock);
+		Game game = new Game(boardMock);
+
+		Assertions.assertTrue(game.legalMovesFrom(Square.of(3, 3)).isEmpty());
+		EasyMock.verify(boardMock);
+	}
 }
