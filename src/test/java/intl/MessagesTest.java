@@ -63,4 +63,11 @@ public class MessagesTest {
 
 		Assertions.assertEquals("Chess", result);
 	}
+
+	@Test
+	public void getWithArgsFormatsThePattern() {
+		String result = Messages.get("game.welcome", "Player");
+
+		Assertions.assertEquals("Welcome, Player!", result);
+	}
 }
