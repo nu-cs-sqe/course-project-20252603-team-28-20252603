@@ -527,4 +527,12 @@ public class GameTest {
 
 		Assertions.assertSame(boardMock, game.board());
 	}
+
+	@Test
+	public void winnerByTimeoutWithoutClockIsEmpty() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Game game = new Game(boardMock);
+
+		Assertions.assertTrue(game.winnerByTimeout().isEmpty());
+	}
 }
