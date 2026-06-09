@@ -1,10 +1,25 @@
 package domain;
 
 import java.util.Collections;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
 
 public abstract class Piece {
+	private static final Map<PieceType, Function<Color, Piece>> FACTORIES =
+		new EnumMap<>(PieceType.class);
+
+	static {
+		FACTORIES.put(PieceType.PAWN, Pawn::new);
+		FACTORIES.put(PieceType.KNIGHT, Knight::new);
+		FACTORIES.put(PieceType.BISHOP, Bishop::new);
+		FACTORIES.put(PieceType.ROOK, Rook::new);
+		FACTORIES.put(PieceType.QUEEN, Queen::new);
+		FACTORIES.put(PieceType.KING, King::new);
+	}
+
 	private final Color color;
 
 	protected Piece(Color color) {
@@ -26,23 +41,6 @@ public abstract class Piece {
 	public static Piece of(PieceType type, Color color) {
 		Objects.requireNonNull(type);
 		Objects.requireNonNull(color);
-
-		switch (type) {
-			case PAWN:
-				return new Pawn(color);
-			case KNIGHT:
-				return new Knight(color);
-			case BISHOP:
-				return new Bishop(color);
-			case ROOK:
-				return new Rook(color);
-			case QUEEN:
-				return new Queen(color);
-			case KING:
-				return new King(color);
-			default:
-				throw new IllegalArgumentException(
-						"Unsupported piece type: " + type);
-		}
+		return FACTORIES.get(type).apply(color);
 	}
 }

@@ -555,4 +555,36 @@ public class GameTest {
 
 		Assertions.assertFalse(game.isStalemate(Color.WHITE));
 	}
+
+	@Test
+	public void cannotPromoteBlackPawnOffBackRank() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Square target = Square.of(3, 4);
+		Piece blackPawn = Piece.of(PieceType.PAWN, Color.BLACK);
+
+		EasyMock.expect(boardMock.pieceAt(target)).andReturn(Optional.of(blackPawn));
+		EasyMock.replay(boardMock);
+
+		Game game = new Game(boardMock);
+
+		Assertions.assertFalse(game.canPromote(target));
+		EasyMock.verify(boardMock);
+	}
+
+	@Test
+	public void promoteToPawnThrows() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Square target = Square.of(4, 7);
+		Piece whitePawn = Piece.of(PieceType.PAWN, Color.WHITE);
+
+		EasyMock.expect(boardMock.pieceAt(target)).andStubReturn(Optional.of(whitePawn));
+		EasyMock.replay(boardMock);
+
+		Game game = new Game(boardMock);
+
+		Assertions.assertThrows(
+			IllegalArgumentException.class,
+			() -> game.promote(target, PieceType.PAWN));
+		EasyMock.verify(boardMock);
+	}
 }
