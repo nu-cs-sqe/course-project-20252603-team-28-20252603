@@ -519,4 +519,12 @@ public class GameTest {
 			() -> game.makeMove(Square.of(1, 0), Square.of(2, 2)));
 		EasyMock.verify(boardMock);
 	}
+
+	@Test
+	public void boardReturnsBackingBoard() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Game game = new Game(boardMock);
+
+		Assertions.assertSame(boardMock, game.board());
+	}
 }
