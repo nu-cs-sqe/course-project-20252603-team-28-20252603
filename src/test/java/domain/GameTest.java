@@ -519,4 +519,40 @@ public class GameTest {
 			() -> game.makeMove(Square.of(1, 0), Square.of(2, 2)));
 		EasyMock.verify(boardMock);
 	}
+
+	@Test
+	public void boardReturnsBackingBoard() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Game game = new Game(boardMock);
+
+		Assertions.assertSame(boardMock, game.board());
+	}
+
+	@Test
+	public void winnerByTimeoutWithoutClockIsEmpty() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Game game = new Game(boardMock);
+
+		Assertions.assertTrue(game.winnerByTimeout().isEmpty());
+	}
+
+	@Test
+	public void isStalemateWhenInCheckIsFalse() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Piece blackRookMock = getMockedPiece(Color.BLACK, PieceType.ROOK);
+
+		EasyMock.expect(boardMock.findKing(Color.WHITE))
+			.andStubReturn(Square.of(4, 0));
+		EasyMock.expect(boardMock.occupiedSquaresOf(Color.BLACK))
+			.andStubReturn(Set.of(Square.of(4, 7)));
+		EasyMock.expect(boardMock.pieceAt(Square.of(4, 7)))
+			.andStubReturn(Optional.of(blackRookMock));
+		EasyMock.expect(blackRookMock.candidateMoves(Square.of(4, 7), boardMock))
+			.andStubReturn(Set.of(Square.of(4, 0)));
+
+		EasyMock.replay(boardMock, blackRookMock);
+		Game game = new Game(boardMock);
+
+		Assertions.assertFalse(game.isStalemate(Color.WHITE));
+	}
 }
