@@ -535,4 +535,24 @@ public class GameTest {
 
 		Assertions.assertTrue(game.winnerByTimeout().isEmpty());
 	}
+
+	@Test
+	public void isStalemateWhenInCheckIsFalse() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Piece blackRookMock = getMockedPiece(Color.BLACK, PieceType.ROOK);
+
+		EasyMock.expect(boardMock.findKing(Color.WHITE))
+			.andStubReturn(Square.of(4, 0));
+		EasyMock.expect(boardMock.occupiedSquaresOf(Color.BLACK))
+			.andStubReturn(Set.of(Square.of(4, 7)));
+		EasyMock.expect(boardMock.pieceAt(Square.of(4, 7)))
+			.andStubReturn(Optional.of(blackRookMock));
+		EasyMock.expect(blackRookMock.candidateMoves(Square.of(4, 7), boardMock))
+			.andStubReturn(Set.of(Square.of(4, 0)));
+
+		EasyMock.replay(boardMock, blackRookMock);
+		Game game = new Game(boardMock);
+
+		Assertions.assertFalse(game.isStalemate(Color.WHITE));
+	}
 }
