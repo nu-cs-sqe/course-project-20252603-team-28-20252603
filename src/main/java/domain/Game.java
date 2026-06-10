@@ -90,8 +90,6 @@ public final class Game {
 		Objects.requireNonNull(color);
 		Objects.requireNonNull(side);
 
-
-
 		int rank = color == Color.WHITE ? 0 : 7;
 		Square kingHome = Square.of(4, rank);
 		Square rookHome = Square.of(side == CastlingSide.KINGSIDE ? 7 : 0, rank);
@@ -147,6 +145,24 @@ public final class Game {
 		if (canCastle(color, CastlingSide.QUEENSIDE)) {
 			moves.add(Square.of(2, rank));
 		}
+	}
+
+	private boolean isCastlingMove(Piece piece, Square from, Square to) {
+		return piece.type() == PieceType.KING
+			&& Math.abs(to.file() - from.file()) == 2;
+	}
+
+	private void performCastle(Square from, Square to) {
+		CastlingSide side = to.file() > from.file()
+			? CastlingSide.KINGSIDE : CastlingSide.QUEENSIDE;
+		if (!canCastle(currentTurn, side)) {
+			throw new IllegalStateException("Castling is not allowed");
+		}
+		int rank = from.rank();
+		board.move(from, to);
+		Square rookHome = Square.of(side == CastlingSide.KINGSIDE ? 7 : 0, rank);
+		Square rookDest = Square.of(side == CastlingSide.KINGSIDE ? 5 : 3, rank);
+		board.move(rookHome, rookDest);
 	}
 
 	public boolean isCheckmate(Color color) {
@@ -241,12 +257,17 @@ public final class Game {
 		if (piece.color() != currentTurn) {
 			throw new IllegalStateException("Not your turn");
 		}
-		Board simulated = board.copy();
-		simulated.move(from, to);
-		if (isInCheckOn(simulated, currentTurn)) {
-			throw new IllegalStateException("Move would leave own king in check");
+		if (isCastlingMove(piece, from, to)) {
+			performCastle(from, to);
+		} else {
+			Board simulated = board.copy();
+			simulated.move(from, to);
+			if (isInCheckOn(simulated, currentTurn)) {
+				throw new IllegalStateException(
+					"Move would leave own king in check");
+			}
+			board.move(from, to);
 		}
-		board.move(from, to);
 		Color moved = currentTurn;
 		currentTurn = currentTurn.opposite();
 		if (clock != null) {
