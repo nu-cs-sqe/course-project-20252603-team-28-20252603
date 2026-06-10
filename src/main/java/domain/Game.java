@@ -85,17 +85,7 @@ public final class Game {
 		if (!isInCheck(color)) {
 			return false;
 		}
-		for (Square from : board.occupiedSquaresOf(color)) {
-			Piece piece = board.pieceAt(from).orElseThrow();
-			for (Square to : piece.candidateMoves(from, board)) {
-				Board copy = board.copy();
-				copy.move(from, to);
-				if (!isInCheckOn(copy, color)) {
-					return false;
-				}
-			}
-		}
-		return true;
+		return playerHasNoLegalMoves(color);
 	}
 
 	public boolean isStalemate(Color color) {
@@ -103,6 +93,11 @@ public final class Game {
 		if (isInCheck(color)) {
 			return false;
 		}
+		return playerHasNoLegalMoves(color);
+	}
+
+	boolean playerHasNoLegalMoves(Color color) {
+		Objects.requireNonNull(color);
 		for (Square from : board.occupiedSquaresOf(color)) {
 			Piece piece = board.pieceAt(from).orElseThrow();
 			for (Square to : piece.candidateMoves(from, board)) {

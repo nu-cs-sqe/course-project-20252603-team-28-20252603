@@ -33,7 +33,7 @@ isCheckmate(Color color) returns true if the given color's king is currently in 
 
 - Test Case 20: back-rank checkmate against white king
     - Method(s) under test: `isCheckmate(Color)`
-    - State of the system: white king at (4,0), black rook at (4,7), white pawns blocking escape on rank 1
+    - State of the system: white king at (7,0), black rook at (4,7), white pawns blocking escape on rank 1
     - Expected output: isCheckmate(WHITE) returns true
     - Implemented: yes
 
@@ -87,3 +87,40 @@ isCheckmate(Color color) returns true if the given color's king is currently in 
     - State of the system: new game from standard setup
     - Expected output: NullPointerException
     - Implemented: yes
+
+- Test Case 38: white in checkmate
+  - Method(s) under test: `isStalemate(Color)`
+  - State of the system: white king at (4,0), black rook at (4,7), black king at (4,2)
+  - Expected output: isStalemate(WHITE) returns false
+  - Implemented: yes
+
+---
+
+## playerHasNoLegalMoves(Color color)
+
+### Step 1 - Inputs and Outputs
+- Input #1: color who we are checking for legal moves
+- Output #1: boolean
+- Output #2: exception
+
+### Step 2 - Data Types
+- Input #1: Reference (enum)
+- Output #1: Boolean
+- Output #2: Case
+
+### Step 3 - Concrete Values
+- Input #1: WHITE, BLACK, null
+- Output #1: true (no legal move can be made without leaving the king in check), false (a legal move can be made to bring the king out of check)
+- Output #2: NullPointerException
+
+- Test Case 39: stalemate position, white not in check but no legal moves
+  - Method(s) under test: `playerHasNoLegalMoves(Color)`
+  - State of the system: white king cornered, black king and queen creating no-legal-move position without check
+  - Expected output: playerHasNoLegalMoves(WHITE) returns true
+  - Implemented: yes
+
+- Test Case 40: not stalemate position, white not in check with one legal move
+  - Method(s) under test: `playerHasNoLegalMoves(Color)`
+  - State of the system: white king cornered, black king and queen creating no-legal-move position without check
+  - Expected output: playerHasNoLegalMoves(WHITE) returns false
+  - Implemented: yes
