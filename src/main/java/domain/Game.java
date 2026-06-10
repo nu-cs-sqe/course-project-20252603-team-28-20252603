@@ -83,6 +83,9 @@ public final class Game {
 
 	public boolean canCastle(Color color, CastlingSide side) {
 		Objects.requireNonNull(color);
+		Objects.requireNonNull(side);
+
+
 
 		int rank = color == Color.WHITE ? 0 : 7;
 		Square kingHome = Square.of(4, rank);
