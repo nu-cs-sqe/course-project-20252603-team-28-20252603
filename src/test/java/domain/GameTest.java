@@ -882,4 +882,21 @@ public class GameTest {
 		Assertions.assertTrue(moves.contains(Square.of(6, 7)));
 		Assertions.assertTrue(moves.contains(Square.of(2, 7)));
 	}
+
+	@Test
+	public void kingLegalMovesExcludeCastleSquaresWhenNotAllowed() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Piece whiteKing = getMockedPiece(Color.WHITE, PieceType.KING);
+		EasyMock.expect(boardMock.pieceAt(Square.of(4, 0)))
+			.andStubReturn(Optional.of(whiteKing));
+		EasyMock.expect(boardMock.pieceAt(Square.of(7, 0))).andStubReturn(Optional.empty());
+		EasyMock.expect(boardMock.pieceAt(Square.of(0, 0))).andStubReturn(Optional.empty());
+		EasyMock.expect(whiteKing.candidateMoves(Square.of(4, 0), boardMock))
+			.andStubReturn(Set.of());
+		EasyMock.replay(boardMock, whiteKing);
+		Game game = new Game(boardMock);
+		Set<Square> moves = game.legalMovesFrom(Square.of(4, 0));
+		Assertions.assertFalse(moves.contains(Square.of(6, 0)));
+		Assertions.assertFalse(moves.contains(Square.of(2, 0)));
+	}
 }
