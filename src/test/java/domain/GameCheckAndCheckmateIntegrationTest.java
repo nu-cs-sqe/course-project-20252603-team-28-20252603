@@ -86,12 +86,46 @@ public class GameCheckAndCheckmateIntegrationTest {
 		Board board = new Board();
 		board.place(Square.of(0, 0), Piece.of(PieceType.KING, Color.WHITE));
 		board.place(Square.of(7, 7), Piece.of(PieceType.KING, Color.BLACK));
+		board.place(Square.of(1, 2), Piece.of(PieceType.QUEEN, Color.BLACK));
+		Game game = new Game(board);
+
+		Assertions.assertTrue(game.isStalemate(Color.WHITE));
+	}
+
+	@Test
+	public void whiteKingCheckmatedCheckIfStalemateReturnsFalse() {
+		Board board = new Board();
+		board.place(Square.of(4, 0), Piece.of(PieceType.KING, Color.WHITE));
+		board.place(Square.of(0, 0), Piece.of(PieceType.ROOK, Color.BLACK));
+		board.place(Square.of(4, 2), Piece.of(PieceType.KING, Color.BLACK));
+		Game game = new Game(board);
+
+		Assertions.assertTrue(game.isCheckmate(Color.WHITE));
+		Assertions.assertFalse(game.isStalemate(Color.WHITE));
+	}
+
+	@Test
+	public void kingNotInCheckWithNoOtherLegalMoves() {
+		Board board = new Board();
+		board.place(Square.of(0, 0), Piece.of(PieceType.KING, Color.WHITE));
+		board.place(Square.of(7, 7), Piece.of(PieceType.KING, Color.BLACK));
 		board.place(Square.of(1, 2), Piece.of(PieceType.BISHOP, Color.BLACK));
 		board.place(Square.of(2, 1), Piece.of(PieceType.BISHOP, Color.BLACK));
 		board.place(Square.of(3, 2), Piece.of(PieceType.KNIGHT, Color.BLACK));
 		Game game = new Game(board);
 
-		Assertions.assertTrue(game.isStalemate(Color.WHITE));
+		Assertions.assertTrue(game.playerHasNoLegalMoves(Color.WHITE));
+	}
+
+	@Test
+	public void kingNotInCheckWithOneLegalMove() {
+		Board board = new Board();
+		board.place(Square.of(0, 0), Piece.of(PieceType.KING, Color.WHITE));
+		board.place(Square.of(7, 7), Piece.of(PieceType.KING, Color.BLACK));
+		board.place(Square.of(1, 3), Piece.of(PieceType.QUEEN, Color.BLACK));
+		Game game = new Game(board);
+
+		Assertions.assertFalse(game.playerHasNoLegalMoves(Color.WHITE));
 	}
 
 	@Test
