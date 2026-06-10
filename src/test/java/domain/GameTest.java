@@ -801,4 +801,13 @@ public class GameTest {
 
 		Assertions.assertFalse(game.canCastle(Color.WHITE, CastlingSide.KINGSIDE));
 	}
+
+	@Test
+	public void canCastleNullColorThrows() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		EasyMock.replay(boardMock);
+		Game game = new Game(boardMock);
+		Assertions.assertThrows(NullPointerException.class,
+			() -> game.canCastle(null, CastlingSide.KINGSIDE));
+	}
 }
