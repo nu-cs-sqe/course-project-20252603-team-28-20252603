@@ -7,7 +7,8 @@ Feature: Draw rules
     Then insufficient material should be <result>
 
     Examples:
-      | pieces | result |
+      | pieces        | result |
+      | WK@0,0;BK@7,7 | true   |
 
   Scenario Outline: Draw status after a move
     Given a draw rules board with <pieces>
