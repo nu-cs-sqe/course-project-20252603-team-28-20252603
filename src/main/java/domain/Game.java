@@ -116,6 +116,28 @@ public final class Game {
 		return true;
 	}
 
+	public boolean isInsufficientMaterial() {
+		return nonKingPieceCount() == 0;
+	}
+
+	private int nonKingPieceCount() {
+		int count = 0;
+		for (Square square : occupiedSquares()) {
+			Piece piece = board.pieceAt(square).orElseThrow();
+			if (piece.type() != PieceType.KING) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	private Set<Square> occupiedSquares() {
+		Set<Square> occupied = new HashSet<>();
+		occupied.addAll(board.occupiedSquaresOf(Color.WHITE));
+		occupied.addAll(board.occupiedSquaresOf(Color.BLACK));
+		return occupied;
+	}
+
 	private boolean isInCheckOn(Board boardSnapshot, Color color) {
 		Square kingSquare = boardSnapshot.findKing(color);
 		Color opponent = color.opposite();
