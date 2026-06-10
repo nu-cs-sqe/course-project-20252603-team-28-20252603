@@ -2,6 +2,7 @@ package domain;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import java.util.Objects;
@@ -98,6 +99,13 @@ public final class Game {
 		if (isInCheck(color)) {
 			return false;
 		}
+		for (Square pass : kingPath(side, rank)) {
+			Board copy = board.copy();
+			copy.move(kingHome, pass);
+			if (isInCheckOn(copy, color)) {
+				return false;
+			}
+		}
 		return true;
 	}
 
@@ -112,6 +120,13 @@ public final class Game {
 			return Set.of(Square.of(5, rank), Square.of(6, rank));
 		}
 		return Set.of(Square.of(1, rank), Square.of(2, rank), Square.of(3, rank));
+	}
+
+	private List<Square> kingPath(CastlingSide side, int rank) {
+		if (side == CastlingSide.KINGSIDE) {
+			return List.of(Square.of(5, rank), Square.of(6, rank));
+		}
+		return List.of(Square.of(3, rank), Square.of(2, rank));
 	}
 
 	public boolean isCheckmate(Color color) {
