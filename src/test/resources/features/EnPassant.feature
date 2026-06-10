@@ -18,4 +18,5 @@ Feature: En passant
     Then the board should have <expected>
 
     Examples:
-      | pieces | moves | from | target | expected |
+      | pieces                         | moves             | from | target | expected                         |
+      | WK@0,0;BK@7,7;WP@4,4;BP@5,6   | 0,0>0,1;5,6>5,4 | 4,4  | 5,5    | WP@5,5;empty@4,4;empty@5,4     |
