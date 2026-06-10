@@ -519,4 +519,72 @@ public class GameTest {
 			() -> game.makeMove(Square.of(1, 0), Square.of(2, 2)));
 		EasyMock.verify(boardMock);
 	}
+
+	@Test
+	public void boardReturnsBackingBoard() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Game game = new Game(boardMock);
+
+		Assertions.assertSame(boardMock, game.board());
+	}
+
+	@Test
+	public void winnerByTimeoutWithoutClockIsEmpty() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Game game = new Game(boardMock);
+
+		Assertions.assertTrue(game.winnerByTimeout().isEmpty());
+	}
+
+	@Test
+	public void isStalemateWhenInCheckIsFalse() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Piece blackRookMock = getMockedPiece(Color.BLACK, PieceType.ROOK);
+
+		EasyMock.expect(boardMock.findKing(Color.WHITE))
+			.andStubReturn(Square.of(4, 0));
+		EasyMock.expect(boardMock.occupiedSquaresOf(Color.BLACK))
+			.andStubReturn(Set.of(Square.of(4, 7)));
+		EasyMock.expect(boardMock.pieceAt(Square.of(4, 7)))
+			.andStubReturn(Optional.of(blackRookMock));
+		EasyMock.expect(blackRookMock.candidateMoves(Square.of(4, 7), boardMock))
+			.andStubReturn(Set.of(Square.of(4, 0)));
+
+		EasyMock.replay(boardMock, blackRookMock);
+		Game game = new Game(boardMock);
+
+		Assertions.assertFalse(game.isStalemate(Color.WHITE));
+	}
+
+	@Test
+	public void cannotPromoteBlackPawnOffBackRank() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Square target = Square.of(3, 4);
+		Piece blackPawn = Piece.of(PieceType.PAWN, Color.BLACK);
+
+		EasyMock.expect(boardMock.pieceAt(target)).andReturn(Optional.of(blackPawn));
+		EasyMock.replay(boardMock);
+
+		Game game = new Game(boardMock);
+
+		Assertions.assertFalse(game.canPromote(target));
+		EasyMock.verify(boardMock);
+	}
+
+	@Test
+	public void promoteToPawnThrows() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Square target = Square.of(4, 7);
+		Piece whitePawn = Piece.of(PieceType.PAWN, Color.WHITE);
+
+		EasyMock.expect(boardMock.pieceAt(target)).andStubReturn(Optional.of(whitePawn));
+		EasyMock.replay(boardMock);
+
+		Game game = new Game(boardMock);
+
+		Assertions.assertThrows(
+			IllegalArgumentException.class,
+			() -> game.promote(target, PieceType.PAWN));
+		EasyMock.verify(boardMock);
+	}
 }
