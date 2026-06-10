@@ -117,24 +117,49 @@ public final class Game {
 	}
 
 	public boolean isInsufficientMaterial() {
-		Set<PieceType> nonKingTypes = nonKingPieceTypes();
-		if (nonKingTypes.isEmpty()) {
+		Set<Square> nonKingSquares = nonKingSquares();
+		if (nonKingSquares.isEmpty()) {
 			return true;
 		}
-		return nonKingTypes.size() == 1
-				&& (nonKingTypes.contains(PieceType.BISHOP)
-				|| nonKingTypes.contains(PieceType.KNIGHT));
+		if (nonKingSquares.size() == 1) {
+			PieceType type = board.pieceAt(nonKingSquares.iterator().next())
+					.orElseThrow()
+					.type();
+			return type == PieceType.BISHOP || type == PieceType.KNIGHT;
+		}
+		return hasOnlySameColorBishops(nonKingSquares);
 	}
 
-	private Set<PieceType> nonKingPieceTypes() {
-		Set<PieceType> types = new HashSet<>();
+	private Set<Square> nonKingSquares() {
+		Set<Square> squares = new HashSet<>();
 		for (Square square : occupiedSquares()) {
 			Piece piece = board.pieceAt(square).orElseThrow();
 			if (piece.type() != PieceType.KING) {
-				types.add(piece.type());
+				squares.add(square);
 			}
 		}
-		return types;
+		return squares;
+	}
+
+	private boolean hasOnlySameColorBishops(Set<Square> squares) {
+		Boolean firstSquareColor = null;
+		for (Square square : squares) {
+			Piece piece = board.pieceAt(square).orElseThrow();
+			if (piece.type() != PieceType.BISHOP) {
+				return false;
+			}
+			boolean squareColor = isLightSquare(square);
+			if (firstSquareColor == null) {
+				firstSquareColor = squareColor;
+			} else if (firstSquareColor != squareColor) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean isLightSquare(Square square) {
+		return (square.file() + square.rank()) % 2 == 0;
 	}
 
 	private Set<Square> occupiedSquares() {
