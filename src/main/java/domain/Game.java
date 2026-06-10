@@ -121,7 +121,9 @@ public final class Game {
 		if (nonKingTypes.isEmpty()) {
 			return true;
 		}
-		return nonKingTypes.size() == 1 && nonKingTypes.contains(PieceType.BISHOP);
+		return nonKingTypes.size() == 1
+				&& (nonKingTypes.contains(PieceType.BISHOP)
+				|| nonKingTypes.contains(PieceType.KNIGHT));
 	}
 
 	private Set<PieceType> nonKingPieceTypes() {
