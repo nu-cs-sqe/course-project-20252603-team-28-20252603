@@ -612,4 +612,13 @@ public class GameTest {
 		Game game = new Game(boardMock);
 		Assertions.assertTrue(game.canCastle(Color.WHITE, CastlingSide.KINGSIDE));
 	}
+
+	@Test
+	public void cannotCastleWhenKingNotOnHomeSquare() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		EasyMock.expect(boardMock.pieceAt(Square.of(4, 0))).andStubReturn(Optional.empty());
+		EasyMock.replay(boardMock);
+		Game game = new Game(boardMock);
+		Assertions.assertFalse(game.canCastle(Color.WHITE, CastlingSide.KINGSIDE));
+	}
 }
