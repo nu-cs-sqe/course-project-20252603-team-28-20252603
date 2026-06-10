@@ -15,6 +15,9 @@ Feature: En passant
       | WK@0,0;BK@7,7;WP@4,4;BP@5,6   | 0,0>0,1;5,6>5,4;0,1>0,2 | 4,4 | exclude | 5,5 |
       | WK@0,0;BK@7,7;WP@4,4;BP@6,6   | 0,0>0,1;6,6>6,4 | 4,4  | exclude     | 5,5    |
       | WK@4,0;BK@7,7;WP@4,4;BP@5,6;BR@4,7 | 4,0>4,1;5,6>5,4 | 4,4 | exclude | 5,5 |
+      | WK@0,0;BK@7,7;WP@4,4;BP@5,6   | none            | 4,4  | exclude     | 5,5    |
+      | WK@0,0;BK@7,7;WP@4,4;WP@3,1   | 3,1>3,3         | 4,4  | exclude     | 3,5    |
+      | WK@0,0;BK@7,7;WP@4,5;BP@5,6   | 0,0>0,1;5,6>5,4 | 4,5  | exclude     | 5,6    |
 
   Scenario Outline: En passant capture execution
     Given an en passant board with <pieces>
@@ -25,3 +28,5 @@ Feature: En passant
     Examples:
       | pieces                         | moves             | from | target | expected                         |
       | WK@0,0;BK@7,7;WP@4,4;BP@5,6   | 0,0>0,1;5,6>5,4 | 4,4  | 5,5    | WP@5,5;empty@4,4;empty@5,4     |
+      | WK@0,0;BK@7,7;WP@4,4;BP@5,5   | 0,0>0,1;7,7>7,6 | 4,4  | 5,5    | WP@5,5;empty@4,4     |
+      | WK@0,0;BK@7,7;WP@4,4;BP@5,6   | 0,0>0,1;5,6>5,4 | 4,4  | 4,5    | WP@4,5;empty@4,4     |
