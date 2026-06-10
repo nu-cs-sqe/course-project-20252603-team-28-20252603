@@ -80,6 +80,20 @@ public final class Game {
 		return isInCheckOn(board, color);
 	}
 
+	public boolean canCastle(Color color, CastlingSide side) {
+		int rank = color == Color.WHITE ? 0 : 7;
+		Square kingHome = Square.of(4, rank);
+		Square rookHome = Square.of(side == CastlingSide.KINGSIDE ? 7 : 0, rank);
+		return hasPiece(kingHome, Piece.of(PieceType.KING, color))
+			&& hasPiece(rookHome, Piece.of(PieceType.ROOK, color));
+	}
+
+	private boolean hasPiece(Square square, Piece expected) {
+		return board.pieceAt(square)
+			.filter(p -> p.type() == expected.type() && p.color() == expected.color())
+			.isPresent();
+	}
+
 	public boolean isCheckmate(Color color) {
 		Objects.requireNonNull(color);
 		if (!isInCheck(color)) {

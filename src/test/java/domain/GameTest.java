@@ -587,4 +587,29 @@ public class GameTest {
 			() -> game.promote(target, PieceType.PAWN));
 		EasyMock.verify(boardMock);
 	}
+
+	// tests for castling
+	@Test
+	public void whiteKingsideCastleAllowedFromClearBackRank() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Piece whiteKing = getMockedPiece(Color.WHITE, PieceType.KING);
+		Piece whiteRook = getMockedPiece(Color.WHITE, PieceType.ROOK);
+		// Stubs will be used because the mocking of each function is too convoluted
+		EasyMock.expect(boardMock.pieceAt(Square.of(4, 0)))
+			.andStubReturn(Optional.of(whiteKing));
+		EasyMock.expect(boardMock.pieceAt(Square.of(7, 0)))
+			.andStubReturn(Optional.of(whiteRook));
+		EasyMock.expect(boardMock.pieceAt(Square.of(5, 0))).andStubReturn(Optional.empty());
+		EasyMock.expect(boardMock.pieceAt(Square.of(6, 0))).andStubReturn(Optional.empty());
+		EasyMock.expect(boardMock.findKing(Color.WHITE)).andStubReturn(Square.of(4, 0));
+		EasyMock.expect(boardMock.occupiedSquaresOf(Color.BLACK)).andStubReturn(Set.of());
+		EasyMock.expect(boardMock.copy()).andStubReturn(boardMock);
+		boardMock.move(Square.of(4, 0), Square.of(5, 0));
+		EasyMock.expectLastCall().anyTimes();
+		boardMock.move(Square.of(4, 0), Square.of(6, 0));
+		EasyMock.expectLastCall().anyTimes();
+		EasyMock.replay(boardMock, whiteKing, whiteRook);
+		Game game = new Game(boardMock);
+		Assertions.assertTrue(game.canCastle(Color.WHITE, CastlingSide.KINGSIDE));
+	}
 }
