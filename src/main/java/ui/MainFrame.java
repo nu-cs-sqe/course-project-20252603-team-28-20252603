@@ -81,6 +81,9 @@ public class MainFrame extends JFrame {
 		if (status == GameStatus.STALEMATE) {
 			return Messages.get("status.stalemate");
 		}
+		if (status == GameStatus.DRAW) {
+			return Messages.get("status.draw");
+		}
 		return game.currentTurn() == Color.WHITE
 			? Messages.get("status.whiteToMove")
 			: Messages.get("status.blackToMove");

@@ -115,6 +115,59 @@ public final class Game {
 		return true;
 	}
 
+	public boolean isInsufficientMaterial() {
+		Set<Square> nonKingSquares = nonKingSquares();
+		if (nonKingSquares.isEmpty()) {
+			return true;
+		}
+		if (nonKingSquares.size() == 1) {
+			PieceType type = board.pieceAt(nonKingSquares.iterator().next())
+					.orElseThrow()
+					.type();
+			return type == PieceType.BISHOP || type == PieceType.KNIGHT;
+		}
+		return hasOnlySameColorBishops(nonKingSquares);
+	}
+
+	private Set<Square> nonKingSquares() {
+		Set<Square> squares = new HashSet<>();
+		for (Square square : occupiedSquares()) {
+			Piece piece = board.pieceAt(square).orElseThrow();
+			if (piece.type() != PieceType.KING) {
+				squares.add(square);
+			}
+		}
+		return squares;
+	}
+
+	private boolean hasOnlySameColorBishops(Set<Square> squares) {
+		Boolean firstSquareColor = null;
+		for (Square square : squares) {
+			Piece piece = board.pieceAt(square).orElseThrow();
+			if (piece.type() != PieceType.BISHOP) {
+				return false;
+			}
+			boolean squareColor = isLightSquare(square);
+			if (firstSquareColor == null) {
+				firstSquareColor = squareColor;
+			} else if (firstSquareColor != squareColor) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean isLightSquare(Square square) {
+		return (square.file() + square.rank()) % 2 == 0;
+	}
+
+	private Set<Square> occupiedSquares() {
+		Set<Square> occupied = new HashSet<>();
+		occupied.addAll(board.occupiedSquaresOf(Color.WHITE));
+		occupied.addAll(board.occupiedSquaresOf(Color.BLACK));
+		return occupied;
+	}
+
 	private boolean isInCheckOn(Board boardSnapshot, Color color) {
 		Square kingSquare = boardSnapshot.findKing(color);
 		Color opponent = color.opposite();
@@ -195,9 +248,11 @@ public final class Game {
 		if (isCheckmate(currentTurn)) {
 			status = currentTurn == Color.WHITE
 				? GameStatus.BLACK_WIN
-				: GameStatus.WHITE_WIN;
+			: GameStatus.WHITE_WIN;
 		} else if (isStalemate(currentTurn)) {
 			status = GameStatus.STALEMATE;
+		} else if (isInsufficientMaterial()) {
+			status = GameStatus.DRAW;
 		}
 	}
 
