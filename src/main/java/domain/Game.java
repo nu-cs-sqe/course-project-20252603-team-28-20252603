@@ -95,6 +95,9 @@ public final class Game {
 				return false;
 			}
 		}
+		if (isInCheck(color)) {
+			return false;
+		}
 		return true;
 	}
 
