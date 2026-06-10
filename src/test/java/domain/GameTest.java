@@ -633,4 +633,18 @@ public class GameTest {
 		Game game = new Game(boardMock);
 		Assertions.assertFalse(game.canCastle(Color.WHITE, CastlingSide.KINGSIDE));
 	}
+
+	@Test
+	public void cannotCastleWhenWrongPieceTypeOnRookSquare() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Piece whiteKing = getMockedPiece(Color.WHITE, PieceType.KING);
+		Piece whiteBishop = getMockedPiece(Color.WHITE, PieceType.BISHOP);
+		EasyMock.expect(boardMock.pieceAt(Square.of(4, 0)))
+			.andStubReturn(Optional.of(whiteKing));
+		EasyMock.expect(boardMock.pieceAt(Square.of(7, 0)))
+			.andStubReturn(Optional.of(whiteBishop));
+		EasyMock.replay(boardMock, whiteKing, whiteBishop);
+		Game game = new Game(boardMock);
+		Assertions.assertFalse(game.canCastle(Color.WHITE, CastlingSide.KINGSIDE));
+	}
 }
