@@ -851,4 +851,35 @@ public class GameTest {
 		Assertions.assertTrue(moves.contains(Square.of(6, 0)));
 		Assertions.assertTrue(moves.contains(Square.of(2, 0)));
 	}
+
+	@Test
+	public void blackKingLegalMovesIncludeCastleSquaresWhenAllowed() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Piece blackKing = getMockedPiece(Color.BLACK, PieceType.KING);
+		Piece blackRookK = getMockedPiece(Color.BLACK, PieceType.ROOK);
+		Piece blackRookQ = getMockedPiece(Color.BLACK, PieceType.ROOK);
+		EasyMock.expect(boardMock.pieceAt(Square.of(4, 7)))
+			.andStubReturn(Optional.of(blackKing));
+		EasyMock.expect(boardMock.pieceAt(Square.of(7, 7)))
+			.andStubReturn(Optional.of(blackRookK));
+		EasyMock.expect(boardMock.pieceAt(Square.of(0, 7)))
+			.andStubReturn(Optional.of(blackRookQ));
+		EasyMock.expect(boardMock.pieceAt(Square.of(5, 7))).andStubReturn(Optional.empty());
+		EasyMock.expect(boardMock.pieceAt(Square.of(6, 7))).andStubReturn(Optional.empty());
+		EasyMock.expect(boardMock.pieceAt(Square.of(1, 7))).andStubReturn(Optional.empty());
+		EasyMock.expect(boardMock.pieceAt(Square.of(2, 7))).andStubReturn(Optional.empty());
+		EasyMock.expect(boardMock.pieceAt(Square.of(3, 7))).andStubReturn(Optional.empty());
+		EasyMock.expect(blackKing.candidateMoves(Square.of(4, 7), boardMock))
+			.andStubReturn(Set.of());
+		EasyMock.expect(boardMock.findKing(Color.BLACK)).andStubReturn(Square.of(4, 7));
+		EasyMock.expect(boardMock.occupiedSquaresOf(Color.WHITE)).andStubReturn(Set.of());
+		EasyMock.expect(boardMock.copy()).andStubReturn(boardMock);
+		boardMock.move(EasyMock.anyObject(Square.class), EasyMock.anyObject(Square.class));
+		EasyMock.expectLastCall().anyTimes();
+		EasyMock.replay(boardMock, blackKing, blackRookK, blackRookQ);
+		Game game = new Game(boardMock);
+		Set<Square> moves = game.legalMovesFrom(Square.of(4, 7));
+		Assertions.assertTrue(moves.contains(Square.of(6, 7)));
+		Assertions.assertTrue(moves.contains(Square.of(2, 7)));
+	}
 }
