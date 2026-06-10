@@ -43,3 +43,8 @@ the moving side in check.
 	  (5, 6) to (5, 4), both kings are present
 	- **Expected output**: after `makeMove(4, 4, 5, 5)`, the white pawn is at
 	  (5, 5), (4, 4) is empty, and (5, 4) is empty
+
+- **TC3: black en passant is available after white two-step pawn move** ( ✅ )
+	- **State of the system**: black pawn at (4, 3), white pawn moves from (5, 1)
+	  to (5, 3), both kings are present
+	- **Expected output**: `legalMovesFrom(4, 3)` includes (5, 2)
