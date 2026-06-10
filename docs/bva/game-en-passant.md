@@ -53,3 +53,8 @@ the moving side in check.
 	- **State of the system**: white pawn at (4, 4), black pawn moves from (5, 5)
 	  to (5, 4), both kings are present
 	- **Expected output**: `legalMovesFrom(4, 4)` does not include (5, 5)
+
+- **TC5: en passant is unavailable after an intervening move** ( ✅ )
+	- **State of the system**: black pawn moves from (5, 6) to (5, 4), then white
+	  makes another legal move before asking for the adjacent pawn's moves
+	- **Expected output**: `legalMovesFrom(4, 4)` does not include (5, 5)
