@@ -24,3 +24,4 @@ Feature: Draw rules
 
     Examples:
       | pieces | from | to | status |
+      | WK@0,0;BK@7,6;WB@2,2;BR@3,3 | 2,2 | 3,3 | DRAW |
