@@ -11,6 +11,7 @@ Feature: Draw rules
       | WK@0,0;BK@7,7 | true   |
       | WK@0,0;BK@7,7;WB@2,2 | true |
       | WK@0,0;BK@7,7;WN@2,2 | true |
+      | WK@0,0;BK@7,7;WB@2,0;BB@4,2 | true |
 
   Scenario Outline: Draw status after a move
     Given a draw rules board with <pieces>
