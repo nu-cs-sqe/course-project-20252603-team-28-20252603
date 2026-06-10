@@ -239,9 +239,11 @@ public final class Game {
 		if (isCheckmate(currentTurn)) {
 			status = currentTurn == Color.WHITE
 				? GameStatus.BLACK_WIN
-				: GameStatus.WHITE_WIN;
+			: GameStatus.WHITE_WIN;
 		} else if (isStalemate(currentTurn)) {
 			status = GameStatus.STALEMATE;
+		} else if (isInsufficientMaterial()) {
+			status = GameStatus.DRAW;
 		}
 	}
 }
