@@ -35,3 +35,11 @@ the moving side in check.
 	- **State of the system**: white pawn at (4, 4), black pawn moves from (5, 6)
 	  to (5, 4), both kings are present
 	- **Expected output**: `legalMovesFrom(4, 4)` includes (5, 5)
+
+## makeMove(Square from, Square to)
+
+- **TC2: white en passant execution removes the captured pawn** ( ✅ )
+	- **State of the system**: white pawn at (4, 4), black pawn has just moved from
+	  (5, 6) to (5, 4), both kings are present
+	- **Expected output**: after `makeMove(4, 4, 5, 5)`, the white pawn is at
+	  (5, 5), (4, 4) is empty, and (5, 4) is empty
