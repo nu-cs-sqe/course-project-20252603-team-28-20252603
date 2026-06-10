@@ -20,7 +20,7 @@ pieces to force checkmate. Stalemate remains represented separately as
 
 ### Step 3 - Concrete Values
 - Board state: kings only, king and one bishop versus king,
-  king and one knight versus king
+  king and one knight versus king, bishops only on one square color
 - Output: true
 
 ### Step 4 - Test Cases
@@ -34,4 +34,9 @@ pieces to force checkmate. Stalemate remains represented separately as
 
 - **TC3: king and one knight versus king is insufficient material** ( ✅ )
 	- **State of the system**: white king, white knight, and black king are the only pieces
+	- **Expected output**: `isInsufficientMaterial()` returns true
+
+- **TC4: same-color bishops are insufficient material** ( ✅ )
+	- **State of the system**: both sides have only a king and bishops, and every
+	  bishop is on the same square color
 	- **Expected output**: `isInsufficientMaterial()` returns true
