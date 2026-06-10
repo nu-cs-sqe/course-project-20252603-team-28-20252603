@@ -727,4 +727,23 @@ public class GameTest {
 		Game game = new Game(boardMock);
 		Assertions.assertFalse(game.canCastle(Color.WHITE, CastlingSide.KINGSIDE));
 	}
+
+	@Test
+	public void cannotCastleQueensideWhenBFileOccupied() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Piece whiteKing = getMockedPiece(Color.WHITE, PieceType.KING);
+		Piece whiteRook = getMockedPiece(Color.WHITE, PieceType.ROOK);
+		Piece blocker = getMockedPiece(Color.WHITE, PieceType.KNIGHT);
+		EasyMock.expect(boardMock.pieceAt(Square.of(4, 0)))
+			.andStubReturn(Optional.of(whiteKing));
+		EasyMock.expect(boardMock.pieceAt(Square.of(0, 0)))
+			.andStubReturn(Optional.of(whiteRook));
+		EasyMock.expect(boardMock.pieceAt(Square.of(1, 0)))
+			.andStubReturn(Optional.of(blocker));
+		EasyMock.expect(boardMock.pieceAt(Square.of(2, 0))).andStubReturn(Optional.empty());
+		EasyMock.expect(boardMock.pieceAt(Square.of(3, 0))).andStubReturn(Optional.empty());
+		EasyMock.replay(boardMock, whiteKing, whiteRook, blocker);
+		Game game = new Game(boardMock);
+		Assertions.assertFalse(game.canCastle(Color.WHITE, CastlingSide.QUEENSIDE));
+	}
 }
