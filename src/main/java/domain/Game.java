@@ -84,14 +84,31 @@ public final class Game {
 		int rank = color == Color.WHITE ? 0 : 7;
 		Square kingHome = Square.of(4, rank);
 		Square rookHome = Square.of(side == CastlingSide.KINGSIDE ? 7 : 0, rank);
-		return hasPiece(kingHome, Piece.of(PieceType.KING, color))
-			&& hasPiece(rookHome, Piece.of(PieceType.ROOK, color));
+		if (!hasPiece(kingHome, Piece.of(PieceType.KING, color))) {
+			return false;
+		}
+		if (!hasPiece(rookHome, Piece.of(PieceType.ROOK, color))) {
+			return false;
+		}
+		for (Square between : squaresBetween(side, rank)) {
+			if (board.pieceAt(between).isPresent()) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private boolean hasPiece(Square square, Piece expected) {
 		return board.pieceAt(square)
 			.filter(p -> p.type() == expected.type() && p.color() == expected.color())
 			.isPresent();
+	}
+
+	private Set<Square> squaresBetween(CastlingSide side, int rank) {
+		if (side == CastlingSide.KINGSIDE) {
+			return Set.of(Square.of(5, rank), Square.of(6, rank));
+		}
+		return Set.of(Square.of(1, rank), Square.of(2, rank), Square.of(3, rank));
 	}
 
 	public boolean isCheckmate(Color color) {

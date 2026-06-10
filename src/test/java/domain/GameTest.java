@@ -709,4 +709,22 @@ public class GameTest {
 
 		Assertions.assertTrue(game.canCastle(Color.BLACK, CastlingSide.KINGSIDE));
 	}
+
+	@Test
+	public void cannotCastleKingsideWhenSquareBetweenOccupied() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Piece whiteKing = getMockedPiece(Color.WHITE, PieceType.KING);
+		Piece whiteRook = getMockedPiece(Color.WHITE, PieceType.ROOK);
+		Piece blocker = getMockedPiece(Color.WHITE, PieceType.BISHOP);
+		EasyMock.expect(boardMock.pieceAt(Square.of(4, 0)))
+			.andStubReturn(Optional.of(whiteKing));
+		EasyMock.expect(boardMock.pieceAt(Square.of(7, 0)))
+			.andStubReturn(Optional.of(whiteRook));
+		EasyMock.expect(boardMock.pieceAt(Square.of(5, 0)))
+			.andStubReturn(Optional.of(blocker));
+		EasyMock.expect(boardMock.pieceAt(Square.of(6, 0))).andStubReturn(Optional.empty());
+		EasyMock.replay(boardMock, whiteKing, whiteRook, blocker);
+		Game game = new Game(boardMock);
+		Assertions.assertFalse(game.canCastle(Color.WHITE, CastlingSide.KINGSIDE));
+	}
 }
