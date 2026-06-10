@@ -20,8 +20,9 @@ pieces to force checkmate. Stalemate remains represented separately as
 
 ### Step 3 - Concrete Values
 - Board state: kings only, king and one bishop versus king,
-  king and one knight versus king, bishops only on one square color
-- Output: true
+  king and one knight versus king, bishops only on one square color,
+  pawn/rook/queen present, bishops on opposite square colors
+- Output: true or false
 
 ### Step 4 - Test Cases
 - **TC1: king versus king is insufficient material** ( ✅ )
@@ -40,3 +41,7 @@ pieces to force checkmate. Stalemate remains represented separately as
 	- **State of the system**: both sides have only a king and bishops, and every
 	  bishop is on the same square color
 	- **Expected output**: `isInsufficientMaterial()` returns true
+
+- **TC5: sufficient mating material is not an automatic draw** ( ✅ )
+	- **State of the system**: a pawn, rook, queen, or opposite-color bishops are present
+	- **Expected output**: `isInsufficientMaterial()` returns false
