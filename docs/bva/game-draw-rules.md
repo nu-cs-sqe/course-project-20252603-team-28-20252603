@@ -45,3 +45,9 @@ pieces to force checkmate. Stalemate remains represented separately as
 - **TC5: sufficient mating material is not an automatic draw** ( ✅ )
 	- **State of the system**: a pawn, rook, queen, or opposite-color bishops are present
 	- **Expected output**: `isInsufficientMaterial()` returns false
+
+## makeMove(Square from, Square to)
+
+- **TC6: move ending in insufficient material updates status to DRAW** ( ✅ )
+	- **State of the system**: after a legal move, the board has insufficient material
+	- **Expected output**: `getStatus()` returns DRAW
