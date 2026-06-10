@@ -176,12 +176,21 @@ public final class Game {
 		if (piece.color() != currentTurn) {
 			throw new IllegalStateException("Not your turn");
 		}
+		boolean enPassantMove = isEnPassantMove(from, to, piece);
 		Board simulated = board.copy();
-		simulated.move(from, to);
+		if (enPassantMove) {
+			applyEnPassant(simulated, from, to);
+		} else {
+			simulated.move(from, to);
+		}
 		if (isInCheckOn(simulated, currentTurn)) {
 			throw new IllegalStateException("Move would leave own king in check");
 		}
-		board.move(from, to);
+		if (enPassantMove) {
+			applyEnPassant(board, from, to);
+		} else {
+			board.move(from, to);
+		}
 		lastMove = new LastMove(piece.type(), piece.color(), from, to);
 		Color moved = currentTurn;
 		currentTurn = currentTurn.opposite();
@@ -217,6 +226,14 @@ public final class Game {
 				&& Math.abs(lastMove.to.rank() - lastMove.from.rank()) == 2
 				&& lastMove.to.rank() == from.rank()
 				&& Math.abs(lastMove.to.file() - from.file()) == 1;
+	}
+
+	private boolean isEnPassantMove(Square from, Square to, Piece piece) {
+		return piece.type() == PieceType.PAWN
+				&& lastMove != null
+				&& board.pieceAt(to).isEmpty()
+				&& isEnPassantAvailable(from, piece)
+				&& to.equals(enPassantDestination(from, piece.color()));
 	}
 
 	private Square enPassantDestination(Square from, Color color) {
