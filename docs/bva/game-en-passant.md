@@ -63,3 +63,8 @@ the moving side in check.
 	- **State of the system**: white pawn at (4, 4), black pawn moves from (6, 6)
 	  to (6, 4), both kings are present
 	- **Expected output**: `legalMovesFrom(4, 4)` does not include (5, 5)
+
+- **TC7: en passant is unavailable when it would leave own king in check** ( ✅ )
+	- **State of the system**: en passant is otherwise available, but moving the
+	  pawn exposes the moving side's king to an opposing rook
+	- **Expected output**: `legalMovesFrom` does not include the en passant square
