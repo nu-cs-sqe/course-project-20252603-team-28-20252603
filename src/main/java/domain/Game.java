@@ -117,18 +117,22 @@ public final class Game {
 	}
 
 	public boolean isInsufficientMaterial() {
-		return nonKingPieceCount() == 0;
+		Set<PieceType> nonKingTypes = nonKingPieceTypes();
+		if (nonKingTypes.isEmpty()) {
+			return true;
+		}
+		return nonKingTypes.size() == 1 && nonKingTypes.contains(PieceType.BISHOP);
 	}
 
-	private int nonKingPieceCount() {
-		int count = 0;
+	private Set<PieceType> nonKingPieceTypes() {
+		Set<PieceType> types = new HashSet<>();
 		for (Square square : occupiedSquares()) {
 			Piece piece = board.pieceAt(square).orElseThrow();
 			if (piece.type() != PieceType.KING) {
-				count++;
+				types.add(piece.type());
 			}
 		}
-		return count;
+		return types;
 	}
 
 	private Set<Square> occupiedSquares() {
