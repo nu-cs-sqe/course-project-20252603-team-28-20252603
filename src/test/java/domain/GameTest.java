@@ -819,4 +819,36 @@ public class GameTest {
 		Assertions.assertThrows(NullPointerException.class,
 			() -> game.canCastle(Color.WHITE, null));
 	}
+
+	@Test
+	public void kingLegalMovesIncludeCastleSquaresWhenAllowed() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Piece whiteKing = getMockedPiece(Color.WHITE, PieceType.KING);
+		Piece whiteRookK = getMockedPiece(Color.WHITE, PieceType.ROOK);
+		Piece whiteRookQ = getMockedPiece(Color.WHITE, PieceType.ROOK);
+		// Stubs will be used because the mocking of each function is too convoluted
+		EasyMock.expect(boardMock.pieceAt(Square.of(4, 0)))
+			.andStubReturn(Optional.of(whiteKing));
+		EasyMock.expect(boardMock.pieceAt(Square.of(7, 0)))
+			.andStubReturn(Optional.of(whiteRookK));
+		EasyMock.expect(boardMock.pieceAt(Square.of(0, 0)))
+			.andStubReturn(Optional.of(whiteRookQ));
+		EasyMock.expect(boardMock.pieceAt(Square.of(5, 0))).andStubReturn(Optional.empty());
+		EasyMock.expect(boardMock.pieceAt(Square.of(6, 0))).andStubReturn(Optional.empty());
+		EasyMock.expect(boardMock.pieceAt(Square.of(1, 0))).andStubReturn(Optional.empty());
+		EasyMock.expect(boardMock.pieceAt(Square.of(2, 0))).andStubReturn(Optional.empty());
+		EasyMock.expect(boardMock.pieceAt(Square.of(3, 0))).andStubReturn(Optional.empty());
+		EasyMock.expect(whiteKing.candidateMoves(Square.of(4, 0), boardMock))
+			.andStubReturn(Set.of());
+		EasyMock.expect(boardMock.findKing(Color.WHITE)).andStubReturn(Square.of(4, 0));
+		EasyMock.expect(boardMock.occupiedSquaresOf(Color.BLACK)).andStubReturn(Set.of());
+		EasyMock.expect(boardMock.copy()).andStubReturn(boardMock);
+		boardMock.move(EasyMock.anyObject(Square.class), EasyMock.anyObject(Square.class));
+		EasyMock.expectLastCall().anyTimes();
+		EasyMock.replay(boardMock, whiteKing, whiteRookK, whiteRookQ);
+		Game game = new Game(boardMock);
+		Set<Square> moves = game.legalMovesFrom(Square.of(4, 0));
+		Assertions.assertTrue(moves.contains(Square.of(6, 0)));
+		Assertions.assertTrue(moves.contains(Square.of(2, 0)));
+	}
 }

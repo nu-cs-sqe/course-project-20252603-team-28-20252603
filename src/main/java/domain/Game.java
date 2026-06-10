@@ -73,6 +73,11 @@ public final class Game {
 				moves.add(to);
 			}
 		}
+
+		if (piece.get().type() == PieceType.KING) {
+			addCastleMoves(color, moves);
+		}
+
 		return Collections.unmodifiableSet(moves);
 	}
 
@@ -132,6 +137,16 @@ public final class Game {
 			return List.of(Square.of(5, rank), Square.of(6, rank));
 		}
 		return List.of(Square.of(3, rank), Square.of(2, rank));
+	}
+
+	private void addCastleMoves(Color color, Set<Square> moves) {
+		int rank = color == Color.WHITE ? 0 : 7;
+		if (canCastle(color, CastlingSide.KINGSIDE)) {
+			moves.add(Square.of(6, rank));
+		}
+		if (canCastle(color, CastlingSide.QUEENSIDE)) {
+			moves.add(Square.of(2, rank));
+		}
 	}
 
 	public boolean isCheckmate(Color color) {
