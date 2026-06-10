@@ -198,7 +198,9 @@ public final class Game {
 	}
 
 	private void addLegalEnPassantMoves(Square from, Piece piece, Set<Square> moves) {
-		if (piece.type() != PieceType.PAWN || lastMove == null || !isEnPassantAvailable(from, piece)) {
+		if (piece.type() != PieceType.PAWN
+				|| lastMove == null
+				|| !isEnPassantAvailable(from, piece)) {
 			return;
 		}
 		Square to = enPassantDestination(from, piece.color());

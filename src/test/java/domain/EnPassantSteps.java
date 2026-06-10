@@ -72,7 +72,9 @@ public class EnPassantSteps {
 		for (String pieceText : piecesText.split(";")) {
 			String[] parts = pieceText.split("@");
 			String pieceCode = parts[0];
-			Piece piece = Piece.of(pieceTypeFrom(pieceCode), colorFrom(pieceCode.substring(0, 1)));
+			Piece piece = Piece.of(
+					pieceTypeFrom(pieceCode),
+					colorFrom(pieceCode.substring(0, 1)));
 			board.place(squareFrom(parts[1]), piece);
 		}
 	}
