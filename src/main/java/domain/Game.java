@@ -13,6 +13,7 @@ public final class Game {
 	private final ChessClock clock;
 	private Color currentTurn;
 	private GameStatus status;
+	private LastMove lastMove;
 
 	public Game(Board board) {
 		Objects.requireNonNull(board);
@@ -20,6 +21,7 @@ public final class Game {
 		this.clock = null;
 		this.currentTurn = Color.WHITE;
 		this.status = GameStatus.IN_PROGRESS;
+		this.lastMove = null;
 	}
 
 	public Game(Board board, ChessClock clock) {
@@ -29,6 +31,7 @@ public final class Game {
 		this.clock = clock;
 		this.currentTurn = Color.WHITE;
 		this.status = GameStatus.IN_PROGRESS;
+		this.lastMove = null;
 		clock.start(Color.WHITE);
 	}
 
@@ -73,11 +76,10 @@ public final class Game {
 				moves.add(to);
 			}
 		}
-
 		if (piece.get().type() == PieceType.KING) {
 			addCastleMoves(color, moves);
 		}
-
+		addLegalEnPassantMoves(from, piece.get(), moves);
 		return Collections.unmodifiableSet(moves);
 	}
 
@@ -89,7 +91,6 @@ public final class Game {
 	public boolean canCastle(Color color, CastlingSide side) {
 		Objects.requireNonNull(color);
 		Objects.requireNonNull(side);
-
 		int rank = color == Color.WHITE ? 0 : 7;
 		Square kingHome = Square.of(4, rank);
 		Square rookHome = Square.of(side == CastlingSide.KINGSIDE ? 7 : 0, rank);
@@ -170,6 +171,19 @@ public final class Game {
 		if (!isInCheck(color)) {
 			return false;
 		}
+		return playerHasNoLegalMoves(color);
+	}
+
+	public boolean isStalemate(Color color) {
+		Objects.requireNonNull(color);
+		if (isInCheck(color)) {
+			return false;
+		}
+		return playerHasNoLegalMoves(color);
+	}
+
+	boolean playerHasNoLegalMoves(Color color) {
+		Objects.requireNonNull(color);
 		for (Square from : board.occupiedSquaresOf(color)) {
 			Piece piece = board.pieceAt(from).orElseThrow();
 			for (Square to : piece.candidateMoves(from, board)) {
@@ -183,22 +197,57 @@ public final class Game {
 		return true;
 	}
 
-	public boolean isStalemate(Color color) {
-		Objects.requireNonNull(color);
-		if (isInCheck(color)) {
-			return false;
+	public boolean isInsufficientMaterial() {
+		Set<Square> nonKingSquares = nonKingSquares();
+		if (nonKingSquares.isEmpty()) {
+			return true;
 		}
-		for (Square from : board.occupiedSquaresOf(color)) {
-			Piece piece = board.pieceAt(from).orElseThrow();
-			for (Square to : piece.candidateMoves(from, board)) {
-				Board copy = board.copy();
-				copy.move(from, to);
-				if (!isInCheckOn(copy, color)) {
-					return false;
-				}
+		if (nonKingSquares.size() == 1) {
+			PieceType type = board.pieceAt(nonKingSquares.iterator().next())
+				.orElseThrow()
+				.type();
+			return type == PieceType.BISHOP || type == PieceType.KNIGHT;
+		}
+		return hasOnlySameColorBishops(nonKingSquares);
+	}
+
+	private Set<Square> nonKingSquares() {
+		Set<Square> squares = new HashSet<>();
+		for (Square square : occupiedSquares()) {
+			Piece piece = board.pieceAt(square).orElseThrow();
+			if (piece.type() != PieceType.KING) {
+				squares.add(square);
+			}
+		}
+		return squares;
+	}
+
+	private boolean hasOnlySameColorBishops(Set<Square> squares) {
+		Boolean firstSquareColor = null;
+		for (Square square : squares) {
+			Piece piece = board.pieceAt(square).orElseThrow();
+			if (piece.type() != PieceType.BISHOP) {
+				return false;
+			}
+			boolean squareColor = isLightSquare(square);
+			if (firstSquareColor == null) {
+				firstSquareColor = squareColor;
+			} else if (firstSquareColor != squareColor) {
+				return false;
 			}
 		}
 		return true;
+	}
+
+	private boolean isLightSquare(Square square) {
+		return (square.file() + square.rank()) % 2 == 0;
+	}
+
+	private Set<Square> occupiedSquares() {
+		Set<Square> occupied = new HashSet<>();
+		occupied.addAll(board.occupiedSquaresOf(Color.WHITE));
+		occupied.addAll(board.occupiedSquaresOf(Color.BLACK));
+		return occupied;
 	}
 
 	private boolean isInCheckOn(Board boardSnapshot, Color color) {
@@ -260,14 +309,24 @@ public final class Game {
 		if (isCastlingMove(piece, from, to)) {
 			performCastle(from, to);
 		} else {
+			boolean enPassantMove = isEnPassantMove(from, to, piece);
 			Board simulated = board.copy();
-			simulated.move(from, to);
+			if (enPassantMove) {
+				applyEnPassant(simulated, from, to);
+			} else {
+				simulated.move(from, to);
+			}
 			if (isInCheckOn(simulated, currentTurn)) {
 				throw new IllegalStateException(
 					"Move would leave own king in check");
 			}
-			board.move(from, to);
+			if (enPassantMove) {
+				applyEnPassant(board, from, to);
+			} else {
+				board.move(from, to);
+			}
 		}
+		lastMove = new LastMove(piece.type(), piece.color(), from, to);
 		Color moved = currentTurn;
 		currentTurn = currentTurn.opposite();
 		if (clock != null) {
@@ -279,6 +338,62 @@ public final class Game {
 				: GameStatus.WHITE_WIN;
 		} else if (isStalemate(currentTurn)) {
 			status = GameStatus.STALEMATE;
+		} else if (isInsufficientMaterial()) {
+			status = GameStatus.DRAW;
+		}
+	}
+
+	private void addLegalEnPassantMoves(Square from, Piece piece, Set<Square> moves) {
+		if (piece.type() != PieceType.PAWN
+			|| lastMove == null
+			|| !isEnPassantAvailable(from, piece)) {
+			return;
+		}
+		Square to = enPassantDestination(from, piece.color());
+		Board simulated = board.copy();
+		applyEnPassant(simulated, from, to);
+		if (!isInCheckOn(simulated, piece.color())) {
+			moves.add(to);
+		}
+	}
+
+	private boolean isEnPassantAvailable(Square from, Piece piece) {
+		return lastMove.type == PieceType.PAWN
+			&& lastMove.color != piece.color()
+			&& Math.abs(lastMove.to.rank() - lastMove.from.rank()) == 2
+			&& lastMove.to.rank() == from.rank()
+			&& Math.abs(lastMove.to.file() - from.file()) == 1;
+	}
+
+	private boolean isEnPassantMove(Square from, Square to, Piece piece) {
+		return piece.type() == PieceType.PAWN
+			&& lastMove != null
+			&& board.pieceAt(to).isEmpty()
+			&& isEnPassantAvailable(from, piece)
+			&& to.equals(enPassantDestination(from, piece.color()));
+	}
+
+	private Square enPassantDestination(Square from, Color color) {
+		int rankDelta = color == Color.WHITE ? 1 : -1;
+		return Square.of(lastMove.to.file(), from.rank() + rankDelta);
+	}
+
+	private void applyEnPassant(Board targetBoard, Square from, Square to) {
+		targetBoard.remove(Square.of(to.file(), from.rank()));
+		targetBoard.move(from, to);
+	}
+
+	private static final class LastMove {
+		private final PieceType type;
+		private final Color color;
+		private final Square from;
+		private final Square to;
+
+		private LastMove(PieceType type, Color color, Square from, Square to) {
+			this.type = type;
+			this.color = color;
+			this.from = from;
+			this.to = to;
 		}
 	}
 }
