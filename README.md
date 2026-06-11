@@ -13,7 +13,7 @@ The game implements the full standard chess ruleset along with one team-defined 
 - All six piece types (Pawn, Knight, Bishop, Rook, Queen, King) with correct movement and capture
 - Check, checkmate, and stalemate detection
 - Special moves: castling (kingside and queenside), en passant, pawn promotion
-- Draw conditions: stalemate, insufficient material
+- Draw conditions: stalemate, threefold repetition, fifty-move rule, insufficient material
 - Turn-based play with two human players sharing one machine
 
 **Team-defined feature: Chess clock**
@@ -57,7 +57,21 @@ CI runs `./gradlew build` on every pull request and on every push to `main`.
 
 ## Run the Game
 
-Run instructions will be added once the application entry point is implemented.
+### IntelliJ
+
+Open the project in IntelliJ and run:
+
+`src/main/java/ui/Main.java`
+
+using the Run button.
+
+### Gradle
+
+You can also run the application from the command line:
+
+```bash
+./gradlew run
+```
 
 ## Development Workflow
 
