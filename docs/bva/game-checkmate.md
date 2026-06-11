@@ -177,3 +177,59 @@ isCheckmate(Color color) returns true if the given color's king is currently in 
   - State of the system: counter reaches 99, then a piece is captured
   - Expected output: returns false
   - Implemented: yes
+
+## isThreefoldRepetition()
+
+### Step 1 - Inputs and Outputs
+
+- Input #1: Game history (sequence of board positions reached during play)
+- Output #1: boolean
+- Output #2: exception
+
+### Step 2 - Data Types
+
+- Input #1: Collection of board-state records
+- Output #1: Boolean
+
+### Step 3 - Concrete Values
+
+Input #1: Position occurs once, Position occurs twice, Position occurs three times
+Output #1: true (same position reached three times), false (position reached fewer than three times)
+
+### Step 4 - Test Cases
+
+- Test Case 46: initial position is not threefold repetition
+  - Method(s) under test: isThreefoldRepetition()
+  - State of the system: new game, no moves played
+  - Expected output: returns false
+  - Implemented: yes/no
+
+- Test Case 47: position repeated twice
+  - Method(s) under test: isThreefoldRepetition()
+  - State of the system: players repeat moves until a position appears exactly two times
+  - Expected output: returns false
+  - Implemented: yes/no
+
+- Test Case 48: position repeated three times
+  - Method(s) under test: isThreefoldRepetition()
+  - State of the system: players repeat moves until the same board position, side-to-move, and rights occur three times
+  - Expected output: returns true
+  - Implemented: yes/no
+
+- Test Case 49: board layout repeats but side to move differs
+  - Method(s) under test: isThreefoldRepetition()
+  - State of the system: piece placement identical but different player to move
+  - Expected output: returns false
+  - Implemented: yes/no
+
+- Test Case 50: board layout repeats but castling rights differ 
+  - Method(s) under test: isThreefoldRepetition()
+  - State of the system: same piece placement but different game rights
+  - Expected output: returns false
+  - Implemented: yes (in 47, 48, 49 because the board starts with castling rights and loses them on the first turn)
+
+- Test Case 51: board layout repeats but en-passant rights differ
+  - Method(s) under test: isThreefoldRepetition()
+  - State of the system: same piece placement but different game rights
+  - Expected output: returns false
+  - Implemented: yes/no

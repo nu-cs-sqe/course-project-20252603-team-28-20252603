@@ -1,12 +1,15 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 public final class Game {
 	private final Board board;
@@ -16,6 +19,8 @@ public final class Game {
 	private LastMove lastMove;
 	private int numberOfHalfMovesSinceCaptureOrPawnMove;
 	private final Set<Square> movedFrom = new HashSet<>();
+	private final Map<String, Integer> positionCounts = new HashMap<>();
+	private	boolean initialPositionRecorded;
 
 	public Game(Board board) {
 		Objects.requireNonNull(board);
@@ -25,6 +30,7 @@ public final class Game {
 		this.status = GameStatus.IN_PROGRESS;
 		this.lastMove = null;
 		this.numberOfHalfMovesSinceCaptureOrPawnMove = 0;
+		initialPositionRecorded = false;
 	}
 
 	public Game(Board board, ChessClock clock) {
@@ -36,6 +42,7 @@ public final class Game {
 		this.status = GameStatus.IN_PROGRESS;
 		this.lastMove = null;
 		this.numberOfHalfMovesSinceCaptureOrPawnMove = 0;
+		initialPositionRecorded = false;
 		clock.start(Color.WHITE);
 	}
 
@@ -224,6 +231,56 @@ public final class Game {
 		return numberOfHalfMovesSinceCaptureOrPawnMove >= 100;
 	}
 
+	boolean isThreefoldRepetition() {
+		return positionCounts.values()
+		                     .stream()
+		                     .anyMatch(count -> count >= 3);
+	}
+
+	private void recordCurrentPosition() {
+		String signature = positionSignature();
+		positionCounts.merge(signature, 1, Integer::sum);
+	}
+
+	private String positionSignature() {
+		StringBuilder signature = new StringBuilder();
+		List<Square> occupiedSquares = new ArrayList<>(occupiedSquares());
+		occupiedSquares.sort(Comparator.comparingInt(Square::rank)
+		                               .thenComparingInt(Square::file));
+		for (Square square : occupiedSquares) {
+			Piece piece = board.pieceAt(square).orElseThrow();
+			signature.append(square.file())
+			   .append(square.rank())
+			   .append(piece.color())
+			   .append(piece.type());
+		}
+		signature.append("|turn=").append(currentTurn);
+		signature.append("|WK=").append(canCastle(
+				Color.WHITE,
+				CastlingSide.KINGSIDE
+		));
+		signature.append("|WQ=").append(canCastle(
+				Color.WHITE,
+				CastlingSide.QUEENSIDE
+		));
+		signature.append("|BK=").append(canCastle(
+				Color.BLACK,
+				CastlingSide.KINGSIDE
+		));
+		signature.append("|BQ=").append(canCastle(
+				Color.BLACK,
+				CastlingSide.QUEENSIDE
+		));
+		if (lastMove != null
+				&& lastMove.type == PieceType.PAWN
+				&& Math.abs(lastMove.to.rank()
+								- lastMove.from.rank()) == 2) {
+			signature.append("|EP=").append(lastMove.to.file());
+		}
+
+		return signature.toString();
+	}
+
 	private Set<Square> nonKingSquares() {
 		Set<Square> squares = new HashSet<>();
 		for (Square square : occupiedSquares()) {
@@ -319,7 +376,7 @@ public final class Game {
 		if (piece.color() != currentTurn) {
 			throw new IllegalStateException("Not your turn");
 		}
-  
+
 		boolean opponentPieceWasCaptured = false;
 		if (isCastlingMove(piece, from, to)) {
 			performCastle(from, to);
@@ -329,26 +386,32 @@ public final class Game {
 			if (enPassantMove) {
 				applyEnPassant(simulated, from, to);
 			} else {
-        
-        Optional<Piece> pieceAtToSquare = simulated.pieceAt(to);
-        if (!pieceAtToSquare.isEmpty()) {
-          opponentPieceWasCaptured = true;
-        }
+				Optional<Piece> pieceAtToSquare = simulated.pieceAt(to);
+				if (!pieceAtToSquare.isEmpty()) {
+					opponentPieceWasCaptured = true;
+				}
 				simulated.move(from, to);
 			}
+
 			if (isInCheckOn(simulated, currentTurn)) {
 				throw new IllegalStateException(
-					"Move would leave own king in check");
+						"Move would leave own king in check");
 			}
+
+			if (!initialPositionRecorded) {
+				recordCurrentPosition();
+				initialPositionRecorded = true;
+			}
+
 			if (enPassantMove) {
 				applyEnPassant(board, from, to);
-			  numberOfHalfMovesSinceCaptureOrPawnMove = 0;
+				numberOfHalfMovesSinceCaptureOrPawnMove = 0;
 			} else {
-        if (opponentPieceWasCaptured || piece.type() == PieceType.PAWN) {
-          numberOfHalfMovesSinceCaptureOrPawnMove = 0;
-        } else {
-          numberOfHalfMovesSinceCaptureOrPawnMove++;
-        }
+				if (opponentPieceWasCaptured || piece.type() == PieceType.PAWN) {
+					numberOfHalfMovesSinceCaptureOrPawnMove = 0;
+				} else {
+					numberOfHalfMovesSinceCaptureOrPawnMove++;
+				}
 				board.move(from, to);
 			}
 		}
@@ -359,16 +422,19 @@ public final class Game {
 		lastMove = new LastMove(piece.type(), piece.color(), from, to);
 		Color moved = currentTurn;
 		currentTurn = currentTurn.opposite();
+		recordCurrentPosition();
 		if (clock != null) {
 			clock.completeTurn(moved, currentTurn);
 		}
 		if (isCheckmate(currentTurn)) {
 			status = currentTurn == Color.WHITE
-				? GameStatus.BLACK_WIN
-				: GameStatus.WHITE_WIN;
+					? GameStatus.BLACK_WIN
+					: GameStatus.WHITE_WIN;
 		} else if (isStalemate(currentTurn)) {
 			status = GameStatus.STALEMATE;
-		} else if (isInsufficientMaterial() || isFiftyMoveRule()) {
+		} else if (isInsufficientMaterial()
+					|| isFiftyMoveRule()
+					|| isThreefoldRepetition()) {
 			status = GameStatus.DRAW;
 		}
 	}
