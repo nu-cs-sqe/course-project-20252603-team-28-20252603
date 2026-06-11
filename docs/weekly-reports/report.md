@@ -104,6 +104,24 @@
 31. [planned] Finish remaining piece BDDs (Rook, Queen, King, Pawn). Checkmate detection depends on these being done.
 32. [planned] Run PIT and JaCoCo for the team test quality report next week if there's time.
 
+# Week 10 (06/01/2026-06/07/2026)
+**Planning and Progress Tracking**:
+1. [done] Kyubinn Kim: In check, checkmate, and stalemate detection, and makeMove now sets the status. (#65, #73, #78)
+2. [done] Kyubinn Kim: Pawn promotion, GameStatus and resign, plus UI work (glyph board, click to move, status label, promotion dialog). (#75, #55, #54, #70, #72, #79)
+3. [done] Kyubinn Kim: Chess clock wired into the game, EasyMock setup, and the Piece base candidateMoves tests Yiji flagged. (#67, #81, #74, #80)
+4. [done] Jace Deng: Queen, King, Rook, and Pawn BDD movement. (#58, #60, #62, #64)
+5. [planned] Team: Start the special rules, castling, en passant, draw.
+
+
+# Week 11 (06/08/2026-06/14/2026)
+**Planning and Progress Tracking**:
+1. [done] Kyubinn Kim: Status label, legal move enforcement, Bishop Direction refactor, clock i18n, coverage kills on Square/Pawn/Game/Messages, and the Piece.of factory map. (#82, #83, #84, #85, #86, #87, #88)
+2. [done] Kyubinn Kim: Castling with BVA and TDD, then addressed Alvin and Jace review on it (moved tracking, off-rank fix, stalemate accounts for castling). (#92)
+3. [done] Kyubinn Kim: En passant edge rows to 100% coverage, and mutation testing notes with PieceType excluded from pitest. (#93)
+4. [done] Alvin Xu: Refactored the unit tests to mocking and split out the integration tests, documented mocking exceptions in the README, and pulled checkmate/stalemate into a shared helper. (#77, #90)
+5. [done] Jace Deng: En passant and insufficient material draw rules with BDD. (#89, #91)
+6. [planned] Team: Fifty-move rule and threefold repetition, or descope and document, plus a final readme pass.
+
 # Week X (XX/XX/2026-XX/XX/2026) TEMPLATE (You can change the format to whatever the team likes better)
 **Planning and Progress Tracking**:
 1. [done] Person: Task (Links to PR)
