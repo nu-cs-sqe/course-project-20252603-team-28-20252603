@@ -157,6 +157,30 @@ public class GameCheckAndCheckmateIntegrationTest {
 		Assertions.assertFalse(game.isThreefoldRepetition());
 	}
 
+	// Additional test case 48 to kill mutant
+	@Test
+	public void initialMoveUntilThreefoldRepetition() {
+		Board board = Board.standardSetup();
+		Game game = new Game(board);
+		Assertions.assertFalse(game.isThreefoldRepetition());
+
+		Square whiteKnightStart = Square.of(1, 0);
+		Square blackKnightStart = Square.of(1, 7);
+		Square whiteKnightSquareTwo = Square.of(2, 2);
+		Square blackKnightSquareTwo = Square.of(2, 5);
+		for (int turn = 0; turn < 2; turn++) {
+			game.makeMove(whiteKnightStart, whiteKnightSquareTwo);
+			game.makeMove(blackKnightStart, blackKnightSquareTwo);
+			Assertions.assertFalse(game.isThreefoldRepetition());
+			game.makeMove(whiteKnightSquareTwo, whiteKnightStart);
+			game.makeMove(blackKnightSquareTwo, blackKnightStart);
+			if (turn == 0) {
+				Assertions.assertFalse(game.isThreefoldRepetition());
+			}
+		}
+		Assertions.assertTrue(game.isThreefoldRepetition());
+	}
+
 	@Test
 	public void positionRepeatedTwiceNotThreefoldRepetition() {
 		Board board = generateThreeStepRepetitionStartingBoard();
