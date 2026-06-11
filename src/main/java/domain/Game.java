@@ -14,6 +14,7 @@ public final class Game {
 	private Color currentTurn;
 	private GameStatus status;
 	private LastMove lastMove;
+	private final Set<Square> movedFrom = new HashSet<>();
 
 	public Game(Board board) {
 		Objects.requireNonNull(board);
@@ -98,6 +99,9 @@ public final class Game {
 			return false;
 		}
 		if (!hasPiece(rookHome, Piece.of(PieceType.ROOK, color))) {
+			return false;
+		}
+		if (movedFrom.contains(kingHome) || movedFrom.contains(rookHome)) {
 			return false;
 		}
 		for (Square between : squaresBetween(side, rank)) {
@@ -327,6 +331,7 @@ public final class Game {
 				board.move(from, to);
 			}
 		}
+		movedFrom.add(from);
 		lastMove = new LastMove(piece.type(), piece.color(), from, to);
 		Color moved = currentTurn;
 		currentTurn = currentTurn.opposite();
