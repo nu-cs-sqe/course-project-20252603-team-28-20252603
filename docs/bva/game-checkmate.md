@@ -127,56 +127,6 @@ isCheckmate(Color color) returns true if the given color's king is currently in 
 
 ---
 
-## isThreefoldRepetition()
-
-### Step 1 - Inputs and Outputs
-- Input #1: Game history (sequence of board positions reached during play)
-- Output #1: boolean 
-- Output #2: exception 
-
-### Step 2 - Data Types
-- Input #1: Collection of board-state records 
-- Output #1: Boolean 
-- Output #2: Case
-
-### Step 3 - Concrete Values
-- Input #1: Position occurs once, Position occurs twice, Position occurs three times, Null history (if possible)
-- Output #1: true, false
-
-### Step 4 - Test Cases
-
-- Test Case 41: initial position is not threefold repetition
-  - Method(s) under test: isThreefoldRepetition()
-  - State of the system: new game, no moves played
-  - Expected output: returns false
-  - Implemented: no
-  
-- Test Case 42: position repeated twice
-  - Method(s) under test: isThreefoldRepetition()
-  - State of the system: players repeat moves until a position appears exactly two times
-  - Expected output: returns false
-  - Implemented: no
-  
-- Test Case 43: position repeated three times
-  - Method(s) under test: isThreefoldRepetition()
-  - State of the system: players repeat moves until the same board position, side-to-move, and rights occur three times
-  - Expected output: returns true
-  - Implemented: no
-  
-- Test Case 44: board layout repeats but side to move differs
-  - Method(s) under test: isThreefoldRepetition()
-  - State of the system: piece placement identical but different player to move
-  - Expected output: returns false
-  - Implemented: no
-  
-- Test Case 45: board layout repeats but castling/en-passant rights differ
-  - Method(s) under test: isThreefoldRepetition()
-  - State of the system: same piece placement but different game rights
-  - Expected output: returns false
-  - Implemented: no
-
----
-
 ## isFiftyMoveRule()
 
 ### Step 1 - Inputs and Outputs
@@ -198,31 +148,31 @@ isCheckmate(Color color) returns true if the given color's king is currently in 
 
 ### Step 4 - Test Cases
 
-- Test Case 46: game starts below threshold
+- Test Case 41: game starts below threshold
   - Method(s) under test: isFiftyMoveRule()
   - State of the system: new game
   - Expected output: returns false
   - Implemented: yes
 
-- Test Case 47: ninety-nine half moves without pawn move or capture
+- Test Case 42: ninety-nine half moves without pawn move or capture
   - Method(s) under test: isFiftyMoveRule()
   - State of the system: counter = 99
   - Expected output: returns false
   - Implemented: yes
 
-- Test Case 48: exactly one hundred half moves without pawn move or capture
+- Test Case 43: exactly one hundred half moves without pawn move or capture
   - Method(s) under test: isFiftyMoveRule()
   - State of the system: counter = 100
   - Expected output: returns true
   - Implemented: yes
 
-- Test Case 49: counter reset by pawn move
+- Test Case 44: counter reset by pawn move
   - Method(s) under test: isFiftyMoveRule()
   - State of the system: counter reaches 99, then a pawn move occurs
   - Expected output: returns false
   - Implemented: yes
 
-- Test Case 50: counter reset by capture
+- Test Case 45: counter reset by capture
   - Method(s) under test: isFiftyMoveRule()
   - State of the system: counter reaches 99, then a piece is captured
   - Expected output: returns false
