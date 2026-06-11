@@ -13,6 +13,7 @@ public final class Game {
 	private Color currentTurn;
 	private GameStatus status;
 	private LastMove lastMove;
+	private int numberOfHalfMovesSinceCaptureOrPawnMove;
 
 	public Game(Board board) {
 		Objects.requireNonNull(board);
@@ -21,6 +22,7 @@ public final class Game {
 		this.currentTurn = Color.WHITE;
 		this.status = GameStatus.IN_PROGRESS;
 		this.lastMove = null;
+		this.numberOfHalfMovesSinceCaptureOrPawnMove = 0;
 	}
 
 	public Game(Board board, ChessClock clock) {
@@ -31,6 +33,7 @@ public final class Game {
 		this.currentTurn = Color.WHITE;
 		this.status = GameStatus.IN_PROGRESS;
 		this.lastMove = null;
+		this.numberOfHalfMovesSinceCaptureOrPawnMove = 0;
 		clock.start(Color.WHITE);
 	}
 
@@ -115,7 +118,7 @@ public final class Game {
 		return true;
 	}
 
-	public boolean isInsufficientMaterial() {
+	boolean isInsufficientMaterial() {
 		Set<Square> nonKingSquares = nonKingSquares();
 		if (nonKingSquares.isEmpty()) {
 			return true;
@@ -127,6 +130,10 @@ public final class Game {
 			return type == PieceType.BISHOP || type == PieceType.KNIGHT;
 		}
 		return hasOnlySameColorBishops(nonKingSquares);
+	}
+
+	boolean isFiftyMoveRule() {
+		return numberOfHalfMovesSinceCaptureOrPawnMove >= 100;
 	}
 
 	private Set<Square> nonKingSquares() {
@@ -226,9 +233,14 @@ public final class Game {
 		}
 		boolean enPassantMove = isEnPassantMove(from, to, piece);
 		Board simulated = board.copy();
+		boolean opponentPieceWasCaptured = false;
 		if (enPassantMove) {
 			applyEnPassant(simulated, from, to);
 		} else {
+			Optional<Piece> pieceAtToSquare = simulated.pieceAt(to);
+			if (!pieceAtToSquare.isEmpty()) {
+				opponentPieceWasCaptured = true;
+			}
 			simulated.move(from, to);
 		}
 		if (isInCheckOn(simulated, currentTurn)) {
@@ -236,7 +248,13 @@ public final class Game {
 		}
 		if (enPassantMove) {
 			applyEnPassant(board, from, to);
+			numberOfHalfMovesSinceCaptureOrPawnMove = 0;
 		} else {
+			if (opponentPieceWasCaptured || piece.type() == PieceType.PAWN) {
+				numberOfHalfMovesSinceCaptureOrPawnMove = 0;
+			} else {
+				numberOfHalfMovesSinceCaptureOrPawnMove++;
+			}
 			board.move(from, to);
 		}
 		lastMove = new LastMove(piece.type(), piece.color(), from, to);
@@ -251,7 +269,7 @@ public final class Game {
 			: GameStatus.WHITE_WIN;
 		} else if (isStalemate(currentTurn)) {
 			status = GameStatus.STALEMATE;
-		} else if (isInsufficientMaterial()) {
+		} else if (isInsufficientMaterial() || isFiftyMoveRule()) {
 			status = GameStatus.DRAW;
 		}
 	}

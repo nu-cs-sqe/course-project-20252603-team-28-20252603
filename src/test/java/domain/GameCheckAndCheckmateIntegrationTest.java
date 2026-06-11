@@ -118,6 +118,38 @@ public class GameCheckAndCheckmateIntegrationTest {
 	}
 
 	@Test
+	public void standardSetupBelowFiftyMoveThreshold() {
+		Board board = Board.standardSetup();
+		Game game = new Game(board);
+
+		Assertions.assertFalse(game.isFiftyMoveRule());
+	}
+
+	@Test
+	public void oneHundredHalfMovesWithoutPawnMoveOrCapture() {
+		Game game = generate99HalfMoveGame();
+		Assertions.assertFalse(game.isFiftyMoveRule());
+		game.makeMove(Square.of(4, 4), Square.of(3, 6));
+		Assertions.assertTrue(game.isFiftyMoveRule());
+	}
+
+	@Test
+	public void oneHundredHalfMovesPawnMoveReset() {
+		Game game = generate99HalfMoveGame();
+		Assertions.assertFalse(game.isFiftyMoveRule());
+		game.makeMove(Square.of(5, 5), Square.of(5, 4));
+		Assertions.assertFalse(game.isFiftyMoveRule());
+	}
+
+	@Test
+	public void oneHundredHalfMovesCaptureReset() {
+		Game game = generate99HalfMoveGame();
+		Assertions.assertFalse(game.isFiftyMoveRule());
+		game.makeMove(Square.of(4, 4), Square.of(2, 3));
+		Assertions.assertFalse(game.isFiftyMoveRule());
+	}
+
+	@Test
 	public void kingNotInCheckWithOneLegalMove() {
 		Board board = new Board();
 		board.place(Square.of(0, 0), Piece.of(PieceType.KING, Color.WHITE));
@@ -172,5 +204,88 @@ public class GameCheckAndCheckmateIntegrationTest {
 		game.makeMove(Square.of(1, 2), Square.of(1, 5));
 
 		Assertions.assertEquals(GameStatus.STALEMATE, game.getStatus());
+	}
+
+	private Game generate99HalfMoveGame() {
+		Board board = new Board();
+		board.place(Square.of(0, 0), Piece.of(PieceType.KING, Color.WHITE));
+		board.place(Square.of(7, 7), Piece.of(PieceType.KING, Color.BLACK));
+		board.place(Square.of(2, 3), Piece.of(PieceType.PAWN, Color.WHITE));
+		board.place(Square.of(5, 5), Piece.of(PieceType.PAWN, Color.BLACK));
+		board.place(Square.of(4, 4), Piece.of(PieceType.KNIGHT, Color.BLACK));
+		Game game = new Game(board);
+		int numberHalfMoves = 0;
+		boolean breakFlag = false;
+		for (int iteration = 0; iteration < 4; iteration++) {
+			for (int i = 0; i < 7; i++) {
+				game.makeMove(Square.of(0, i), Square.of(0, i + 1));
+				numberHalfMoves++;
+				if (numberHalfMoves == 99) {
+					breakFlag = true;
+					break;
+				}
+				game.makeMove(Square.of(7, 7 - i), Square.of(7, 7 - i - 1));
+				numberHalfMoves++;
+				if (numberHalfMoves == 99) {
+					breakFlag = true;
+					break;
+				}
+			}
+			if (breakFlag) {
+				break;
+			}
+			for (int i = 0; i < 7; i++) {
+				game.makeMove(Square.of(i, 7), Square.of(i + 1, 7));
+				numberHalfMoves++;
+				if (numberHalfMoves == 99) {
+					breakFlag = true;
+					break;
+				}
+				game.makeMove(Square.of(7 - i, 0), Square.of(7 - i - 1, 0));
+				numberHalfMoves++;
+				if (numberHalfMoves == 99) {
+					breakFlag = true;
+					break;
+				}
+			}
+			if (breakFlag) {
+				break;
+			}
+			for (int i = 0; i < 7; i++) {
+				game.makeMove(Square.of(7, 7 - i), Square.of(7, 7 - i - 1));
+				numberHalfMoves++;
+				if (numberHalfMoves == 99) {
+					breakFlag = true;
+					break;
+				}
+				game.makeMove(Square.of(0, i), Square.of(0, i + 1));
+				numberHalfMoves++;
+				if (numberHalfMoves == 99) {
+					breakFlag = true;
+					break;
+				}
+			}
+			if (breakFlag) {
+				break;
+			}
+			for (int i = 0; i < 7; i++) {
+				game.makeMove(Square.of(7 - i, 0), Square.of(7 - i - 1, 0));
+				numberHalfMoves++;
+				if (numberHalfMoves == 99) {
+					breakFlag = true;
+					break;
+				}
+				game.makeMove(Square.of(i, 7), Square.of(i + 1, 7));
+				numberHalfMoves++;
+				if (numberHalfMoves == 99) {
+					breakFlag = true;
+					break;
+				}
+			}
+			if (breakFlag) {
+				break;
+			}
+		}
+		return game;
 	}
 }

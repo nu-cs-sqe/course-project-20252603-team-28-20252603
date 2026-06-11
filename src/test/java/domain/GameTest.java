@@ -34,7 +34,7 @@ public class GameTest {
 		boardMock.move(Square.of(1, 0), Square.of(2, 2));
 		EasyMock.expectLastCall().times(2);
 		EasyMock.expect(boardMock.pieceAt(Square.of(2, 2))).andReturn(
-				Optional.of(whiteKnightMock)).times(4);
+				Optional.of(whiteKnightMock)).times(5);
 		// These stubs are generally irrelevant to the result, only to ensure
 		// Checkmate and stalemate detection pass
 		EasyMock.expect(boardMock.findKing(Color.BLACK)).andStubReturn(Square.of(4, 7));
@@ -449,6 +449,8 @@ public class GameTest {
 		EasyMock.expect(boardMock.copy()).andStubReturn(boardMock);
 		boardMock.move(Square.of(1, 0), Square.of(2, 2));
 		EasyMock.expectLastCall();
+		EasyMock.expect(boardMock.pieceAt(Square.of(2, 2)))
+		        .andStubReturn(Optional.empty());
 		EasyMock.expect(boardMock.findKing(Color.WHITE))
 			.andStubReturn(Square.of(4, 0));
 		EasyMock.expect(boardMock.occupiedSquaresOf(Color.BLACK))
