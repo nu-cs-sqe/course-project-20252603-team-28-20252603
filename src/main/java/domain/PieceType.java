@@ -7,8 +7,4 @@ public enum PieceType {
 	ROOK,
 	QUEEN,
 	KING;
-
-	public boolean isPromotionChoice() {
-		return this == KNIGHT || this == BISHOP || this == ROOK || this == QUEEN;
-	}
 }
