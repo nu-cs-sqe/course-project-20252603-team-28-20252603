@@ -352,7 +352,10 @@ public final class Game {
 				board.move(from, to);
 			}
 		}
+
 		movedFrom.add(from);
+		movedFrom.add(to);
+
 		lastMove = new LastMove(piece.type(), piece.color(), from, to);
 		Color moved = currentTurn;
 		currentTurn = currentTurn.opposite();
