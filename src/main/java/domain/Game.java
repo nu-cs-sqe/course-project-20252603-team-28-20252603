@@ -199,7 +199,8 @@ public final class Game {
 				}
 			}
 		}
-		return true;
+		return !canCastle(color, CastlingSide.KINGSIDE)
+			&& !canCastle(color, CastlingSide.QUEENSIDE);
 	}
 
 	public boolean isInsufficientMaterial() {

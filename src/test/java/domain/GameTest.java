@@ -38,6 +38,7 @@ public class GameTest {
 		// These stubs are generally irrelevant to the result, only to ensure
 		// Checkmate and stalemate detection pass
 		EasyMock.expect(boardMock.findKing(Color.BLACK)).andStubReturn(Square.of(4, 7));
+		EasyMock.expect(boardMock.pieceAt(Square.of(4, 7))).andStubReturn(Optional.empty());
 		EasyMock.expect(boardMock.occupiedSquaresOf(Color.WHITE))
 		        .andStubReturn(Set.of(Square.of(2, 2)));
 		EasyMock.expect(boardMock.occupiedSquaresOf(Color.BLACK)).andStubReturn(Set.of());
@@ -236,7 +237,8 @@ public class GameTest {
 		EasyMock.expect(boardMock.pieceAt(Square.of(7, 0)))
 		        .andStubReturn(Optional.of(blackRookMock));
 		EasyMock.expect(boardMock.pieceAt(Square.of(4, 0)))
-		        .andStubReturn(Optional.of(whiteKingMock));
+			.andStubReturn(Optional.of(whiteKingMock));
+		EasyMock.expect(boardMock.pieceAt(Square.of(0, 0))).andStubReturn(Optional.empty());
 
 		EasyMock.expect(blackRookMock.candidateMoves(Square.of(7, 0), boardMock))
 		        .andStubReturn(Set.of(
@@ -1069,5 +1071,33 @@ public class GameTest {
 		Game game = new Game(boardMock);
 		game.makeMove(Square.of(4, 0), Square.of(4, 1));
 		Assertions.assertFalse(game.canCastle(Color.WHITE, CastlingSide.KINGSIDE));
+	}
+
+	@Test
+	public void stalemateIsAvoidedWhenCastlingIsAvailable() {
+		Board boardMock = EasyMock.createMock(Board.class);
+		Piece whiteKing = getMockedPiece(Color.WHITE, PieceType.KING);
+		Piece whiteRook = getMockedPiece(Color.WHITE, PieceType.ROOK);
+		// Stubs will be used because the mocking of each function is too convoluted
+		EasyMock.expect(boardMock.pieceAt(Square.of(4, 0)))
+			.andStubReturn(Optional.of(whiteKing));
+		EasyMock.expect(boardMock.pieceAt(Square.of(7, 0)))
+			.andStubReturn(Optional.of(whiteRook));
+		EasyMock.expect(boardMock.pieceAt(Square.of(5, 0))).andStubReturn(Optional.empty());
+		EasyMock.expect(boardMock.pieceAt(Square.of(6, 0))).andStubReturn(Optional.empty());
+		EasyMock.expect(boardMock.findKing(Color.WHITE)).andStubReturn(Square.of(4, 0));
+		EasyMock.expect(boardMock.occupiedSquaresOf(Color.BLACK)).andStubReturn(Set.of());
+		EasyMock.expect(boardMock.occupiedSquaresOf(Color.WHITE))
+			.andStubReturn(Set.of(Square.of(4, 0), Square.of(7, 0)));
+		EasyMock.expect(whiteKing.candidateMoves(Square.of(4, 0), boardMock))
+			.andStubReturn(Set.of());
+		EasyMock.expect(whiteRook.candidateMoves(Square.of(7, 0), boardMock))
+			.andStubReturn(Set.of());
+		EasyMock.expect(boardMock.copy()).andStubReturn(boardMock);
+		boardMock.move(EasyMock.anyObject(Square.class), EasyMock.anyObject(Square.class));
+		EasyMock.expectLastCall().anyTimes();
+		EasyMock.replay(boardMock, whiteKing, whiteRook);
+		Game game = new Game(boardMock);
+		Assertions.assertFalse(game.isStalemate(Color.WHITE));
 	}
 }
