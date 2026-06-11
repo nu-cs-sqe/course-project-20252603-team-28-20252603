@@ -150,6 +150,7 @@ public final class Game {
 
 	private boolean isCastlingMove(Piece piece, Square from, Square to) {
 		return piece.type() == PieceType.KING
+			&& from.rank() == to.rank()
 			&& Math.abs(to.file() - from.file()) == 2;
 	}
 
