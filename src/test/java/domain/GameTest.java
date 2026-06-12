@@ -764,12 +764,13 @@ public class GameTest {
 			.andStubReturn(Set.of(Square.of(5, 0)));
 		EasyMock.expect(boardMock.copy()).andStubReturn(boardMock);
 		boardMock.move(Square.of(4, 0), Square.of(5, 0));
-		EasyMock.expectLastCall().anyTimes();
+		EasyMock.expectLastCall().times(1);
 		EasyMock.replay(boardMock, whiteKing, whiteRook, blackRook);
 
 		Game game = new Game(boardMock);
 
 		Assertions.assertFalse(game.canCastle(Color.WHITE, CastlingSide.KINGSIDE));
+		EasyMock.verify(boardMock);
 	}
 
 	// Kill mutant
@@ -798,12 +799,13 @@ public class GameTest {
 		        .andStubReturn(Set.of(Square.of(3, 0)));
 		EasyMock.expect(boardMock.copy()).andStubReturn(boardMock);
 		boardMock.move(Square.of(4, 0), Square.of(3, 0));
-		EasyMock.expectLastCall().anyTimes();
+		EasyMock.expectLastCall().times(1);
 		EasyMock.replay(boardMock, whiteKing, whiteRook, blackRook);
 
 		Game game = new Game(boardMock);
 
 		Assertions.assertFalse(game.canCastle(Color.WHITE, CastlingSide.QUEENSIDE));
+		EasyMock.verify(boardMock);
 	}
 
 	@Test
@@ -940,7 +942,7 @@ public class GameTest {
 		boardMock.move(Square.of(7, 0), Square.of(5, 0));
 		EasyMock.expectLastCall();
 		boardMock.move(EasyMock.anyObject(Square.class), EasyMock.anyObject(Square.class));
-		EasyMock.expectLastCall().anyTimes();
+		EasyMock.expectLastCall().times(3);
 		EasyMock.replay(boardMock, whiteKing, whiteRook, blackKing);
 		Game game = new Game(boardMock);
 		game.makeMove(Square.of(4, 0), Square.of(6, 0));
