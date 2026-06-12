@@ -168,7 +168,7 @@ public final class Game {
 	}
 
 	private void performCastle(Square from, Square to) {
-		CastlingSide side = to.file() > from.file()
+		CastlingSide side = to.file() == from.file() + 2
 			? CastlingSide.KINGSIDE : CastlingSide.QUEENSIDE;
 		if (!canCastle(currentTurn, side)) {
 			throw new IllegalStateException("Castling is not allowed");
