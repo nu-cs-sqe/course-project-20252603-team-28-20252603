@@ -37,6 +37,23 @@ public class GameCheckAndCheckmateIntegrationTest {
 		Assertions.assertFalse(game.isInCheck(Color.BLACK));
 	}
 
+	// Test to kill mutant
+	@Test
+	public void makeMoveRejectsEnPassantLeavingOwnKingInCheck() {
+		Board board = new Board();
+		board.place(Square.of(4, 0), Piece.of(PieceType.KING, Color.WHITE));
+		board.place(Square.of(4, 7), Piece.of(PieceType.KING, Color.BLACK));
+		board.place(Square.of(4, 1), Piece.of(PieceType.ROOK, Color.WHITE));
+		board.place(Square.of(3, 1), Piece.of(PieceType.PAWN, Color.WHITE));
+		board.place(Square.of(4, 3), Piece.of(PieceType.PAWN, Color.BLACK));
+		Game game = new Game(board);
+		game.makeMove(Square.of(3, 1), Square.of(3, 3));
+		Assertions.assertThrows(
+				IllegalStateException.class,
+				() -> game.makeMove(Square.of(4, 3), Square.of(3, 2))
+		);
+	}
+
 	@Test
 	public void standardSetupNeitherSideInCheckmate() {
 		Board board = Board.standardSetup();
