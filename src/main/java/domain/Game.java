@@ -2,7 +2,6 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -169,7 +168,7 @@ public final class Game {
 	}
 
 	private void performCastle(Square from, Square to) {
-		CastlingSide side = to.file() > from.file()
+		CastlingSide side = to.file() == from.file() + 2
 			? CastlingSide.KINGSIDE : CastlingSide.QUEENSIDE;
 		if (!canCastle(currentTurn, side)) {
 			throw new IllegalStateException("Castling is not allowed");
@@ -245,8 +244,6 @@ public final class Game {
 	private String positionSignature() {
 		StringBuilder signature = new StringBuilder();
 		List<Square> occupiedSquares = new ArrayList<>(occupiedSquares());
-		occupiedSquares.sort(Comparator.comparingInt(Square::rank)
-		                               .thenComparingInt(Square::file));
 		for (Square square : occupiedSquares) {
 			Piece piece = board.pieceAt(square).orElseThrow();
 			signature.append(square.file())
