@@ -245,8 +245,6 @@ public final class Game {
 	private String positionSignature() {
 		StringBuilder signature = new StringBuilder();
 		List<Square> occupiedSquares = new ArrayList<>(occupiedSquares());
-		occupiedSquares.sort(Comparator.comparingInt(Square::rank)
-		                               .thenComparingInt(Square::file));
 		for (Square square : occupiedSquares) {
 			Piece piece = board.pieceAt(square).orElseThrow();
 			signature.append(square.file())
